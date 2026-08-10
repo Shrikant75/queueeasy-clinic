@@ -1,29 +1,29 @@
 /* =========================================================
-   QUEUEEASY CLINIC — PREMIUM TOKEN UI
-   HTML unchanged
+   QUTE — PREMIUM QUEUE TOKEN PWA
+   Designed specifically for your existing HTML
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
 
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
 :root {
-    --bg: #f5f7fb;
-    --card: #ffffff;
+    --purple: #6c4bf4;
+    --purple-dark: #5535df;
+    --purple-light: #eeeaff;
 
-    --text: #172033;
-    --muted: #7c8799;
+    --text: #202235;
+    --muted: #858a9d;
 
-    --primary: #635bff;
-    --primary-dark: #5048e5;
-    --primary-light: #ebe9ff;
+    --green: #20bd82;
 
-    --green: #22b982;
+    --background: #f7f7fb;
+    --white: #ffffff;
 
-    --border: rgba(25, 35, 55, 0.08);
-
-    --token-size: min(50vw, 50vh, 390px);
-
-    --shadow:
-        0 25px 60px rgba(39, 45, 75, .14);
+    --token-size: min(52vw, 52vh, 360px);
 }
 
 
@@ -37,12 +37,17 @@
     padding: 0;
 }
 
+
 html {
+    width: 100%;
     min-height: 100%;
-    background: var(--bg);
+
+    background: var(--background);
 }
 
+
 body {
+    width: 100%;
     min-height: 100vh;
     min-height: 100dvh;
 
@@ -52,14 +57,14 @@ body {
 
     background:
         radial-gradient(
-            circle at 50% 0%,
-            rgba(99, 91, 255, .13),
+            circle at 50% -5%,
+            rgba(108, 75, 244, 0.16),
             transparent 38%
         ),
         linear-gradient(
             180deg,
-            #f8f9fd 0%,
-            #f2f5fa 100%
+            #fafaff 0%,
+            #f5f6fa 100%
         );
 
     overflow-x: hidden;
@@ -69,121 +74,136 @@ body {
 
 
 /* =========================================================
-   MAIN APP
+   HEADER
    ========================================================= */
 
-.app,
-.container,
-main {
+.header {
     position: relative;
 
     width: 100%;
-    max-width: 760px;
 
-    min-height: 100vh;
-    min-height: 100dvh;
-
-    margin: auto;
-
-    padding:
-        22px
-        20px
-        max(25px, env(safe-area-inset-bottom));
+    height: 75px;
 
     display: flex;
-    flex-direction: column;
-}
 
-
-/* =========================================================
-   TOP HEADER
-   ========================================================= */
-
-header {
-    position: relative;
-
-    min-height: 65px;
-
-    display: flex;
     align-items: center;
 
-    padding-right: 65px;
+    justify-content: flex-end;
+
+    padding: 14px 18px;
 }
 
 
 /* =========================================================
-   APP LOGO — TOP RIGHT CORNER
+   LOGO — TOP RIGHT
    ========================================================= */
 
-.logo,
-.app-logo,
-.logo-icon,
-header img,
-header .icon {
-    position: absolute;
+.logo {
+    display: flex;
 
-    top: 4px;
-    right: 4px;
+    align-items: center;
 
-    width: 48px;
-    height: 48px;
+    gap: 9px;
 
-    border-radius: 15px;
+    padding: 6px 9px 6px 6px;
 
-    object-fit: cover;
+    border-radius: 16px;
+
+    background:
+        rgba(255, 255, 255, 0.75);
+
+    border:
+        1px solid rgba(40, 40, 80, 0.06);
+
+    box-shadow:
+        0 8px 25px rgba(55, 50, 100, 0.08);
+
+    backdrop-filter: blur(12px);
+}
+
+
+/* =========================================================
+   LOGO ICON
+   ========================================================= */
+
+.logo-icon {
+    width: 39px;
+    height: 39px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
 
     background:
         linear-gradient(
             145deg,
-            #ffffff,
-            #f0efff
+            #8067ff,
+            #5d42e7
         );
 
-    border: 1px solid rgba(99,91,255,.12);
+    color: #ffffff;
 
-    box-shadow:
-        0 8px 22px rgba(67, 62, 150, .15);
-
-    padding: 7px;
-}
-
-
-/* =========================================================
-   HEADER TEXT
-   ========================================================= */
-
-header h1,
-.logo-title,
-.title {
     font-family: "Space Grotesk", sans-serif;
 
-    font-size: 23px;
+    font-size: 20px;
+
     font-weight: 700;
 
-    letter-spacing: -0.04em;
-
-    color: #182033;
+    box-shadow:
+        0 6px 15px rgba(108, 75, 244, 0.28);
 }
 
-header p,
-.subtitle {
-    margin-top: 3px;
 
-    color: var(--muted);
+.logo span {
+    font-family: "Space Grotesk", sans-serif;
 
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 16px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.03em;
 }
 
 
 /* =========================================================
-   TOKEN AREA
+   MAIN
    ========================================================= */
 
-.token-container,
-.token-wrapper,
-.token-area {
-    flex: 1;
+.container {
+    width: 100%;
+
+    min-height:
+        calc(
+            100vh - 125px
+        );
+
+    min-height:
+        calc(
+            100dvh - 125px
+        );
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding:
+        10px
+        18px
+        25px;
+}
+
+
+/* =========================================================
+   TOKEN SECTION
+   ========================================================= */
+
+.token-section {
+    width: 100%;
 
     display: flex;
 
@@ -193,41 +213,55 @@ header p,
 
     justify-content: center;
 
-    gap: 25px;
-
-    padding:
-        12px
-        0
-        25px;
+    text-align: center;
 }
 
 
 /* =========================================================
-   BIG TOKEN
+   TOKEN LABEL
    ========================================================= */
 
-.token,
-.token-display,
-.queue-token {
+.token-label {
+    margin-bottom: 22px;
+
+    color: #898da0;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.28em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   BIG TOKEN CIRCLE
+   ========================================================= */
+
+.token-circle {
 
     position: relative;
 
     width: var(--token-size);
+
     height: var(--token-size);
 
-    min-width: 250px;
-    min-height: 250px;
+    min-width: 245px;
 
-    max-width: 390px;
-    max-height: 390px;
+    min-height: 245px;
+
+    max-width: 360px;
+
+    max-height: 360px;
 
     border-radius: 50%;
 
     display: flex;
 
-    flex-direction: column;
-
     align-items: center;
+
     justify-content: center;
 
     isolation: isolate;
@@ -235,67 +269,72 @@ header p,
     background:
 
         radial-gradient(
-            circle at 35% 28%,
-            rgba(255,255,255,.95),
-            transparent 22%
+            circle at 34% 25%,
+            #ffffff 0%,
+            #ffffff 17%,
+            transparent 18%
         ),
 
         radial-gradient(
             circle at 50% 45%,
             #ffffff 0%,
-            #f5f3ff 62%,
-            #e9e7ff 100%
+            #f5f2ff 58%,
+            #e7e1ff 100%
         );
 
     border:
-        2px solid rgba(99,91,255,.15);
+        2px solid rgba(108, 75, 244, 0.16);
 
     box-shadow:
 
-        inset 0 3px 4px rgba(255,255,255,.95),
+        /* raised top */
+        inset 0 4px 5px rgba(255,255,255,0.95),
 
-        inset 0 -12px 20px rgba(83,74,180,.08),
+        /* bottom depth */
+        inset 0 -15px 25px rgba(84,62,180,0.10),
 
+        /* white separation */
         0 0 0 7px #ffffff,
 
-        0 0 0 10px rgba(99,91,255,.10),
+        /* purple ring */
+        0 0 0 10px rgba(108,75,244,0.12),
 
-        0 18px 35px rgba(55,60,110,.16),
-
-        0 35px 70px rgba(55,60,110,.10);
+        /* shadow */
+        0 24px 45px rgba(54,47,105,0.16);
 
     transition:
-        transform .25s ease,
-        box-shadow .25s ease;
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    animation:
+        tokenFloat 5s ease-in-out infinite;
 }
 
 
 /* =========================================================
-   FANCY OUTER RIBBON
+   OUTER FANCY RIBBON
    ========================================================= */
 
-.token::before,
-.token-display::before,
-.queue-token::before {
+.token-circle::before {
 
     content: "";
 
     position: absolute;
 
-    inset: -18px;
+    inset: -17px;
 
     border-radius: 50%;
 
-    border:
-        7px solid transparent;
+    border: 7px solid transparent;
 
     background:
         linear-gradient(
             135deg,
-            #7c72ff,
-            #a69fff,
-            #635bff,
-            #8178ff
+            #8d79ff 0%,
+            #6c4bf4 25%,
+            #aa9cff 50%,
+            #6243e8 75%,
+            #8d79ff 100%
         ) border-box;
 
     -webkit-mask:
@@ -308,20 +347,19 @@ header p,
 
     filter:
         drop-shadow(
-            0 8px 14px rgba(99,91,255,.22)
+            0 8px 14px
+            rgba(108,75,244,0.20)
         );
 
-    pointer-events: none;
+    z-index: -1;
 }
 
 
 /* =========================================================
-   INNER DECORATIVE RIBBON
+   INNER FANCY RIBBON
    ========================================================= */
 
-.token::after,
-.token-display::after,
-.queue-token::after {
+.token-circle::after {
 
     content: "";
 
@@ -332,39 +370,18 @@ header p,
     border-radius: 50%;
 
     border:
-        2px dashed rgba(99,91,255,.22);
+        2px dashed
+        rgba(108,75,244,0.25);
 
     box-shadow:
 
-        inset 0 0 0 7px rgba(255,255,255,.45),
+        inset 0 0 0 6px
+        rgba(255,255,255,0.50),
 
-        inset 0 0 25px rgba(99,91,255,.06);
+        inset 0 0 25px
+        rgba(108,75,244,0.07);
 
     pointer-events: none;
-}
-
-
-/* =========================================================
-   TOKEN LABEL
-   ========================================================= */
-
-.token-label,
-.token small,
-.token-display small {
-
-    position: relative;
-
-    z-index: 5;
-
-    color: #858da0;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-    letter-spacing: .28em;
-
-    text-transform: uppercase;
 }
 
 
@@ -372,80 +389,220 @@ header p,
    TOKEN NUMBER
    ========================================================= */
 
-.token-number,
-.token h1,
-.token h2,
-.token-display h1,
-.queue-token h1 {
+#tokenNumber {
 
     position: relative;
 
     z-index: 5;
 
-    margin: 8px 0;
+    display: flex;
 
-    font-family: "Space Grotesk", sans-serif;
+    align-items: center;
+
+    justify-content: center;
+
+    width: 72%;
+
+    height: 72%;
+
+    border-radius: 50%;
+
+    color: #25263a;
+
+    font-family:
+        "Space Grotesk",
+        sans-serif;
 
     font-size:
         clamp(
-            62px,
+            60px,
             12vw,
-            100px
+            92px
         );
-
-    line-height: .9;
 
     font-weight: 700;
 
-    letter-spacing: -.07em;
+    letter-spacing: -0.07em;
 
-    color: #20263a;
+    line-height: 1;
 
     text-shadow:
         0 2px 0 #ffffff,
-        0 5px 12px rgba(50,55,100,.12);
+        0 5px 12px rgba(45,42,90,0.12);
 }
 
 
 /* =========================================================
-   COUNTER
+   TOKEN NUMBER INNER GLOW
    ========================================================= */
 
-.counter,
-.counter-number,
-.token-counter {
+#tokenNumber::before {
 
-    position: relative;
+    content: "";
 
-    z-index: 5;
+    position: absolute;
 
-    color: #8991a3;
+    inset: 0;
 
-    font-size: 11px;
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.35),
+            transparent 68%
+        );
+
+    z-index: -1;
+}
+
+
+/* =========================================================
+   QUEUE MESSAGE
+   ========================================================= */
+
+.token-section h1 {
+
+    margin-top: 34px;
+
+    color: #202236;
+
+    font-family:
+        "Space Grotesk",
+        sans-serif;
+
+    font-size:
+        clamp(
+            21px,
+            5vw,
+            28px
+        );
 
     font-weight: 700;
 
-    letter-spacing: .15em;
-
-    text-transform: uppercase;
+    letter-spacing: -0.04em;
 }
 
 
 /* =========================================================
-   GENERATE BUTTON
+   SUBTITLE
    ========================================================= */
 
-button,
-.generate-btn,
-.generate-token,
-#generateToken {
+.token-subtitle {
 
-    width: 230px;
+    max-width: 320px;
 
-    min-height: 52px;
+    margin-top: 8px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   QUEUE STATUS
+   ========================================================= */
+
+.queue-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 16px;
 
     padding:
-        0 25px;
+        8px
+        14px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,0.75);
+
+    border:
+        1px solid
+        rgba(30,40,70,0.07);
+
+    box-shadow:
+        0 5px 15px
+        rgba(40,45,80,0.05);
+
+    color: #555c70;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   LIVE DOT
+   ========================================================= */
+
+.live-dot {
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(32,189,130,0.12),
+
+        0 0 12px
+        rgba(32,189,130,0.45);
+
+    animation:
+        livePulse 2s infinite;
+}
+
+
+@keyframes livePulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 0 4px
+            rgba(32,189,130,0.12);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 7px
+            rgba(32,189,130,0.04);
+    }
+}
+
+
+/* =========================================================
+   NOTIFICATION BUTTON
+   ========================================================= */
+
+.notification-button {
+
+    width: 220px;
+
+    min-height: 50px;
+
+    margin-top: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
 
     border: none;
 
@@ -454,50 +611,42 @@ button,
     background:
         linear-gradient(
             135deg,
-            #736aff,
-            #574ee8
+            #7661f7,
+            #5e43e8
         );
 
     color: #ffffff;
 
     font-family: "DM Sans", sans-serif;
 
-    font-size: 15px;
+    font-size: 14px;
 
     font-weight: 700;
-
-    letter-spacing: -.01em;
 
     cursor: pointer;
 
     box-shadow:
-        0 12px 25px rgba(99,91,255,.25),
+        0 12px 24px
+        rgba(108,75,244,0.25),
 
         inset 0 1px 0
-        rgba(255,255,255,.3);
+        rgba(255,255,255,0.30);
 
     transition:
         transform .2s ease,
-        box-shadow .2s ease,
-        filter .2s ease;
-
-    -webkit-tap-highlight-color: transparent;
+        box-shadow .2s ease;
 }
 
 
-/* Button icon */
+/* =========================================================
+   BUTTON ICON
+   ========================================================= */
 
-button::before,
-.generate-btn::before,
-.generate-token::before {
+.button-icon {
 
-    content: "＋";
+    font-size: 16px;
 
-    margin-right: 7px;
-
-    font-size: 18px;
-
-    vertical-align: -1px;
+    line-height: 1;
 }
 
 
@@ -505,196 +654,59 @@ button::before,
    BUTTON HOVER
    ========================================================= */
 
-button:hover,
-.generate-btn:hover,
-.generate-token:hover,
-#generateToken:hover {
+.notification-button:hover {
 
-    transform: translateY(-2px);
-
-    filter: brightness(1.04);
+    transform:
+        translateY(-2px);
 
     box-shadow:
-        0 16px 30px rgba(99,91,255,.30),
-
-        inset 0 1px 0
-        rgba(255,255,255,.35);
+        0 16px 30px
+        rgba(108,75,244,0.30);
 }
 
 
-/* =========================================================
-   BUTTON PRESS
-   ========================================================= */
-
-button:active,
-.generate-btn:active,
-.generate-token:active,
-#generateToken:active {
+.notification-button:active {
 
     transform:
         translateY(1px)
         scale(.98);
-
-    box-shadow:
-        0 7px 15px rgba(99,91,255,.20);
 }
 
 
 /* =========================================================
-   INFORMATION CARD
+   LEAVE BUTTON
    ========================================================= */
 
-.card,
-.info-card,
-.queue-card,
-.stats-card {
+.leave-button {
 
-    width: 100%;
+    margin-top: 14px;
 
-    padding: 16px;
+    padding:
+        8px
+        14px;
 
-    border-radius: 18px;
+    border: none;
 
-    background:
-        rgba(255,255,255,.75);
+    background: transparent;
 
-    border:
-        1px solid rgba(30,40,70,.07);
+    color: #999eae;
 
-    box-shadow:
-        0 12px 30px rgba(40,45,80,.06);
+    font-family: "DM Sans", sans-serif;
 
-    backdrop-filter: blur(15px);
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        color .2s ease;
 }
 
 
-/* =========================================================
-   STATS
-   ========================================================= */
+.leave-button:hover {
 
-.stats,
-.statistics,
-.queue-stats {
-
-    width: 100%;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 10px;
-}
-
-
-.stat,
-.stat-item {
-
-    padding: 13px;
-
-    border-radius: 14px;
-
-    background:
-        rgba(245,246,251,.8);
-
-    border:
-        1px solid rgba(30,40,70,.05);
-}
-
-
-.stat-label {
-
-    display: block;
-
-    margin-bottom: 4px;
-
-    color: var(--muted);
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-    text-transform: uppercase;
-
-    letter-spacing: .08em;
-}
-
-
-.stat-value {
-
-    font-family:
-        "Space Grotesk",
-        sans-serif;
-
-    font-size: 20px;
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   TOKEN GENERATION ANIMATION
-   ========================================================= */
-
-.token.generating,
-.token-display.generating,
-.queue-token.generating {
-
-    animation:
-        tokenPop .55s
-        cubic-bezier(.2,.8,.2,1);
-}
-
-
-@keyframes tokenPop {
-
-    0% {
-        transform:
-            scale(.80)
-            rotate(-5deg);
-
-        opacity: .4;
-    }
-
-    55% {
-        transform:
-            scale(1.05)
-            rotate(1deg);
-
-        opacity: 1;
-    }
-
-    100% {
-        transform:
-            scale(1)
-            rotate(0);
-    }
-}
-
-
-/* =========================================================
-   FLOATING EFFECT
-   ========================================================= */
-
-.token,
-.token-display,
-.queue-token {
-
-    animation:
-        gentleFloat 5s ease-in-out infinite;
-}
-
-
-@keyframes gentleFloat {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-4px);
-    }
+    color: #e25568;
 }
 
 
@@ -704,13 +716,45 @@ button:active,
 
 footer {
 
-    padding-top: 10px;
+    width: 100%;
 
-    color: #9ba3b2;
+    padding:
+        8px
+        15px
+        max(15px, env(safe-area-inset-bottom));
+
+    text-align: center;
+
+    color: #a0a5b4;
 
     font-size: 10px;
 
-    text-align: center;
+    letter-spacing: .02em;
+}
+
+
+footer strong {
+
+    color: #7063d9;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TOKEN FLOAT
+   ========================================================= */
+
+@keyframes tokenFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 
@@ -724,79 +768,116 @@ footer {
 
         --token-size:
             min(
-                50vw,
-                50vh,
+                52vw,
+                48vh,
                 330px
             );
     }
 
-    .app,
-    .container,
-    main {
 
-        padding-left: 17px;
-        padding-right: 17px;
+    .header {
+
+        height: 65px;
+
+        padding:
+            10px
+            14px;
     }
 
-    header {
 
-        min-height: 58px;
+    .logo {
 
-        padding-right: 58px;
+        padding:
+            5px
+            8px
+            5px
+            5px;
     }
 
-    header h1,
-    .logo-title,
-    .title {
 
-        font-size: 20px;
+    .logo-icon {
+
+        width: 36px;
+        height: 36px;
+
+        border-radius: 11px;
+
+        font-size: 18px;
     }
 
-    .logo,
-    .app-logo,
-    .logo-icon,
-    header img,
-    header .icon {
 
-        width: 43px;
-        height: 43px;
+    .logo span {
 
-        border-radius: 13px;
+        font-size: 15px;
     }
 
-    .token-container,
-    .token-wrapper,
-    .token-area {
 
-        gap: 20px;
+    .container {
+
+        min-height:
+            calc(
+                100dvh - 110px
+            );
+
+        padding:
+            5px
+            15px
+            20px;
     }
 
-    .token::before,
-    .token-display::before,
-    .queue-token::before {
+
+    .token-label {
+
+        margin-bottom: 19px;
+
+        font-size: 10px;
+    }
+
+
+    .token-circle::before {
 
         inset: -14px;
 
         border-width: 6px;
     }
 
-    .token::after,
-    .token-display::after,
-    .queue-token::after {
+
+    .token-circle::after {
 
         inset: 12px;
     }
 
-    button,
-    .generate-btn,
-    .generate-token,
-    #generateToken {
+
+    #tokenNumber {
+
+        font-size:
+            clamp(
+                58px,
+                15vw,
+                82px
+            );
+    }
+
+
+    .token-section h1 {
+
+        margin-top: 29px;
+
+        font-size: 22px;
+    }
+
+
+    .token-subtitle {
+
+        font-size: 12px;
+    }
+
+
+    .notification-button {
 
         width: 210px;
 
-        min-height: 50px;
-
-        font-size: 14px;
+        min-height: 49px;
     }
 }
 
@@ -811,44 +892,68 @@ footer {
 
         --token-size:
             min(
-                50vw,
-                46vh,
-                280px
+                52vw,
+                43vh,
+                275px
             );
     }
 
-    .token-number,
-    .token h1,
-    .token h2,
-    .token-display h1,
-    .queue-token h1 {
 
-        font-size: 64px;
+    .token-label {
+
+        margin-bottom: 15px;
     }
 
-    .token::before,
-    .token-display::before,
-    .queue-token::before {
+
+    .token-circle::before {
 
         inset: -11px;
 
         border-width: 5px;
     }
 
-    button,
-    .generate-btn,
-    .generate-token,
-    #generateToken {
 
-        width: 195px;
+    #tokenNumber {
 
-        min-height: 48px;
+        font-size: 60px;
+    }
+
+
+    .token-section h1 {
+
+        margin-top: 25px;
+
+        font-size: 20px;
+    }
+
+
+    .token-subtitle {
+
+        max-width: 280px;
+
+        font-size: 11px;
+    }
+
+
+    .queue-status {
+
+        margin-top: 12px;
+    }
+
+
+    .notification-button {
+
+        width: 200px;
+
+        min-height: 47px;
+
+        margin-top: 16px;
     }
 }
 
 
 /* =========================================================
-   ACCESSIBILITY
+   REDUCED MOTION
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
