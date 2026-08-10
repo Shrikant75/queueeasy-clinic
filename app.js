@@ -1,4 +1,4 @@
-let queueNumber = 7;
+let queueNumber = 2;
 
 function generateToken() {
 
