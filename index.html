@@ -69,12 +69,6 @@ function defaultDoctors() {
 function uid(p) { return `${p}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`; }
 
 // --- Storage layer -----------------------------------------------------
-// Real browser localStorage: synchronous and atomic per call, so unlike
-// the sandboxed artifact prototype, no version numbers or retry loops are
-// needed here to avoid lost updates within a tab. Cross-tab sync (e.g. a
-// Staff tab and a Patient tab open on the same device) uses the native
-// `storage` event, which only fires in *other* tabs — never the tab that
-// made the write — so there's no self-clobbering risk either.
 function loadDoctors() {
   try {
     const raw = localStorage.getItem(DOCTORS_KEY);
