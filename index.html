@@ -1,353 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>QueueEasy Clinic</title>
-<meta name="description" content="Clinic queue management system" />
-<meta name="theme-color" content="#211E1B" />
-<link rel="manifest" href="./manifest.json" />
-<link rel="icon" href="./icon.svg" type="image/svg+xml" />
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"><\/script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"><\/script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #EDE8DC; color: #211E1B; }
-#root { width: 100vw; height: 100vh; }
-.container { max-width: 600px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; }
-.header { background: #211E1B; color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
-.header h1 { font-size: 20px; margin-bottom: 10px; }
-.header p { font-size: 12px; opacity: 0.7; }
-.tabs { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
-.tab-btn { padding: 10px; border: none; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
-.tab-btn.active { background: #C98A2B; color: white; }
-.tab-btn.inactive { background: white; color: #211E1B; border: 1px solid #E2DCCB; }
-.content { flex: 1; background: white; border-radius: 12px; padding: 20px; border: 1px solid #E2DCCB; overflow-y: auto; }
-.section { margin-bottom: 20px; }
-.section-title { font-size: 11px; color: #8A8375; font-weight: 700; letter-spacing: 0.8px; margin-bottom: 10px; text-transform: uppercase; }
-input, textarea, select { width: 100%; padding: 10px; border: 1px solid #E2DCCB; border-radius: 8px; font-size: 14px; margin-bottom: 10px; font-family: inherit; }
-input:focus, textarea:focus, select:focus { outline: none; border-color: #C98A2B; }
-.btn { padding: 12px 16px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
-.btn-primary { background: #C98A2B; color: white; }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-secondary { background: white; color: #211E1B; border: 1px solid #E2DCCB; }
-.btn-danger { background: #B23A2E; color: white; }
-.btn-success { background: #2F4B3C; color: white; }
-.btn-info { background: #3A5A78; color: white; }
-.list-item { padding: 12px; border: 1px solid #E2DCCB; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-.list-item-info { flex: 1; }
-.list-item-code { font-size: 18px; font-weight: 700; color: #C98A2B; margin-bottom: 4px; }
-.list-item-name { font-size: 14px; color: #211E1B; }
-.list-item-meta { font-size: 11px; color: #8A8375; }
-.status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
-.status-waiting { background: #FBF2E3; color: #C98A2B; }
-.status-called { background: #FBEEEC; color: #B23A2E; }
-.status-served { background: #EAF9F0; color: #2F4B3C; }
-.alert { padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 12px; }
-.alert-warning { background: #FBF2E3; color: #C98A2B; border: 1px solid #E2DCCB; }
-.center { text-align: center; }
-.mt-1 { margin-top: 8px; }
-.mt-2 { margin-top: 16px; }
-.mb-1 { margin-bottom: 8px; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Scanner PWA</title>
+  
+  <!-- Web Manifest Data URI (Makes it installable without a separate file) -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"QR Scanner PWA","short_name":"QR Scanner","start_url":".","display":"standalone","background_color":"#121212","theme_color":"#007bff","icons":[{"src":"https://flaticon.com","sizes":"512x512","type":"image/png"}]}' />
+  <meta name="theme-color" content="#007bff">
+
+  <!-- Core Styles -->
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    #scanner-container {
+      position: relative;
+      width: 90%;
+      max-width: 500px;
+      aspect-ratio: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      background: #1e1e1e;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    #scan-region-visual {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-translate(-50%, -50%));
+      width: 60%;
+      height: 60%;
+      border: 4px solid #007bff;
+      border-radius: 12px;
+      box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+      box-sizing: border-box;
+    }
+    #result-panel {
+      width: 90%;
+      max-width: 500px;
+      margin-top: 20px;
+      padding: 16px;
+      background: #1e1e1e;
+      border-radius: 12px;
+      box-sizing: border-box;
+      text-align: center;
+      word-break: break-all;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: background 0.2s;
+    }
+    button:active { background: #0056b3; }
+  </style>
+
+  <!-- HTML5-QRCode Library for rapid decoding -->
+  <script src="https://unpkg.com" type="text/javascript"></script>
 </head>
 <body>
-<div id="root"></div>
-<script type="text/babel">
-const { useState, useEffect } = React;
 
-function App() {
-  const [role, setRole] = useState("patient");
-  const [doctors, setDoctors] = useState([
-    { id: "1", name: "Dr. Mehta", room: "Room 1" },
-    { id: "2", name: "Dr. Rao", room: "Room 2" }
-  ]);
-  const [tickets, setTickets] = useState([]);
-  const [myTicketId, setMyTicketId] = useState(null);
+  <div id="scanner-container">
+    <div id="reader"></div>
+    <div id="scan-region-visual"></div>
+  </div>
 
-  const updateTickets = (fn) => setTickets(fn(tickets));
-  const addTicket = (ticket) => setTickets([...tickets, ticket]);
-
-  return (
-    <div className="container">
-      <div className="header">
-        <h1>QueueEasy Clinic</h1>
-        <p>Token queue and doctor management system</p>
-      </div>
-
-      <div className="tabs">
-        <button 
-          className={"tab-btn " + (role === "patient" ? "active" : "inactive")}
-          onClick={() => setRole("patient")}
-        >Patient</button>
-        <button 
-          className={"tab-btn " + (role === "staff" ? "active" : "inactive")}
-          onClick={() => setRole("staff")}
-        >Staff</button>
-        <button 
-          className={"tab-btn " + (role === "doctor" ? "active" : "inactive")}
-          onClick={() => setRole("doctor")}
-        >Doctor</button>
-        <button 
-          className={"tab-btn " + (role === "owner" ? "active" : "inactive")}
-          onClick={() => setRole("owner")}
-        >Owner</button>
-      </div>
-
-      <div className="content">
-        {role === "patient" && <PatientView doctors={doctors} tickets={tickets} myTicketId={myTicketId} setMyTicketId={setMyTicketId} addTicket={addTicket} updateTickets={updateTickets} />}
-        {role === "staff" && <StaffView doctors={doctors} tickets={tickets} updateTickets={updateTickets} />}
-        {role === "doctor" && <DoctorView doctors={doctors} tickets={tickets} updateTickets={updateTickets} />}
-        {role === "owner" && <OwnerView doctors={doctors} setDoctors={setDoctors} tickets={tickets} setTickets={setTickets} />}
-      </div>
+  <div id="result-panel">
+    <p id="status-text">Ready to scan. Grant camera permissions if prompted.</p>
+    <div id="result-action" style="display: none;">
+      <p id="result-text" style="font-weight: bold; color: #00ff88;"></p>
+      <button onclick="copyToClipboard()">Copy Result</button>
+      <button onclick="restartScanner()" style="background: #333; margin-left: 8px;">Scan Again</button>
     </div>
-  );
-}
+  </div>
 
-function PatientView({ doctors, tickets, myTicketId, setMyTicketId, addTicket, updateTickets }) {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [docId, setDocId] = useState(doctors[0]?.id || "");
+  <script>
+    let html5QrCode;
+    const config = { fps: 10, qrbox: (width, height) => { return { width: width * 0.6, height: height * 0.6 } } };
 
-  const myTicket = tickets.find(t => t.id === myTicketId);
-
-  if (myTicket && myTicket.status !== "cancelled") {
-    return (
-      <div>
-        <div className="section">
-          <div className="list-item">
-            <div className="list-item-info">
-              <div className="list-item-code">{myTicket.code}</div>
-              <div className="list-item-name">{myTicket.patientName}</div>
-              <div className="list-item-meta">Doctor: {myTicket.doctorName}</div>
-            </div>
-            <span className={"status-badge status-" + myTicket.status}>{myTicket.status.toUpperCase()}</span>
-          </div>
-        </div>
-        <button className="btn btn-primary" onClick={() => setMyTicketId(null)} style={{width: "100%"}}>Get New Token</button>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <div className="section">
-        <div className="section-title">Your Name</div>
-        <input type="text" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} />
-      </div>
-
-      <div className="section">
-        <div className="section-title">WhatsApp (Optional)</div>
-        <input type="tel" placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value.replace(/[^0-9+]/g, ""))} />
-      </div>
-
-      <div className="section">
-        <div className="section-title">Select Doctor</div>
-        <select value={docId} onChange={(e) => setDocId(e.target.value)}>
-          {doctors.map(d => <option key={d.id} value={d.id}>{d.name} ({d.room})</option>)}
-        </select>
-      </div>
-
-      <button 
-        className="btn btn-primary" 
-        style={{width: "100%"}}
-        disabled={!name.trim()}
-        onClick={() => {
-          const ticket = {
-            id: Math.random().toString(36).slice(2),
-            code: "T" + (tickets.filter(t => t.status !== "cancelled").length + 1),
-            patientName: name.trim(),
-            phone: phone.trim(),
-            doctorId: docId,
-            doctorName: doctors.find(d => d.id === docId)?.name || "Doctor",
-            status: "waiting",
-            createdAt: new Date().toLocaleTimeString()
-          };
-          addTicket(ticket);
-          setMyTicketId(ticket.id);
-          setName("");
-          setPhone("");
-        }}
-      >Get Token</button>
-    </div>
-  );
-}
-
-function StaffView({ doctors, tickets, updateTickets }) {
-  const waiting = tickets.filter(t => t.status === "waiting");
-
-  return (
-    <div>
-      <div className="alert alert-warning">
-        <strong>{waiting.length}</strong> patients waiting
-      </div>
-
-      <div className="section">
-        <div className="section-title">Active Tickets</div>
-        {tickets.filter(t => ["waiting", "called"].includes(t.status)).map(ticket => (
-          <div key={ticket.id} className="list-item">
-            <div className="list-item-info">
-              <div className="list-item-code">{ticket.code}</div>
-              <div className="list-item-name">{ticket.patientName}</div>
-              <div className="list-item-meta">{ticket.doctorName} · {ticket.status}</div>
-            </div>
-            <div style={{display: "flex", gap: "6px"}}>
-              {ticket.status === "waiting" && (
-                <button 
-                  className="btn btn-success" 
-                  style={{fontSize: "11px", padding: "6px 12px"}}
-                  onClick={() => updateTickets(tickets => tickets.map(t => t.id === ticket.id ? {...t, status: "called"} : t))}
-                >Call</button>
-              )}
-              <button 
-                className="btn btn-danger" 
-                style={{fontSize: "11px", padding: "6px 12px"}}
-                onClick={() => updateTickets(tickets => tickets.map(t => t.id === ticket.id ? {...t, status: "no_show"} : t))}
-              >No-Show</button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="section">
-        <div className="section-title">Doctors Status</div>
-        {doctors.map(doc => {
-          const waiting = tickets.filter(t => t.doctorId === doc.id && t.status === "waiting").length;
-          const current = tickets.find(t => t.doctorId === doc.id && t.status === "called");
-          return (
-            <div key={doc.id} className="list-item">
-              <div className="list-item-info">
-                <div className="list-item-name">{doc.name}</div>
-                <div className="list-item-meta">{doc.room} · {waiting} waiting</div>
-              </div>
-              <span style={{fontSize: "12px", fontWeight: "600", color: current ? "#B23A2E" : "#2F4B3C"}}>
-                {current ? "IN CONSULT" : "READY"}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function DoctorView({ doctors, tickets, updateTickets }) {
-  const [docId, setDocId] = useState(doctors[0]?.id || "");
-  const [diagnosis, setDiagnosis] = useState("");
-
-  const current = tickets.find(t => t.doctorId === docId && t.status === "called");
-
-  if (!current) {
-    return (
-      <div className="center">
-        <p style={{fontSize: "32px", marginBottom: "12px"}}>🩺</p>
-        <p>No patient currently in consultation</p>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <div className="section">
-        <div className="section-title">Select Doctor</div>
-        <select value={docId} onChange={(e) => setDocId(e.target.value)}>
-          {doctors.map(d => <option key={d.id} value={d.id}>{d.name} ({d.room})</option>)}
-        </select>
-      </div>
-
-      {current && (
-        <div className="section">
-          <div style={{background: "#F6F3EC", padding: "16px", borderRadius: "8px", marginBottom: "12px"}}>
-            <div style={{fontSize: "24px", fontWeight: "700", color: "#C98A2B", marginBottom: "8px"}}>{current.code}</div>
-            <div className="list-item-name">{current.patientName}</div>
-          </div>
-
-          <div className="section-title">Diagnosis / Notes</div>
-          <textarea 
-            rows="5" 
-            placeholder="Enter diagnosis and notes..." 
-            value={diagnosis} 
-            onChange={(e) => setDiagnosis(e.target.value)}
-          />
-
-          <button 
-            className="btn btn-success" 
-            style={{width: "100%"}}
-            disabled={!diagnosis.trim()}
-            onClick={() => {
-              updateTickets(tickets => tickets.map(t => t.id === current.id ? {...t, status: "served", diagnosis: diagnosis.trim()} : t));
-              setDiagnosis("");
-            }}
-          >Complete Visit</button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function OwnerView({ doctors, setDoctors, tickets, setTickets }) {
-  const [name, setName] = useState("");
-  const [room, setRoom] = useState("");
-
-  return (
-    <div>
-      <div className="grid-2">
-        <div style={{background: "#F6F3EC", padding: "12px", borderRadius: "8px", textAlign: "center"}}>
-          <div style={{fontSize: "24px", fontWeight: "700", color: "#211E1B"}}>{tickets.filter(t => t.status === "waiting").length}</div>
-          <div style={{fontSize: "11px", color: "#8A8375"}}>Waiting</div>
-        </div>
-        <div style={{background: "#F6F3EC", padding: "12px", borderRadius: "8px", textAlign: "center"}}>
-          <div style={{fontSize: "24px", fontWeight: "700", color: "#211E1B"}}>{tickets.filter(t => t.status === "served").length}</div>
-          <div style={{fontSize: "11px", color: "#8A8375"}}>Completed</div>
-        </div>
-      </div>
-
-      <div className="section mt-2">
-        <div className="section-title">Manage Doctors</div>
-        {doctors.map(doc => (
-          <div key={doc.id} className="list-item">
-            <div className="list-item-info">
-              <div className="list-item-name">{doc.name}</div>
-              <div className="list-item-meta">{doc.room}</div>
-            </div>
-            <button 
-              className="btn btn-danger" 
-              style={{fontSize: "11px", padding: "4px 8px"}}
-              onClick={() => setDoctors(doctors.filter(d => d.id !== doc.id))}
-            >Remove</button>
-          </div>
-        ))}
-      </div>
-
-      <div className="section">
-        <div className="section-title">Add Doctor</div>
-        <input type="text" placeholder="Doctor name" value={name} onChange={(e) => setName(e.target.value)} />
-        <input type="text" placeholder="Room number" value={room} onChange={(e) => setRoom(e.target.value)} />
-        <button 
-          className="btn btn-info" 
-          style={{width: "100%"}}
-          onClick={() => {
-            if (name.trim() && room.trim()) {
-              setDoctors([...doctors, {id: Math.random().toString(36).slice(2), name: name.trim(), room: room.trim()}]);
-              setName("");
-              setRoom("");
+    async function startScanner() {
+      html5QrCode = new Html5Qrcode("reader");
+      try {
+        await html5QrCode.start(
+          { facingMode: "environment" }, 
+          config,
+          (decodedText) => {
+            // Success Callback
+            html5QrCode.stop();
+            document.getElementById("status-text").style.display = "none";
+            document.getElementById("result-action").style.display = "block";
+            document.getElementById("result-text").innerText = decodedText;
+            
+            // Auto-open URL if valid
+            if(decodedText.startsWith("http://") || decodedText.startsWith("https://")) {
+              setTimeout(() => { if(confirm("Open link: " + decodedText)) window.open(decodedText, '_blank'); }, 500);
             }
-          }}
-        >+ Add Doctor</button>
-      </div>
+          },
+          (errorMessage) => { /* Verbose parsing errors ignored silently */ }
+        );
+      } catch (err) {
+        document.getElementById("status-text").innerText = "Camera access denied or unavailable.";
+      }
+    }
 
-      <button 
-        className="btn btn-danger" 
-        style={{width: "100%", marginTop: "16px"}}
-        onClick={() => {if (confirm("Clear all tickets?")) setTickets([]);}}
-      >Clear All Tickets</button>
-    </div>
-  );
-}
+    function restartScanner() {
+      document.getElementById("status-text").style.display = "block";
+      document.getElementById("status-text").innerText = "Scanning...";
+      document.getElementById("result-action").style.display = "none";
+      startScanner();
+    }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-</script>
+    function copyToClipboard() {
+      const text = document.getElementById("result-text").innerText;
+      navigator.clipboard.writeText(text);
+      alert("Copied to clipboard!");
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', startScanner);
+
+    // Register Service Worker for Offline Capabilities
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        const CACHE_NAME = 'qr-pwa-v1';
+        const ASSETS = [
+          './',
+          './index.html',
+          'https://unpkg.com'
+        ];
+        self.addEventListener('install', e => {
+          e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)));
+        });
+        self.addEventListener('fetch', e => {
+          e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+        });
+      `;
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      navigator.serviceWorker.register(URL.createObjectURL(blob));
+    }
+  </script>
 </body>
 </html>
