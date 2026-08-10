@@ -1,37 +1,165 @@
-<main class="container">
+<!DOCTYPE html>
+<html lang="en">
 
-    <section id="tokenSection" class="token-section">
+<head>
 
-        <p class="token-label">YOUR TOKEN</p>
+    <meta charset="UTF-8">
 
-        <div class="token-circle">
-            <span id="tokenNumber">Q-03</span>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#6C4BF4"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="default"
+    >
+
+    <meta
+        name="apple-mobile-web-app-title"
+        content="Qute"
+    >
+
+    <title>Qute</title>
+
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="header">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                Q
+            </div>
+
+            <span>
+                Qute
+            </span>
+
         </div>
 
-        <h2>You're in the queue</h2>
+    </header>
 
-        <p class="token-subtitle">
-            We'll notify you when your turn is approaching.
-        </p>
 
-        <button
-            id="notificationButton"
-            class="notification-button"
-            onclick="enableNotifications()">
+    <!-- =========================
+         MAIN
+    ========================== -->
 
-            <span>🔔</span>
-            <span>Enable Notification</span>
+    <main class="container">
 
-        </button>
+        <section
+            id="tokenSection"
+            class="token-section"
+        >
 
-        <button
-            class="leave-button"
-            onclick="leaveQueue()">
+            <div class="token-label">
+                YOUR TOKEN
+            </div>
 
-            Leave Queue
 
-        </button>
+            <!-- TOKEN -->
 
-    </section>
+            <div class="token-circle">
 
-</main>
+                <span id="tokenNumber">
+                    Q-03
+                </span>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+
+            <h1>
+                You're in the queue
+            </h1>
+
+            <p class="token-subtitle">
+                We'll notify you when your
+                turn is approaching.
+            </p>
+
+
+            <!-- NOTIFICATION -->
+
+            <button
+                id="notificationButton"
+                class="notification-button"
+                onclick="enableNotifications()"
+            >
+
+                <span class="button-icon">
+                    🔔
+                </span>
+
+                <span>
+                    Enable Notification
+                </span>
+
+            </button>
+
+
+            <!-- LEAVE -->
+
+            <button
+                class="leave-button"
+                onclick="leaveQueue()"
+            >
+
+                Leave Queue
+
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        Powered by
+        <strong>Qute</strong>
+
+    </footer>
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
