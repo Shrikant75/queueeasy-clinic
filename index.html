@@ -32,10 +32,16 @@
 
     <title>Qute</title>
 
+
+    <!-- PWA -->
+
     <link
         rel="manifest"
         href="manifest.json"
     >
+
+
+    <!-- CSS -->
 
     <link
         rel="stylesheet"
@@ -49,9 +55,10 @@
 
 <div class="app">
 
-    <!-- =========================
+
+    <!-- ================================
          HEADER
-    ========================== -->
+    ================================= -->
 
     <header class="header">
 
@@ -70,9 +77,10 @@
     </header>
 
 
-    <!-- =========================
+
+    <!-- ================================
          MAIN
-    ========================== -->
+    ================================= -->
 
     <main class="container">
 
@@ -81,14 +89,23 @@
             class="token-section"
         >
 
+
+            <!-- TOKEN LABEL -->
+
             <div class="token-label">
                 YOUR TOKEN
             </div>
 
 
-            <!-- TOKEN -->
 
-            <div class="token-circle">
+            <!-- =========================
+                 LIVE ORB
+            ========================== -->
+
+            <div
+                class="token-circle"
+                aria-label="Your queue token"
+            >
 
                 <span id="tokenNumber">
                     Q-03
@@ -97,27 +114,59 @@
             </div>
 
 
-            <!-- MESSAGE -->
+
+            <!-- =========================
+                 MESSAGE
+            ========================== -->
 
             <h1>
                 You're in the queue
             </h1>
 
+
             <p class="token-subtitle">
+
                 We'll notify you when your
                 turn is approaching.
+
             </p>
 
 
-            <!-- NOTIFICATION -->
+
+            <!-- =========================
+                 LIVE QUEUE STATUS
+            ========================== -->
+
+            <div class="queue-status">
+
+                <span
+                    class="live-dot"
+                    aria-hidden="true"
+                ></span>
+
+                <span id="queueStatus">
+                    2 people ahead
+                </span>
+
+            </div>
+
+
+
+            <!-- =========================
+                 NOTIFICATION BUTTON
+            ========================== -->
 
             <button
                 id="notificationButton"
                 class="notification-button"
+                type="button"
                 onclick="enableNotifications()"
             >
 
-                <span class="button-icon">
+                <span
+                    class="button-icon"
+                    aria-hidden="true"
+                >
                     🔔
                 </span>
 
@@ -128,10 +177,14 @@
             </button>
 
 
-            <!-- LEAVE -->
+
+            <!-- =========================
+                 LEAVE QUEUE
+            ========================== -->
 
             <button
                 class="leave-button"
+                type="button"
                 onclick="leaveQueue()"
             >
 
@@ -139,14 +192,16 @@
 
             </button>
 
+
         </section>
 
     </main>
 
 
-    <!-- =========================
+
+    <!-- ================================
          FOOTER
-    ========================== -->
+    ================================= -->
 
     <footer>
 
@@ -155,10 +210,16 @@
 
     </footer>
 
+
 </div>
 
 
+<!-- ================================
+     JAVASCRIPT
+================================= -->
+
 <script src="app.js"></script>
+
 
 </body>
 
