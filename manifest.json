@@ -1,14 +1,22 @@
 {
-  "name": "QueueEasy Clinic",
-  "short_name": "QueueEasy",
-  "description": "Token queue, doctor rooms, and diagnosis tracking for walk-in clinics.",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#EDE8DC",
-  "theme_color": "#211E1B",
-  "icons": [
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
-  ]
+    "name": "Qute Queue",
+    "short_name": "Qute",
+    "description": "Smart digital queue management",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#f6f4ff",
+    "theme_color": "#6c4bf4",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }
