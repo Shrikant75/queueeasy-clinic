@@ -1,10 +1,5 @@
 /* =========================================
-   QUTE - CUSTOMER TOKEN PAGE
-========================================= */
-
-
-/* =========================================
-   RESET
+   QUTE — LIVE ORB UI
 ========================================= */
 
 * {
@@ -13,33 +8,19 @@
     box-sizing: border-box;
 }
 
-
-/* =========================================
-   VARIABLES
-========================================= */
-
 :root {
-    --purple: #6c4bf4;
-    --purple-light: #8065ff;
-    --purple-dark: #4321ad;
-
-    --text: #19162a;
-    --muted: #858092;
-
-    --background: #f8f7fc;
+    --purple: #7657ff;
+    --purple-dark: #4522c4;
+    --text: #181526;
+    --muted: #888298;
+    --bg: #f8f7fc;
 }
-
-
-/* =========================================
-   HTML / BODY
-========================================= */
 
 html,
 body {
     width: 100%;
     min-height: 100%;
 }
-
 
 body {
     min-height: 100vh;
@@ -49,35 +30,14 @@ body {
         BlinkMacSystemFont,
         "Segoe UI",
         Roboto,
-        Helvetica,
         Arial,
         sans-serif;
 
     color: var(--text);
-
-    background:
-
-        radial-gradient(
-            circle at 10% 0%,
-            #e7e0ff 0%,
-            transparent 32%
-        ),
-
-        radial-gradient(
-            circle at 100% 100%,
-            #ded6ff 0%,
-            transparent 35%
-        ),
-
-        var(--background);
+    background: var(--bg);
 
     -webkit-font-smoothing: antialiased;
 }
-
-
-/* =========================================
-   APP
-========================================= */
 
 .app {
     width: 100%;
@@ -87,13 +47,12 @@ body {
     flex-direction: column;
 
     position: relative;
-
     overflow: hidden;
 }
 
 
 /* =========================================
-   BACKGROUND DECORATION
+   BACKGROUND
 ========================================= */
 
 .app::before {
@@ -101,48 +60,43 @@ body {
 
     position: fixed;
 
-    width: 280px;
-    height: 280px;
+    width: 320px;
+    height: 320px;
 
-    top: -150px;
-    right: -110px;
+    top: -180px;
+    right: -120px;
 
     border-radius: 50%;
 
-    background: #c5b8ff;
+    background: #cfc4ff;
 
-    filter: blur(75px);
+    filter: blur(90px);
 
-    opacity: 0.45;
+    opacity: .55;
 
     pointer-events: none;
-
-    z-index: 0;
 }
-
 
 .app::after {
     content: "";
 
     position: fixed;
 
-    width: 240px;
-    height: 240px;
+    width: 280px;
+    height: 280px;
 
-    bottom: -130px;
-    left: -110px;
+    bottom: -150px;
+    left: -120px;
 
     border-radius: 50%;
 
-    background: #dcd5ff;
+    background: #ddd7ff;
 
-    filter: blur(75px);
+    filter: blur(90px);
 
-    opacity: 0.5;
+    opacity: .55;
 
     pointer-events: none;
-
-    z-index: 0;
 }
 
 
@@ -162,31 +116,26 @@ body {
     justify-content: center;
 
     position: relative;
-
     z-index: 5;
 }
 
-
 .logo {
     display: flex;
-
     align-items: center;
 
     gap: 9px;
 
     font-size: 21px;
-
     font-weight: 850;
 
-    letter-spacing: -0.5px;
+    letter-spacing: -.5px;
 }
-
 
 .logo-icon {
     width: 38px;
     height: 38px;
 
-    border-radius: 12px;
+    border-radius: 13px;
 
     display: flex;
     align-items: center;
@@ -195,24 +144,23 @@ body {
     color: white;
 
     font-size: 18px;
-
     font-weight: 900;
 
     background:
         linear-gradient(
             135deg,
-            var(--purple-light),
-            var(--purple-dark)
+            #8065ff,
+            #4321ad
         );
 
     box-shadow:
-        0 8px 22px
-        rgba(108, 75, 244, 0.28);
+        0 8px 24px
+        rgba(92, 61, 220, .28);
 }
 
 
 /* =========================================
-   MAIN CONTAINER
+   MAIN
 ========================================= */
 
 .container {
@@ -221,26 +169,16 @@ body {
 
     margin: 0 auto;
 
-    padding:
-        15px
-        22px
-        30px;
+    padding: 15px 22px 30px;
 
     flex: 1;
 
     display: flex;
-
     align-items: center;
 
     position: relative;
-
     z-index: 2;
 }
-
-
-/* =========================================
-   TOKEN SECTION
-========================================= */
 
 .token-section {
     width: 100%;
@@ -248,25 +186,18 @@ body {
     text-align: center;
 
     animation:
-        pageEnter
-        0.65s
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        );
+        pageIn .7s
+        cubic-bezier(.22, 1, .36, 1);
 }
 
-
-@keyframes pageEnter {
+@keyframes pageIn {
 
     from {
         opacity: 0;
 
         transform:
             translateY(20px)
-            scale(0.97);
+            scale(.97);
     }
 
     to {
@@ -280,13 +211,13 @@ body {
 
 
 /* =========================================
-   TOKEN LABEL
+   LABEL
 ========================================= */
 
 .token-label {
-    margin-bottom: 25px;
+    margin-bottom: 22px;
 
-    color: #9993a7;
+    color: #9892a7;
 
     font-size: 10px;
 
@@ -297,33 +228,23 @@ body {
 
 
 /* =========================================
-   TOKEN CIRCLE
-   Approximately 50% of screen width
+   ORB CONTAINER
 ========================================= */
 
 .token-circle {
 
     /*
-     * 50% of viewport width
+     * Roughly half the phone width
      */
+
     width: 50vw;
     height: 50vw;
 
-
-    /*
-     * Prevent excessive size
-     * on tablets / desktop
-     */
     max-width: 300px;
     max-height: 300px;
 
-
-    /*
-     * Prevent becoming too small
-     */
     min-width: 220px;
     min-height: 220px;
-
 
     margin: 0 auto;
 
@@ -336,106 +257,81 @@ body {
 
     border-radius: 50%;
 
-
-    /* Circle background */
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff 0%,
-            #f1edff 100%
-        );
-
-
     /*
-     * Outer ring
+     * Main orb
      */
 
-    border:
-        10px solid
-        rgba(
-            108,
-            75,
-            244,
-            0.08
+    background:
+
+        radial-gradient(
+            circle at 30% 25%,
+            #cfc5ff 0%,
+            #9a83ff 22%,
+            #6d4cf4 48%,
+            #512fc9 72%,
+            #351a91 100%
         );
 
-
     /*
-     * Premium shadow
+     * 3D lighting
      */
 
     box-shadow:
 
-        0 0 0 1px
-        rgba(
-            108,
-            75,
-            244,
-            0.10
-        ),
+        inset
+        -18px
+        -25px
+        45px
+        rgba(35, 15, 100, .38),
 
-        0 0 0 14px
-        rgba(
-            108,
-            75,
-            244,
-            0.035
-        ),
+        inset
+        15px
+        12px
+        30px
+        rgba(255,255,255,.28),
 
-        0 30px 70px
-        rgba(
-            69,
-            50,
-            145,
-            0.18
-        );
-
+        0 25px
+        60px
+        rgba(77, 47, 190, .32);
 
     /*
-     * Entry animation
+     * Floating animation
      */
 
     animation:
-        tokenPop
-        0.75s
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        );
+        orbFloat
+        5s
+        ease-in-out
+        infinite;
+
 }
 
 
 /* =========================================
-   TOKEN CIRCLE ANIMATION
+   ORB FLOAT
 ========================================= */
 
-@keyframes tokenPop {
+@keyframes orbFloat {
 
-    from {
-
-        opacity: 0;
+    0%,
+    100% {
 
         transform:
-            scale(0.65);
+            translateY(0);
 
     }
 
-    to {
-
-        opacity: 1;
+    50% {
 
         transform:
-            scale(1);
+            translateY(-8px);
 
     }
 }
 
 
 /* =========================================
-   ROTATING INNER RING
+   ORB LIGHT
 ========================================= */
 
 .token-circle::before {
@@ -444,58 +340,50 @@ body {
 
     position: absolute;
 
-    inset: 9px;
+    width: 45%;
+    height: 28%;
+
+    top: 13%;
+    left: 18%;
 
     border-radius: 50%;
 
-    border:
-        1px dashed
-        rgba(
-            108,
-            75,
-            244,
-            0.25
-        );
+    background:
+        rgba(255,255,255,.42);
 
-    animation:
-        rotateRing
-        18s
-        linear
-        infinite;
-}
+    filter: blur(12px);
 
+    transform:
+        rotate(-25deg);
 
-@keyframes rotateRing {
-
-    from {
-        transform:
-            rotate(0deg);
-    }
-
-    to {
-        transform:
-            rotate(360deg);
-    }
+    pointer-events: none;
 }
 
 
 /* =========================================
-   DECORATIVE DOTS
+   ORB OUTER GLOW
 ========================================= */
 
 .token-circle::after {
 
-    content: "•  •  •";
+    content: "";
 
     position: absolute;
 
-    top: 28px;
+    inset: -10px;
 
-    font-size: 8px;
+    border-radius: 50%;
 
-    letter-spacing: 5px;
+    border:
+        1px solid
+        rgba(123, 91, 255, .18);
 
-    color: #b6acf0;
+    box-shadow:
+
+        0 0 30px
+        rgba(108, 75, 244, .18);
+
+    pointer-events: none;
 }
 
 
@@ -507,11 +395,9 @@ body {
 
     position: relative;
 
-    z-index: 3;
+    z-index: 5;
 
-    /*
-     * Responsive token number
-     */
+    color: white;
 
     font-size:
         clamp(
@@ -520,32 +406,19 @@ body {
             78px
         );
 
-
     line-height: 1;
 
     font-weight: 900;
 
     letter-spacing: -4px;
 
+    text-shadow:
 
-    /*
-     * Gradient text
-     */
+        0 4px 12px
+        rgba(39, 17, 110, .30),
 
-    background:
-        linear-gradient(
-            135deg,
-            #8065ff 0%,
-            #4321ad 100%
-        );
-
-
-    -webkit-background-clip: text;
-
-    background-clip: text;
-
-    -webkit-text-fill-color:
-        transparent;
+        0 1px 1px
+        rgba(255,255,255,.25);
 }
 
 
@@ -563,7 +436,7 @@ body {
 
     font-weight: 850;
 
-    letter-spacing: -0.7px;
+    letter-spacing: -.7px;
 }
 
 
@@ -573,19 +446,84 @@ body {
 
 .token-subtitle {
 
-    width: 100%;
-
     max-width: 290px;
 
     margin:
         10px auto
-        28px;
+        20px;
 
     color: var(--muted);
 
     font-size: 13px;
 
     line-height: 1.6;
+}
+
+
+/* =========================================
+   LIVE QUEUE
+========================================= */
+
+.queue-status {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-bottom: 25px;
+
+    color: #6f697e;
+
+    font-size: 12px;
+
+    font-weight: 650;
+}
+
+
+/* Live dot */
+
+.live-dot {
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #25b96d;
+
+    box-shadow:
+        0 0 0 5px
+        rgba(37,185,109,.10);
+
+    animation:
+        livePulse
+        2s
+        ease-in-out
+        infinite;
+}
+
+@keyframes livePulse {
+
+    0%,
+    100% {
+
+        opacity: 1;
+
+        transform: scale(1);
+
+    }
+
+    50% {
+
+        opacity: .55;
+
+        transform: scale(.75);
+
+    }
 }
 
 
@@ -620,68 +558,36 @@ body {
     cursor: pointer;
 
     background:
+
         linear-gradient(
             135deg,
-            #8065ff 0%,
-            #5d3bdd 50%,
-            #4b2bc4 100%
+            #8065ff,
+            #5c3adb,
+            #4826bb
         );
-
 
     box-shadow:
 
         0 12px 28px
-        rgba(
-            87,
-            56,
-            210,
-            0.27
-        ),
-
-        inset 0 1px 0
-        rgba(
-            255,
-            255,
-            255,
-            0.25
-        );
-
+        rgba(87,56,210,.27);
 
     transition:
-
-        transform
-        0.15s
-        ease,
-
-        box-shadow
-        0.15s
-        ease;
+        transform .15s ease,
+        box-shadow .15s ease;
 }
-
 
 .notification-button:active {
 
     transform:
-        scale(0.97);
+        scale(.97);
 
     box-shadow:
-
         0 6px 15px
-        rgba(
-            87,
-            56,
-            210,
-            0.20
-        );
+        rgba(87,56,210,.2);
 }
 
-
-/* Notification icon */
-
 .button-icon {
-
     font-size: 18px;
-
 }
 
 
@@ -692,27 +598,22 @@ body {
 .notification-enabled {
 
     background:
+
         linear-gradient(
             135deg,
             #25b96d,
             #159356
         );
 
-
     box-shadow:
 
         0 12px 25px
-        rgba(
-            21,
-            147,
-            86,
-            0.20
-        );
+        rgba(21,147,86,.20);
 }
 
 
 /* =========================================
-   LEAVE QUEUE BUTTON
+   LEAVE QUEUE
 ========================================= */
 
 .leave-button {
@@ -727,22 +628,10 @@ body {
 
     border:
         1px solid
-        rgba(
-            40,
-            35,
-            65,
-            0.10
-        );
-
+        rgba(40,35,65,.10);
 
     background:
-        rgba(
-            255,
-            255,
-            255,
-            0.70
-        );
-
+        rgba(255,255,255,.72);
 
     color: #777182;
 
@@ -752,26 +641,17 @@ body {
 
     cursor: pointer;
 
-
     transition:
-
-        transform
-        0.15s
-        ease,
-
-        background
-        0.15s
-        ease;
+        transform .15s ease,
+        background .15s ease;
 }
-
 
 .leave-button:active {
 
     transform:
-        scale(0.98);
+        scale(.98);
 
-    background:
-        white;
+    background: white;
 }
 
 
@@ -799,43 +679,27 @@ footer {
 
 
 /* =========================================
-   SMALL PHONES
+   SHORT PHONES
 ========================================= */
 
 @media (max-height: 700px) {
 
     .header {
-
         padding-top: 16px;
-
     }
-
 
     .container {
-
         padding-top: 5px;
-
     }
-
-
-    /*
-     * Keep circle large but
-     * slightly reduce it on
-     * short screens
-     */
 
     .token-circle {
 
         width: 48vw;
-
         height: 48vw;
 
         min-width: 190px;
-
         min-height: 190px;
-
     }
-
 
     .token-circle span {
 
@@ -845,30 +709,25 @@ footer {
                 12vw,
                 70px
             );
-
     }
-
 
     .token-section h1 {
 
         margin-top: 28px;
 
         font-size: 21px;
-
     }
-
 
     .token-subtitle {
 
-        margin-bottom: 20px;
-
+        margin-bottom: 15px;
     }
 
 }
 
 
 /* =========================================
-   VERY SMALL DEVICES
+   VERY SMALL PHONES
 ========================================= */
 
 @media (max-width: 350px) {
@@ -876,50 +735,38 @@ footer {
     .container {
 
         padding-left: 16px;
-
         padding-right: 16px;
-
     }
-
 
     .token-circle {
 
         width: 52vw;
-
         height: 52vw;
 
         min-width: 180px;
-
         min-height: 180px;
-
     }
-
 
     .token-section h1 {
 
         font-size: 20px;
-
     }
-
 
     .notification-button {
 
         min-height: 52px;
-
     }
-
 
     .leave-button {
 
         min-height: 48px;
-
     }
 
 }
 
 
 /* =========================================
-   LARGER SCREENS
+   DESKTOP
 ========================================= */
 
 @media (min-width: 700px) {
@@ -929,16 +776,13 @@ footer {
         display: flex;
 
         justify-content: center;
-
     }
-
 
     .app {
 
         width: 520px;
 
         max-width: 520px;
-
     }
 
 }
