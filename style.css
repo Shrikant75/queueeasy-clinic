@@ -1,4 +1,9 @@
 /* =========================================
+   QUTE - CUSTOMER TOKEN PAGE
+========================================= */
+
+
+/* =========================================
    RESET
 ========================================= */
 
@@ -14,38 +19,29 @@
 ========================================= */
 
 :root {
-
     --purple: #6c4bf4;
-
     --purple-light: #8065ff;
-
     --purple-dark: #4321ad;
 
     --text: #19162a;
-
     --muted: #858092;
 
     --background: #f8f7fc;
-
 }
 
 
 /* =========================================
-   BODY
+   HTML / BODY
 ========================================= */
 
 html,
 body {
-
     width: 100%;
-
     min-height: 100%;
-
 }
 
 
 body {
-
     min-height: 100vh;
 
     font-family:
@@ -75,6 +71,7 @@ body {
 
         var(--background);
 
+    -webkit-font-smoothing: antialiased;
 }
 
 
@@ -83,17 +80,15 @@ body {
 ========================================= */
 
 .app {
-
+    width: 100%;
     min-height: 100vh;
 
     display: flex;
-
     flex-direction: column;
 
     position: relative;
 
     overflow: hidden;
-
 }
 
 
@@ -102,17 +97,14 @@ body {
 ========================================= */
 
 .app::before {
-
     content: "";
 
     position: fixed;
 
     width: 280px;
-
     height: 280px;
 
     top: -150px;
-
     right: -110px;
 
     border-radius: 50%;
@@ -121,25 +113,23 @@ body {
 
     filter: blur(75px);
 
-    opacity: .45;
+    opacity: 0.45;
 
     pointer-events: none;
 
+    z-index: 0;
 }
 
 
 .app::after {
-
     content: "";
 
     position: fixed;
 
     width: 240px;
-
     height: 240px;
 
     bottom: -130px;
-
     left: -110px;
 
     border-radius: 50%;
@@ -148,10 +138,11 @@ body {
 
     filter: blur(75px);
 
-    opacity: .5;
+    opacity: 0.5;
 
     pointer-events: none;
 
+    z-index: 0;
 }
 
 
@@ -160,9 +151,7 @@ body {
 ========================================= */
 
 .header {
-
     width: 100%;
-
     max-width: 520px;
 
     margin: 0 auto;
@@ -170,18 +159,15 @@ body {
     padding: 24px 22px 10px;
 
     display: flex;
-
     justify-content: center;
 
     position: relative;
 
-    z-index: 2;
-
+    z-index: 5;
 }
 
 
 .logo {
-
     display: flex;
 
     align-items: center;
@@ -192,23 +178,18 @@ body {
 
     font-weight: 850;
 
-    letter-spacing: -.5px;
-
+    letter-spacing: -0.5px;
 }
 
 
 .logo-icon {
-
     width: 38px;
-
     height: 38px;
 
     border-radius: 12px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     color: white;
@@ -218,7 +199,6 @@ body {
     font-weight: 900;
 
     background:
-
         linear-gradient(
             135deg,
             var(--purple-light),
@@ -226,10 +206,8 @@ body {
         );
 
     box-shadow:
-
         0 8px 22px
-        rgba(108, 75, 244, .28);
-
+        rgba(108, 75, 244, 0.28);
 }
 
 
@@ -238,14 +216,15 @@ body {
 ========================================= */
 
 .container {
-
     width: 100%;
-
     max-width: 520px;
 
     margin: 0 auto;
 
-    padding: 15px 22px 30px;
+    padding:
+        15px
+        22px
+        30px;
 
     flex: 1;
 
@@ -255,8 +234,7 @@ body {
 
     position: relative;
 
-    z-index: 1;
-
+    z-index: 2;
 }
 
 
@@ -265,42 +243,39 @@ body {
 ========================================= */
 
 .token-section {
-
     width: 100%;
 
     text-align: center;
 
     animation:
-
         pageEnter
-        .65s
-        cubic-bezier(.22, 1, .36, 1);
-
+        0.65s
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
 }
 
 
 @keyframes pageEnter {
 
     from {
-
         opacity: 0;
 
         transform:
             translateY(20px)
-            scale(.97);
-
+            scale(0.97);
     }
 
     to {
-
         opacity: 1;
 
         transform:
             translateY(0)
             scale(1);
-
     }
-
 }
 
 
@@ -309,8 +284,7 @@ body {
 ========================================= */
 
 .token-label {
-
-    margin-bottom: 24px;
+    margin-bottom: 25px;
 
     color: #9993a7;
 
@@ -319,19 +293,37 @@ body {
     font-weight: 850;
 
     letter-spacing: 3px;
-
 }
 
 
 /* =========================================
    TOKEN CIRCLE
+   Approximately 50% of screen width
 ========================================= */
 
 .token-circle {
 
-    width: 220px;
+    /*
+     * 50% of viewport width
+     */
+    width: 50vw;
+    height: 50vw;
 
-    height: 220px;
+
+    /*
+     * Prevent excessive size
+     * on tablets / desktop
+     */
+    max-width: 300px;
+    max-height: 300px;
+
+
+    /*
+     * Prevent becoming too small
+     */
+    min-width: 220px;
+    min-height: 220px;
+
 
     margin: 0 auto;
 
@@ -340,43 +332,85 @@ body {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     border-radius: 50%;
 
-    background:
 
+    /* Circle background */
+
+    background:
         linear-gradient(
             145deg,
-            #ffffff,
-            #f2efff
+            #ffffff 0%,
+            #f1edff 100%
         );
 
-    border:
 
-        8px solid
-        rgba(108, 75, 244, .08);
+    /*
+     * Outer ring
+     */
+
+    border:
+        10px solid
+        rgba(
+            108,
+            75,
+            244,
+            0.08
+        );
+
+
+    /*
+     * Premium shadow
+     */
 
     box-shadow:
 
         0 0 0 1px
-        rgba(108, 75, 244, .10),
+        rgba(
+            108,
+            75,
+            244,
+            0.10
+        ),
 
-        0 0 0 12px
-        rgba(108, 75, 244, .035),
+        0 0 0 14px
+        rgba(
+            108,
+            75,
+            244,
+            0.035
+        ),
 
-        0 25px 60px
-        rgba(69, 50, 145, .17);
+        0 30px 70px
+        rgba(
+            69,
+            50,
+            145,
+            0.18
+        );
+
+
+    /*
+     * Entry animation
+     */
 
     animation:
-
         tokenPop
-        .75s
-        cubic-bezier(.22, 1, .36, 1);
-
+        0.75s
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
 }
 
+
+/* =========================================
+   TOKEN CIRCLE ANIMATION
+========================================= */
 
 @keyframes tokenPop {
 
@@ -384,7 +418,8 @@ body {
 
         opacity: 0;
 
-        transform: scale(.65);
+        transform:
+            scale(0.65);
 
     }
 
@@ -392,15 +427,15 @@ body {
 
         opacity: 1;
 
-        transform: scale(1);
+        transform:
+            scale(1);
 
     }
-
 }
 
 
 /* =========================================
-   TOKEN ROTATING RING
+   ROTATING INNER RING
 ========================================= */
 
 .token-circle::before {
@@ -409,44 +444,43 @@ body {
 
     position: absolute;
 
-    inset: 8px;
+    inset: 9px;
 
     border-radius: 50%;
 
     border:
-
         1px dashed
-        rgba(108, 75, 244, .25);
+        rgba(
+            108,
+            75,
+            244,
+            0.25
+        );
 
     animation:
-
         rotateRing
         18s
         linear
         infinite;
-
 }
 
 
 @keyframes rotateRing {
 
     from {
-
-        transform: rotate(0deg);
-
+        transform:
+            rotate(0deg);
     }
 
     to {
-
-        transform: rotate(360deg);
-
+        transform:
+            rotate(360deg);
     }
-
 }
 
 
 /* =========================================
-   TOKEN DECORATIVE DOTS
+   DECORATIVE DOTS
 ========================================= */
 
 .token-circle::after {
@@ -455,14 +489,13 @@ body {
 
     position: absolute;
 
-    top: 27px;
+    top: 28px;
 
     font-size: 8px;
 
     letter-spacing: 5px;
 
     color: #b6acf0;
-
 }
 
 
@@ -474,23 +507,38 @@ body {
 
     position: relative;
 
-    z-index: 2;
+    z-index: 3;
 
-    font-size: 56px;
+    /*
+     * Responsive token number
+     */
+
+    font-size:
+        clamp(
+            52px,
+            13vw,
+            78px
+        );
+
 
     line-height: 1;
 
     font-weight: 900;
 
-    letter-spacing: -3px;
+    letter-spacing: -4px;
+
+
+    /*
+     * Gradient text
+     */
 
     background:
-
         linear-gradient(
             135deg,
-            #8065ff,
-            #4321ad
+            #8065ff 0%,
+            #4321ad 100%
         );
+
 
     -webkit-background-clip: text;
 
@@ -498,7 +546,6 @@ body {
 
     -webkit-text-fill-color:
         transparent;
-
 }
 
 
@@ -516,8 +563,7 @@ body {
 
     font-weight: 850;
 
-    letter-spacing: -.7px;
-
+    letter-spacing: -0.7px;
 }
 
 
@@ -527,10 +573,11 @@ body {
 
 .token-subtitle {
 
+    width: 100%;
+
     max-width: 290px;
 
     margin:
-
         10px auto
         28px;
 
@@ -539,7 +586,6 @@ body {
     font-size: 13px;
 
     line-height: 1.6;
-
 }
 
 
@@ -571,45 +617,66 @@ body {
 
     font-weight: 750;
 
-    background:
+    cursor: pointer;
 
+    background:
         linear-gradient(
             135deg,
-            #8065ff,
-            #5d3bdd,
-            #4b2bc4
+            #8065ff 0%,
+            #5d3bdd 50%,
+            #4b2bc4 100%
         );
+
 
     box-shadow:
 
         0 12px 28px
-        rgba(87, 56, 210, .27),
+        rgba(
+            87,
+            56,
+            210,
+            0.27
+        ),
 
         inset 0 1px 0
-        rgba(255,255,255,.25);
+        rgba(
+            255,
+            255,
+            255,
+            0.25
+        );
 
-    cursor: pointer;
 
     transition:
 
-        transform .15s ease,
+        transform
+        0.15s
+        ease,
 
-        box-shadow .15s ease;
-
+        box-shadow
+        0.15s
+        ease;
 }
 
 
 .notification-button:active {
 
-    transform: scale(.97);
+    transform:
+        scale(0.97);
 
     box-shadow:
 
         0 6px 15px
-        rgba(87, 56, 210, .2);
-
+        rgba(
+            87,
+            56,
+            210,
+            0.20
+        );
 }
 
+
+/* Notification icon */
 
 .button-icon {
 
@@ -625,23 +692,27 @@ body {
 .notification-enabled {
 
     background:
-
         linear-gradient(
             135deg,
             #25b96d,
             #159356
         );
 
+
     box-shadow:
 
         0 12px 25px
-        rgba(21, 147, 86, .20);
-
+        rgba(
+            21,
+            147,
+            86,
+            0.20
+        );
 }
 
 
 /* =========================================
-   LEAVE BUTTON
+   LEAVE QUEUE BUTTON
 ========================================= */
 
 .leave-button {
@@ -655,13 +726,23 @@ body {
     border-radius: 18px;
 
     border:
-
         1px solid
-        rgba(40, 35, 65, .10);
+        rgba(
+            40,
+            35,
+            65,
+            0.10
+        );
+
 
     background:
+        rgba(
+            255,
+            255,
+            255,
+            0.70
+        );
 
-        rgba(255,255,255,.70);
 
     color: #777182;
 
@@ -671,21 +752,26 @@ body {
 
     cursor: pointer;
 
+
     transition:
 
-        transform .15s ease,
+        transform
+        0.15s
+        ease,
 
-        background .15s ease;
-
+        background
+        0.15s
+        ease;
 }
 
 
 .leave-button:active {
 
-    transform: scale(.98);
+    transform:
+        scale(0.98);
 
-    background: white;
-
+    background:
+        white;
 }
 
 
@@ -696,7 +782,6 @@ body {
 footer {
 
     padding:
-
         10px
         20px
         25px;
@@ -709,8 +794,7 @@ footer {
 
     position: relative;
 
-    z-index: 2;
-
+    z-index: 5;
 }
 
 
@@ -726,25 +810,44 @@ footer {
 
     }
 
+
     .container {
 
         padding-top: 5px;
 
     }
 
+
+    /*
+     * Keep circle large but
+     * slightly reduce it on
+     * short screens
+     */
+
     .token-circle {
 
-        width: 180px;
+        width: 48vw;
 
-        height: 180px;
+        height: 48vw;
+
+        min-width: 190px;
+
+        min-height: 190px;
 
     }
+
 
     .token-circle span {
 
-        font-size: 46px;
+        font-size:
+            clamp(
+                46px,
+                12vw,
+                70px
+            );
 
     }
+
 
     .token-section h1 {
 
@@ -753,6 +856,7 @@ footer {
         font-size: 21px;
 
     }
+
 
     .token-subtitle {
 
@@ -764,7 +868,58 @@ footer {
 
 
 /* =========================================
-   DESKTOP
+   VERY SMALL DEVICES
+========================================= */
+
+@media (max-width: 350px) {
+
+    .container {
+
+        padding-left: 16px;
+
+        padding-right: 16px;
+
+    }
+
+
+    .token-circle {
+
+        width: 52vw;
+
+        height: 52vw;
+
+        min-width: 180px;
+
+        min-height: 180px;
+
+    }
+
+
+    .token-section h1 {
+
+        font-size: 20px;
+
+    }
+
+
+    .notification-button {
+
+        min-height: 52px;
+
+    }
+
+
+    .leave-button {
+
+        min-height: 48px;
+
+    }
+
+}
+
+
+/* =========================================
+   LARGER SCREENS
 ========================================= */
 
 @media (min-width: 700px) {
@@ -777,9 +932,12 @@ footer {
 
     }
 
+
     .app {
 
         width: 520px;
+
+        max-width: 520px;
 
     }
 
