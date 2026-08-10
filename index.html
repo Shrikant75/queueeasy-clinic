@@ -1,166 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Scanner PWA</title>
-  
-  <!-- Web Manifest Data URI (Makes it installable without a separate file) -->
-  <link rel="manifest" href='data:application/manifest+json,{"name":"QR Scanner PWA","short_name":"QR Scanner","start_url":".","display":"standalone","background_color":"#121212","theme_color":"#007bff","icons":[{"src":"https://flaticon.com","sizes":"512x512","type":"image/png"}]}' />
-  <meta name="theme-color" content="#007bff">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-  <!-- Core Styles -->
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #121212;
-      color: #ffffff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      overflow: hidden;
-    }
-    #scanner-container {
-      position: relative;
-      width: 90%;
-      max-width: 500px;
-      aspect-ratio: 1;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      background: #1e1e1e;
-    }
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    #scan-region-visual {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-translate(-50%, -50%));
-      width: 60%;
-      height: 60%;
-      border: 4px solid #007bff;
-      border-radius: 12px;
-      box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.5);
-      pointer-events: none;
-      box-sizing: border-box;
-    }
-    #result-panel {
-      width: 90%;
-      max-width: 500px;
-      margin-top: 20px;
-      padding: 16px;
-      background: #1e1e1e;
-      border-radius: 12px;
-      box-sizing: border-box;
-      text-align: center;
-      word-break: break-all;
-    }
-    button {
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 12px;
-      transition: background 0.2s;
-    }
-    button:active { background: #0056b3; }
-  </style>
+    <meta name="theme-color" content="#6C4BF4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!-- HTML5-QRCode Library for rapid decoding -->
-  <script src="https://unpkg.com" type="text/javascript"></script>
+    <title>Qute — Join Queue</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <div id="scanner-container">
-    <div id="reader"></div>
-    <div id="scan-region-visual"></div>
-  </div>
+<div class="app">
 
-  <div id="result-panel">
-    <p id="status-text">Ready to scan. Grant camera permissions if prompted.</p>
-    <div id="result-action" style="display: none;">
-      <p id="result-text" style="font-weight: bold; color: #00ff88;"></p>
-      <button onclick="copyToClipboard()">Copy Result</button>
-      <button onclick="restartScanner()" style="background: #333; margin-left: 8px;">Scan Again</button>
-    </div>
-  </div>
+    <!-- Background -->
+    <div class="blob blob-one"></div>
+    <div class="blob blob-two"></div>
 
-  <script>
-    let html5QrCode;
-    const config = { fps: 10, qrbox: (width, height) => { return { width: width * 0.6, height: height * 0.6 } } };
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">Q</div>
+            <span>Qute</span>
+        </div>
 
-    async function startScanner() {
-      html5QrCode = new Html5Qrcode("reader");
-      try {
-        await html5QrCode.start(
-          { facingMode: "environment" }, 
-          config,
-          (decodedText) => {
-            // Success Callback
-            html5QrCode.stop();
-            document.getElementById("status-text").style.display = "none";
-            document.getElementById("result-action").style.display = "block";
-            document.getElementById("result-text").innerText = decodedText;
-            
-            // Auto-open URL if valid
-            if(decodedText.startsWith("http://") || decodedText.startsWith("https://")) {
-              setTimeout(() => { if(confirm("Open link: " + decodedText)) window.open(decodedText, '_blank'); }, 500);
-            }
-          },
-          (errorMessage) => { /* Verbose parsing errors ignored silently */ }
-        );
-      } catch (err) {
-        document.getElementById("status-text").innerText = "Camera access denied or unavailable.";
-      }
-    }
+        <div class="shop-status">
+            <span class="status-dot"></span>
+            Open
+        </div>
+    </header>
 
-    function restartScanner() {
-      document.getElementById("status-text").style.display = "block";
-      document.getElementById("status-text").innerText = "Scanning...";
-      document.getElementById("result-action").style.display = "none";
-      startScanner();
-    }
+    <!-- Main Card -->
+    <main class="container">
 
-    function copyToClipboard() {
-      const text = document.getElementById("result-text").innerText;
-      navigator.clipboard.writeText(text);
-      alert("Copied to clipboard!");
-    }
+        <div class="shop-card">
 
-    // Initialize on load
-    window.addEventListener('DOMContentLoaded', startScanner);
+            <div class="shop-image">
+                <div class="shop-icon">✂️</div>
+            </div>
 
-    // Register Service Worker for Offline Capabilities
-    if ('serviceWorker' in navigator) {
-      const swCode = `
-        const CACHE_NAME = 'qr-pwa-v1';
-        const ASSETS = [
-          './',
-          './index.html',
-          'https://unpkg.com'
-        ];
-        self.addEventListener('install', e => {
-          e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)));
-        });
-        self.addEventListener('fetch', e => {
-          e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
-        });
-      `;
-      const blob = new Blob([swCode], { type: 'application/javascript' });
-      navigator.serviceWorker.register(URL.createObjectURL(blob));
-    }
-  </script>
+            <div class="shop-info">
+                <h1>Urban Style Salon</h1>
+                <p>Premium Hair & Grooming</p>
+
+                <div class="shop-meta">
+                    <span>⭐ 4.8</span>
+                    <span>•</span>
+                    <span>📍 0.8 km</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Queue Info -->
+        <div class="queue-card">
+
+            <div class="queue-stat">
+                <span class="stat-label">People Waiting</span>
+                <strong id="waitingCount">7</strong>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="queue-stat">
+                <span class="stat-label">Est. Wait</span>
+                <strong id="waitTime">25 min</strong>
+            </div>
+
+        </div>
+
+        <!-- Token Area -->
+        <section id="joinSection">
+
+            <div class="welcome">
+                <h2>Skip the waiting room.</h2>
+                <p>
+                    Take your token and relax. We'll let you know
+                    when it's almost your turn.
+                </p>
+            </div>
+
+            <button class="token-button" onclick="generateToken()">
+
+                <span class="button-icon">🎟️</span>
+
+                <span>
+                    Get My Token
+                    <small>Join the queue</small>
+                </span>
+
+                <span class="arrow">→</span>
+
+            </button>
+
+            <p class="privacy">
+                🔒 No app download required
+            </p>
+
+        </section>
+
+
+        <!-- Token Generated -->
+        <section id="tokenSection" class="token-section hidden">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <p class="you-are">YOU ARE IN THE QUEUE</p>
+
+            <div class="token-number" id="tokenNumber">
+                Q-08
+            </div>
+
+            <div class="position-box">
+
+                <div>
+                    <span>Your Position</span>
+                    <strong id="position">8</strong>
+                </div>
+
+                <div>
+                    <span>Estimated Wait</span>
+                    <strong id="estimatedWait">30 min</strong>
+                </div>
+
+            </div>
+
+            <div class="progress-container">
+
+                <div class="progress-header">
+                    <span>Queue Progress</span>
+                    <span id="progressText">12%</span>
+                </div>
+
+                <div class="progress">
+                    <div id="progressBar"></div>
+                </div>
+
+            </div>
+
+            <div class="notification-card">
+
+                <span class="notification-icon">🔔</span>
+
+                <div>
+                    <strong>We'll notify you</strong>
+                    <p>
+                        Keep this page open. We'll alert you
+                        when your turn is approaching.
+                    </p>
+                </div>
+
+            </div>
+
+            <button class="leave-button" onclick="leaveQueue()">
+                Leave Queue
+            </button>
+
+        </section>
+
+    </main>
+
+    <footer>
+        Powered by <strong>Qute</strong>
+    </footer>
+
+</div>
+
+<script src="app.js"></script>
+
 </body>
 </html>
