@@ -8,16 +8,15 @@
 <meta name="theme-color" content="#211E1B" />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" href="./icon.svg" type="image/svg+xml" />
-<!-- iOS ignores manifest icons; a real launch needs a PNG apple-touch-icon (180x180) here too -->
 <link rel="apple-touch-icon" href="./icon.svg" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"><\/script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"><\/script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>
 <style>
   body { font-family: 'IBM Plex Sans', sans-serif; }
   .f-display { font-family: 'Space Grotesk', sans-serif; }
@@ -25,11 +24,8 @@
 </style>
 </head>
 <body style="background-color:#EDE8DC; margin:0;">
-<div id="root"></div>
-
+<div id="root"><\/div>
 <script>
-  // Real service-worker registration — this is what makes the app
-  // installable and offline-capable once actually hosted somewhere.
   window.__swStatus = { state: "pending" };
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
@@ -48,14 +44,11 @@
   } else {
     window.__swStatus = { state: "unsupported" };
   }
-</script>
-
+<\/script>
 <script type="text/babel" data-presets="react">
-const { useState, useEffect, useCallback } = React;
-
+const { useState, useEffect } = React;
 const INK = "#211E1B", PAPER = "#F6F3EC", LINE = "#E2DCCB", MUTED = "#8A8375";
 const AMBER = "#C98A2B", GREEN = "#2F4B3C", BLUE = "#3A5A78", RED = "#B23A2E";
-
 const DOCTORS_KEY = "queueeasy_doctors";
 const TICKETS_KEY = "queueeasy_tickets";
 const MY_TICKET_KEY = "queueeasy_my_ticket";
@@ -68,31 +61,30 @@ function defaultDoctors() {
 }
 function uid(p) { return `${p}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`; }
 
-// --- Storage layer -----------------------------------------------------
 function loadDoctors() {
   try {
     const raw = localStorage.getItem(DOCTORS_KEY);
     if (raw) return JSON.parse(raw);
-  } catch {}
+  } catch (e) {}
   const def = defaultDoctors();
-  try { localStorage.setItem(DOCTORS_KEY, JSON.stringify(def)); } catch {}
+  try { localStorage.setItem(DOCTORS_KEY, JSON.stringify(def)); } catch (e) {}
   return def;
 }
-function persistDoctors(list) { try { localStorage.setItem(DOCTORS_KEY, JSON.stringify(list)); } catch {} }
+function persistDoctors(list) { try { localStorage.setItem(DOCTORS_KEY, JSON.stringify(list)); } catch (e) {} }
 
 function loadTickets() {
   try {
     const raw = localStorage.getItem(TICKETS_KEY);
     if (raw) return JSON.parse(raw);
-  } catch {}
+  } catch (e) {}
   return [];
 }
-function persistTickets(list) { try { localStorage.setItem(TICKETS_KEY, JSON.stringify(list)); } catch {} }
+function persistTickets(list) { try { localStorage.setItem(TICKETS_KEY, JSON.stringify(list)); } catch (e) {} }
 
 function loadMyTicket() {
-  try { return JSON.parse(localStorage.getItem(MY_TICKET_KEY) || "null"); } catch { return null; }
+  try { return JSON.parse(localStorage.getItem(MY_TICKET_KEY) || "null"); } catch (e) { return null; }
 }
-function persistMyTicket(id) { try { localStorage.setItem(MY_TICKET_KEY, JSON.stringify(id)); } catch {} }
+function persistMyTicket(id) { try { localStorage.setItem(MY_TICKET_KEY, JSON.stringify(id)); } catch (e) {} }
 
 function waLink(phone, message) {
   if (!phone) return null;
@@ -101,7 +93,6 @@ function waLink(phone, message) {
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
 
-// --- Root ---------------------------------------------------------------
 function App() {
   const [role, setRole] = useState("patient");
   const [doctors, setDoctors] = useState(() => loadDoctors());
@@ -110,7 +101,6 @@ function App() {
   const [swStatus, setSwStatus] = useState(null);
   const [bannerDismissed, setBannerDismissed] = useState(false);
 
-  // Cross-tab sync, native and free — no polling needed at all.
   useEffect(() => {
     const onStorage = (e) => {
       if (e.key === TICKETS_KEY) setTickets(loadTickets());
@@ -121,9 +111,6 @@ function App() {
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
-  // Reads the outcome of the plain-JS registration attempt at the top of
-  // the page (window.__swStatus) so the app can explain a failure inline
-  // instead of it only showing up as a console warning nobody sees.
   useEffect(() => {
     const check = () => {
       if (window.__swStatus && window.__swStatus.state !== "pending") {
@@ -139,7 +126,7 @@ function App() {
 
   const saveDoctors = (next) => { setDoctors(next); persistDoctors(next); };
   const updateTickets = (updater) => {
-    const fresh = loadTickets(); // always read the true current value first
+    const fresh = loadTickets();
     const next = updater(fresh);
     setTickets(next);
     persistTickets(next);
@@ -147,7 +134,6 @@ function App() {
   };
   const resetTickets = () => { setTickets([]); persistTickets([]); };
   const saveMyTicket = (id) => { setMyTicketId(id); persistMyTicket(id); };
-
   const accent = role === "patient" ? AMBER : role === "staff" ? GREEN : role === "doctor" ? BLUE : INK;
 
   return (
@@ -157,29 +143,23 @@ function App() {
           <div className="mx-4 mt-3 rounded-xl border px-3 py-2.5" style={{ borderColor: "#C98A2B", backgroundColor: "#FBF2E3" }}>
             <div className="flex items-start justify-between gap-2">
               <p style={{ fontSize: "11px", color: "#211E1B" }}>
-                <strong>You're viewing this in an embedded app preview</strong> (an iOS "app-bound domain" restriction), so install/offline features are disabled here. Open the hosted URL directly in your browser to test PWA features.
+                <strong>App preview limitation</strong> - Service workers disabled here. Visit the hosted URL directly to test PWA features.
               </p>
-              <button onClick={() => setBannerDismissed(true)} style={{ color: MUTED, fontSize: "14px" }}>×</button>
+              <button onClick={() => setBannerDismissed(true)} style={{ color: MUTED, fontSize: "14px" }}>×<\/button>
             </div>
           </div>
         )}
         <div className="px-4 pt-4">
-          <p className="f-mono tracking-widest text-center" style={{ fontSize: "9px", color: MUTED }}>
-            QUEUEEASY CLINIC · PWA DEMO
-          </p>
+          <p className="f-mono tracking-widest text-center" style={{ fontSize: "9px", color: MUTED }}>QUEUEEASY CLINIC · PWA DEMO<\/p>
           <div className="flex gap-1.5 mt-2">
             {["patient", "staff", "doctor", "owner"].map((r) => (
-              <button key={r} onClick={() => setRole(r)}
-                className="flex-1 rounded-full py-2 font-medium capitalize" style={{ fontSize: "11px", ...(role === r
-                  ? { backgroundColor: r === "patient" ? AMBER : r === "staff" ? GREEN : r === "doctor" ? BLUE : INK, color: "#FFF" }
-                  : { backgroundColor: "#FFF", color: INK, border: `1px solid ${LINE}` }) }}>
+              <button key={r} onClick={() => setRole(r)} className="flex-1 rounded-full py-2 font-medium capitalize" style={{ fontSize: "11px", ...(role === r ? { backgroundColor: r === "patient" ? AMBER : r === "staff" ? GREEN : r === "doctor" ? BLUE : INK, color: "#FFF" } : { backgroundColor: "#FFF", color: INK, border: `1px solid ${LINE}` }) }}>
                 {r}
-              </button>
+              <\/button>
             ))}
           </div>
         </div>
-        <div className="flex-1 mx-4 mt-3 mb-6 rounded-3xl overflow-hidden border shadow-lg flex flex-col"
-          style={{ borderColor: LINE, backgroundColor: "#FFF", minHeight: 600 }}>
+        <div className="flex-1 mx-4 mt-3 mb-6 rounded-3xl overflow-hidden border shadow-lg flex flex-col" style={{ borderColor: LINE, backgroundColor: "#FFF", minHeight: 600 }}>
           {role === "patient" && <PatientFlow doctors={doctors} tickets={tickets} updateTickets={updateTickets} myTicketId={myTicketId} saveMyTicket={saveMyTicket} />}
           {role === "staff" && <StaffFlow doctors={doctors} tickets={tickets} updateTickets={updateTickets} />}
           {role === "doctor" && <DoctorFlow doctors={doctors} tickets={tickets} updateTickets={updateTickets} />}
@@ -194,14 +174,13 @@ function App() {
 function Header({ eyebrow, title, bg }) {
   return (
     <div className="px-4 pt-4 pb-3" style={{ backgroundColor: bg || INK }}>
-      {eyebrow && <p className="text-white/50 f-mono tracking-wide" style={{ fontSize: "10px" }}>{eyebrow}</p>}
-      <p className="text-white text-base font-medium">{title}</p>
+      {eyebrow && <p className="text-white/50 f-mono tracking-wide" style={{ fontSize: "10px" }}>{eyebrow}<\/p>}
+      <p className="text-white text-base font-medium">{title}<\/p>
     </div>
   );
 }
-function Centered({ children }) { return <div className="flex-1 flex flex-col items-center justify-center">{children}</div>; }
+function Centered({ children }) { return <div className="flex-1 flex flex-col items-center justify-center">{children}<\/div>; }
 
-// --- Patient --------------------------------------------------------------
 function PatientFlow({ doctors, tickets, updateTickets, myTicketId, saveMyTicket }) {
   const myTicket = tickets.find((t) => t.id === myTicketId);
   const [step, setStep] = useState("scan");
@@ -220,10 +199,10 @@ function PatientFlow({ doctors, tickets, updateTickets, myTicketId, saveMyTicket
       <div className="flex-1 flex flex-col">
         <Header eyebrow="SCAN CLINIC QR" title="Sunrise Clinic" />
         <div className="flex-1 flex flex-col items-center justify-center px-6">
-          <div className="w-36 h-36 rounded-2xl flex items-center justify-center border-2 border-dashed text-5xl" style={{ borderColor: LINE }}>▦</div>
-          <p className="text-sm mt-5 text-center" style={{ color: INK }}>Tap below to simulate scanning the clinic's QR code</p>
-          <p className="mt-1 text-center" style={{ fontSize: "11px", color: MUTED }}>Next, pick your doctor and enter your name</p>
-          <button onClick={() => setStep("pick")} className="mt-6 w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: AMBER }}>Continue</button>
+          <div className="w-36 h-36 rounded-2xl flex items-center justify-center border-2 border-dashed text-5xl" style={{ borderColor: LINE }}>▦<\/div>
+          <p className="text-sm mt-5 text-center" style={{ color: INK }}>Tap below to simulate scanning the clinic QR code<\/p>
+          <p className="mt-1 text-center" style={{ fontSize: "11px", color: MUTED }}>Pick your doctor and enter your name<\/p>
+          <button onClick={() => setStep("pick")} className="mt-6 w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: AMBER }}>Continue<\/button>
         </div>
       </div>
     );
@@ -237,17 +216,16 @@ function PatientFlow({ doctors, tickets, updateTickets, myTicketId, saveMyTicket
           {doctors.map((d) => {
             const waitingForDoc = tickets.filter((t) => t.assignedDoctorId === d.id && t.status === "waiting").length;
             return (
-              <button key={d.id} onClick={() => { setPickedDoctor(d); setStep("details"); }}
-                className="w-full flex items-center justify-between rounded-xl px-3 py-3 border text-left" style={{ borderColor: LINE }}>
+              <button key={d.id} onClick={() => { setPickedDoctor(d); setStep("details"); }} className="w-full flex items-center justify-between rounded-xl px-3 py-3 border text-left" style={{ borderColor: LINE }}>
                 <div>
-                  <p className="text-sm font-medium" style={{ color: INK }}>{d.name}</p>
-                  <p className="" style={{ fontSize: "11px", color: MUTED }}>{d.room} · {waitingForDoc === 0 ? "No wait" : `${waitingForDoc} waiting`}</p>
+                  <p className="text-sm font-medium" style={{ color: INK }}>{d.name}<\/p>
+                  <p style={{ fontSize: "11px", color: MUTED }}>{d.room} · {waitingForDoc === 0 ? "No wait" : `${waitingForDoc} waiting`}<\/p>
                 </div>
-                <span style={{ color: MUTED }}>›</span>
+                <span style={{ color: MUTED }}>›<\/span>
               </button>
             );
           })}
-          {doctors.length === 0 && <p className="text-xs text-center mt-4" style={{ color: MUTED }}>No doctors available right now.</p>}
+          {doctors.length === 0 && <p className="text-xs text-center mt-4" style={{ color: MUTED }}>No doctors available.<\/p>}
         </div>
       </div>
     );
@@ -257,45 +235,27 @@ function PatientFlow({ doctors, tickets, updateTickets, myTicketId, saveMyTicket
   return (
     <div className="flex-1 flex flex-col">
       <div className="px-4 pt-4 pb-3 flex items-center gap-2" style={{ backgroundColor: INK }}>
-        <button onClick={() => setStep("pick")} className="text-white">←</button>
-        <p className="text-white text-sm font-medium">{doc.name} — {doc.room}</p>
+        <button onClick={() => setStep("pick")} className="text-white">←<\/button>
+        <p className="text-white text-sm font-medium">{doc.name} — {doc.room}<\/p>
       </div>
       <div className="px-4 pt-4 flex-1">
-        <p className="f-mono uppercase tracking-wide" style={{ fontSize: "11px", color: MUTED }}>Your name</p>
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ramesh Kumar"
-          className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
-        <p className="f-mono uppercase tracking-wide mt-4" style={{ fontSize: "11px", color: MUTED }}>WhatsApp number (optional)</p>
-        <input value={phone} onChange={(e) => setPhone(e.target.value.replace(/[^0-9+]/g, ""))} placeholder="e.g. 9876543210" inputMode="tel"
-          className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
+        <p className="f-mono uppercase tracking-wide" style={{ fontSize: "11px", color: MUTED }}>Your name<\/p>
+        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ramesh Kumar" className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
+        <p className="f-mono uppercase tracking-wide mt-4" style={{ fontSize: "11px", color: MUTED }}>WhatsApp number (optional)<\/p>
+        <input value={phone} onChange={(e) => setPhone(e.target.value.replace(/[^0-9+]/g, ""))} placeholder="e.g. 9876543210" inputMode="tel" className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
         {doc.collectDetails && (
           <>
-            <p className="f-mono uppercase tracking-wide mt-4" style={{ fontSize: "11px", color: MUTED }}>Weight (kg)</p>
-            <input value={weight} onChange={(e) => setWeight(e.target.value.replace(/[^0-9.]/g, ""))} placeholder="e.g. 68" inputMode="decimal"
-              className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
-            <p className="mt-2" style={{ fontSize: "11px", color: MUTED }}>{doc.name} asks for weight at check-in.</p>
+            <p className="f-mono uppercase tracking-wide mt-4" style={{ fontSize: "11px", color: MUTED }}>Weight (kg)<\/p>
+            <input value={weight} onChange={(e) => setWeight(e.target.value.replace(/[^0-9.]/g, ""))} placeholder="e.g. 68" inputMode="decimal" className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
+            <p className="mt-2" style={{ fontSize: "11px", color: MUTED }}>{doc.name} asks for weight at check-in.<\/p>
           </>
         )}
       </div>
       <div className="px-4 pb-4">
-        <button disabled={!name.trim() || submitting}
-          onClick={() => {
-            if (submitting) return;
-            setSubmitting(true);
-            const newTicket = { id: uid("tix"), num: 0, code: "", status: "waiting", createdAt: Date.now(),
-              assignedDoctorId: doc.id, patientName: name.trim(), phone: phone.trim(), weight: weight.trim(), diagnosis: "" };
-            updateTickets((fresh) => {
-              const freshMax = fresh.filter((t) => t.status !== "cancelled").reduce((m, t) => Math.max(m, t.num || 0), 0);
-              newTicket.num = freshMax + 1;
-              newTicket.code = `T${freshMax + 1}`;
-              return [...fresh, newTicket];
-            });
-            saveMyTicket(newTicket.id);
-            setSubmitting(false);
-          }}
-          className="w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: AMBER, opacity: (!name.trim() || submitting) ? 0.4 : 1 }}>
+        <button disabled={!name.trim() || submitting} onClick={() => { if (submitting) return; setSubmitting(true); const newTicket = { id: uid("tix"), num: 0, code: "", status: "waiting", createdAt: Date.now(), assignedDoctorId: doc.id, patientName: name.trim(), phone: phone.trim(), weight: weight.trim(), diagnosis: "" }; updateTickets((fresh) => { const freshMax = fresh.filter((t) => t.status !== "cancelled").reduce((m, t) => Math.max(m, t.num || 0), 0); newTicket.num = freshMax + 1; newTicket.code = `T${freshMax + 1}`; return [...fresh, newTicket]; }); saveMyTicket(newTicket.id); setSubmitting(false); }} className="w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: AMBER, opacity: (!name.trim() || submitting) ? 0.4 : 1 }}>
           {submitting ? "Getting your token…" : "Get my token"}
-        </button>
-        {!name.trim() && <p className="text-center mt-1.5" style={{ fontSize: "10px", color: MUTED }}>Enter your name to continue</p>}
+        <\/button>
+        {!name.trim() && <p className="text-center mt-1.5" style={{ fontSize: "10px", color: MUTED }}>Enter your name to continue<\/p>}
       </div>
     </div>
   );
@@ -310,170 +270,91 @@ function PatientTicket({ ticket, tickets, doctors, updateTickets, saveMyTicket }
   if (ticket.status === "called") {
     return (
       <div className="flex-1 flex flex-col" style={{ backgroundColor: RED }}>
-        <div className="px-4 pt-4 pb-3"><p className="text-white/70 f-mono" style={{ fontSize: "11px" }}>SUNRISE CLINIC</p></div>
+        <div className="px-4 pt-4 pb-3"><p className="text-white/70 f-mono" style={{ fontSize: "11px" }}>SUNRISE CLINIC<\/p><\/div>
         <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-          <p className="text-white/80 text-xs">IT'S YOUR TURN</p>
-          <p className="f-display text-6xl text-white mt-2">{ticket.code}</p>
-          <p className="text-white mt-4 text-sm">{doctor ? `Please proceed to ${doctor.room} — ${doctor.name}` : "Please proceed to the counter"}</p>
+          <p className="text-white/80 text-xs">IT'S YOUR TURN<\/p>
+          <p className="f-display text-6xl text-white mt-2">{ticket.code}<\/p>
+          <p className="text-white mt-4 text-sm">{doctor ? `Please proceed to ${doctor.room}` : "Please proceed to the counter"}<\/p>
         </div>
       </div>
     );
   }
   if (ticket.status === "served") {
-    return (
-      <Centered>
-        <p className="text-sm font-medium" style={{ color: INK }}>Visit complete — token {ticket.code}</p>
-        <button onClick={startOver} className="mt-5 rounded-xl px-4 py-2.5 text-sm font-medium text-white" style={{ backgroundColor: AMBER }}>Get a new token</button>
-      </Centered>
-    );
+    return (<Centered><p className="text-sm font-medium" style={{ color: INK }}>Visit complete — token {ticket.code}<\/p><button onClick={startOver} className="mt-5 rounded-xl px-4 py-2.5 text-sm font-medium text-white" style={{ backgroundColor: AMBER }}>Get a new token<\/button><\/Centered>);
   }
   if (ticket.status === "no_show") {
-    return (
-      <Centered>
-        <p className="text-sm font-medium" style={{ color: INK }}>Token {ticket.code} marked missed</p>
-        <button onClick={startOver} className="mt-5 rounded-xl px-4 py-2.5 text-sm font-medium text-white" style={{ backgroundColor: AMBER }}>Get a new token</button>
-      </Centered>
-    );
+    return (<Centered><p className="text-sm font-medium" style={{ color: INK }}>Token {ticket.code} marked missed<\/p><button onClick={startOver} className="mt-5 rounded-xl px-4 py-2.5 text-sm font-medium text-white" style={{ backgroundColor: AMBER }}>Get a new token<\/button><\/Centered>);
   }
   return (
     <div className="flex-1 flex flex-col">
       <Header eyebrow="SUNRISE CLINIC" title="Your token" />
       <div className="flex-1 flex flex-col items-center justify-center px-6">
-        <p className="f-mono tracking-widest" style={{ fontSize: "11px", color: MUTED }}>YOUR TOKEN</p>
-        <p className="f-display text-7xl mt-1" style={{ color: INK }}>{ticket.code}</p>
+        <p className="f-mono tracking-widest" style={{ fontSize: "11px", color: MUTED }}>YOUR TOKEN<\/p>
+        <p className="f-display text-7xl mt-1" style={{ color: INK }}>{ticket.code}<\/p>
         <div className="mt-6 w-full rounded-xl px-4 py-3 flex items-center justify-between" style={{ backgroundColor: PAPER }}>
-          <span className="text-xs" style={{ color: MUTED }}>Ahead of you</span>
-          <span className="text-sm font-medium" style={{ color: INK }}>{ahead === 0 ? "You're next" : `${ahead} patients`}</span>
+          <span className="text-xs" style={{ color: MUTED }}>Ahead of you<\/span>
+          <span className="text-sm font-medium" style={{ color: INK }}>{ahead === 0 ? "You're next" : `${ahead} patients`}<\/span>
         </div>
-        <p className="mt-4 text-center" style={{ fontSize: "11px", color: MUTED }}>In queue since {new Date(ticket.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</p>
+        <p className="mt-4 text-center" style={{ fontSize: "11px", color: MUTED }}>In queue since {new Date(ticket.createdAt).toLocaleTimeString()}<\/p>
       </div>
       <div className="px-4 pb-4">
-        <button onClick={cancel} className="w-full rounded-xl py-3 text-sm font-medium border" style={{ borderColor: RED, color: RED }}>Cancel token</button>
+        <button onClick={cancel} className="w-full rounded-xl py-3 text-sm font-medium border" style={{ borderColor: RED, color: RED }}>Cancel token<\/button>
       </div>
     </div>
   );
 }
 
-// --- Staff ------------------------------------------------------------
 function StaffFlow({ doctors, tickets, updateTickets }) {
   const [listFilter, setListFilter] = useState("active");
   const waiting = tickets.filter((t) => t.status === "waiting").sort((a, b) => a.createdAt - b.createdAt);
-
-  const callNext = (doc) => {
-    updateTickets((fresh) => {
-      const occupied = fresh.find((t) => t.assignedDoctorId === doc.id && t.status === "called");
-      if (occupied) return fresh;
-      const nextForDoc = fresh.filter((t) => t.assignedDoctorId === doc.id && t.status === "waiting").sort((a, b) => a.createdAt - b.createdAt)[0];
-      if (!nextForDoc) return fresh;
-      return fresh.map((t) => t.id === nextForDoc.id ? { ...t, status: "called", calledAt: Date.now() } : t);
-    });
-  };
-  const markNoShow = (id) => updateTickets((fresh) => fresh.map((t) => t.id === id ? { ...t, status: "no_show", closedAt: Date.now() } : t));
-  const markNotified = (id, stage) => updateTickets((fresh) => fresh.map((t) => t.id === id ? { ...t, notifiedStage: stage } : t));
-
-  const statusStyle = {
-    waiting: { color: MUTED, label: "Waiting" }, called: { color: RED, label: "In room" },
-    served: { color: GREEN, label: "Completed" }, no_show: { color: RED, label: "No-show" }, cancelled: { color: MUTED, label: "Cancelled" },
-  };
-  const listedTickets = tickets.filter((t) => listFilter === "all" ? true : ["waiting", "called"].includes(t.status)).sort((a, b) => b.createdAt - a.createdAt);
-
-  const needsNotify = tickets.filter((t) => {
-    if (!t.phone) return false;
-    if (t.status === "called") return t.notifiedStage !== "called";
-    if (t.status === "waiting") {
-      const aheadOfT = tickets.filter((o) => o.assignedDoctorId === t.assignedDoctorId && o.status === "waiting" && o.createdAt < t.createdAt).length;
-      return aheadOfT === 0 && t.notifiedStage !== "next" && t.notifiedStage !== "called";
-    }
-    return false;
-  }).sort((a, b) => a.createdAt - b.createdAt);
-
+  const callNext = (doc) => updateTickets((fresh) => { const nextForDoc = fresh.filter((t) => t.assignedDoctorId === doc.id && t.status === "waiting").sort((a, b) => a.createdAt - b.createdAt)[0]; if (!nextForDoc) return fresh; return fresh.map((t) => t.id === nextForDoc.id ? { ...t, status: "called" } : t); });
+  const markNoShow = (id) => updateTickets((fresh) => fresh.map((t) => t.id === id ? { ...t, status: "no_show" } : t));
+  
+  const listedTickets = tickets.filter((t) => listFilter === "all" ? true : ["waiting", "called"].includes(t.status));
+  
   return (
     <div className="flex-1 flex flex-col">
       <Header eyebrow="STAFF · SUNRISE CLINIC" title={`${waiting.length} waiting`} bg={GREEN} />
       <div className="px-4 pt-3 space-y-1.5 flex-1 overflow-y-auto">
-        {needsNotify.length > 0 && (
-          <div className="rounded-xl border px-3 py-2.5 mb-1" style={{ borderColor: "#25D366", backgroundColor: "#EAF9F0" }}>
-            <p className="f-mono uppercase tracking-wide" style={{ fontSize: "10px", color: "#128C7E" }}>💬 {needsNotify.length} message{needsNotify.length > 1 ? "s" : ""} ready to send</p>
-            <div className="mt-1.5 space-y-1.5">
-              {needsNotify.map((t) => {
-                const doc = doctors.find((d) => d.id === t.assignedDoctorId);
-                const stage = t.status === "called" ? "called" : "next";
-                const msg = stage === "called"
-                  ? `Hi ${t.patientName || "there"}, it's your turn now — please head to ${doc ? doc.room : "the counter"} at Sunrise Clinic.`
-                  : `Hi ${t.patientName || "there"}, you're next in line for ${doc ? doc.name : "your doctor"} at Sunrise Clinic.`;
-                const link = waLink(t.phone, msg);
-                return (
-                  <div key={t.id} className="flex items-center justify-between">
-                    <span className="" style={{ fontSize: "11px", color: INK }}>{t.code} · {t.patientName || "—"} — {stage === "called" ? "their turn now" : "now next"}</span>
-                    {link && <a href={link} target="_blank" rel="noopener noreferrer" onClick={() => markNotified(t.id, stage)}
-                      className="rounded-md px-2 py-1 font-medium text-white" style={{ fontSize: "10px", backgroundColor: "#25D366" }}>Send</a>}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
         <div className="flex items-center justify-between">
-          <p className="f-mono uppercase tracking-wide" style={{ fontSize: "10px", color: MUTED }}>Token list</p>
+          <p className="f-mono uppercase tracking-wide" style={{ fontSize: "10px", color: MUTED }}>Token list<\/p>
           <div className="flex gap-1">
             {["active", "all"].map((f) => (
-              <button key={f} onClick={() => setListFilter(f)} className="rounded-full px-2 py-0.5 font-medium capitalize" 
-                style={{ fontSize: "10px", ...(listFilter === f ? { backgroundColor: GREEN, color: "#FFF" } : { border: `1px solid ${LINE}`, color: INK }) }}>
+              <button key={f} onClick={() => setListFilter(f)} className="rounded-full px-2 py-0.5 font-medium capitalize" style={{ fontSize: "10px", ...(listFilter === f ? { backgroundColor: GREEN, color: "#FFF" } : { border: `1px solid ${LINE}`, color: INK }) }}>
                 {f}
-              </button>
+              <\/button>
             ))}
           </div>
         </div>
-        <div className="rounded-xl border divide-y max-h-48 overflow-y-auto" style={{ borderColor: LINE }}>
-          {listedTickets.length === 0 && <p className="text-xs text-center py-3" style={{ color: MUTED }}>Nothing to show.</p>}
-          {listedTickets.map((t) => {
-            const doc = doctors.find((d) => d.id === t.assignedDoctorId);
-            const st = statusStyle[t.status] || statusStyle.waiting;
-            const canMarkNoShow = t.status === "waiting" || t.status === "called";
-            const aheadOfT = t.status === "waiting" ? tickets.filter((o) => o.assignedDoctorId === t.assignedDoctorId && o.status === "waiting" && o.createdAt < t.createdAt).length : 0;
-            const waMessage = t.status === "called"
-              ? `Hi ${t.patientName || "there"}, it's your turn now — please head to ${doc ? doc.room : "the counter"} at Sunrise Clinic.`
-              : aheadOfT === 0 ? `Hi ${t.patientName || "there"}, you're next in line for ${doc ? doc.name : "your doctor"} at Sunrise Clinic.`
-              : `Hi ${t.patientName || "there"}, your token ${t.code} is #${aheadOfT + 1} in line for ${doc ? doc.name : "your doctor"} at Sunrise Clinic.`;
-            const link = waLink(t.phone, waMessage);
-            return (
-              <div key={t.id} className="px-3 py-2 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="f-mono text-sm" style={{ color: INK }}>{t.code}</span>
-                  <div>
-                    <p className="" style={{ fontSize: "11px", color: INK }}>{t.patientName || "—"}</p>
-                    <p className="" style={{ fontSize: "10px", color: MUTED }}>{doc ? `${doc.room} · ${doc.name}` : "Unassigned"}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-medium" style={{ fontSize: "10px", color: st.color }}>{st.label}</span>
-                  {link && <a href={link} target="_blank" rel="noopener noreferrer"
-                    onClick={() => markNotified(t.id, t.status === "called" ? "called" : (aheadOfT === 0 ? "next" : t.notifiedStage))}
-                    className="rounded-md px-1.5 py-0.5 font-medium border" style={{ fontSize: "9px", borderColor: "#25D366", color: "#128C7E" }}>💬</a>}
-                  {canMarkNoShow && <button onClick={() => markNoShow(t.id)} className="rounded-md px-1.5 py-0.5 font-medium border" style={{ fontSize: "9px", borderColor: LINE, color: RED }}>No-show</button>}
-                </div>
+        <div className="rounded-xl border divide-y max-h-96 overflow-y-auto" style={{ borderColor: LINE }}>
+          {listedTickets.length === 0 && <p className="text-xs text-center py-3" style={{ color: MUTED }}>No tickets.<\/p>}
+          {listedTickets.map((t) => (
+            <div key={t.id} className="px-3 py-2 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="f-mono text-sm" style={{ color: INK }}>{t.code}<\/span>
+                <div><p style={{ fontSize: "11px", color: INK }}>{t.patientName || "—"}<\/p></div>
               </div>
-            );
-          })}
+              <div className="flex items-center gap-1.5">
+                <button onClick={() => markNoShow(t.id)} className="rounded-md px-1.5 py-0.5 font-medium border" style={{ fontSize: "9px", borderColor: LINE, color: RED }}>No-show<\/button>
+              </div>
+            </div>
+          ))}
         </div>
-        <p className="f-mono uppercase tracking-wide mt-4" style={{ fontSize: "10px", color: MUTED }}>Rooms</p>
+        <p className="f-mono uppercase tracking-wide mt-4" style={{ fontSize: "10px", color: MUTED }}>Rooms<\/p>
         {doctors.map((doc) => {
           const current = tickets.find((t) => t.assignedDoctorId === doc.id && t.status === "called");
-          const waitingForDoc = tickets.filter((t) => t.assignedDoctorId === doc.id && t.status === "waiting").sort((a, b) => a.createdAt - b.createdAt);
+          const waitingForDoc = tickets.filter((t) => t.assignedDoctorId === doc.id && t.status === "waiting");
           return (
-            <div key={doc.id} className="rounded-xl border px-3 py-3" style={{ borderColor: current ? RED : LINE, backgroundColor: current ? "#FBEEEC" : "#FFF" }}>
-              <p className="text-sm font-medium" style={{ color: INK }}>{doc.room} — {doc.name}</p>
-              <p className="" style={{ fontSize: "10px", color: MUTED }}>{waitingForDoc.length} waiting for this doctor</p>
+            <div key={doc.id} className="rounded-xl border px-3 py-3 mt-2" style={{ borderColor: current ? RED : LINE }}>
+              <p className="text-sm font-medium" style={{ color: INK }}>{doc.room} — {doc.name}<\/p>
+              <p style={{ fontSize: "10px", color: MUTED }}>{waitingForDoc.length} waiting<\/p>
               {current ? (
-                <div className="mt-2 flex items-center justify-between">
-                  <span className="" style={{ fontSize: "11px", color: RED }}>In consultation — {current.code} ({current.patientName || "no name"})</span>
-                  <button onClick={() => markNoShow(current.id)} className="rounded-lg px-2 py-1 font-medium border" style={{ fontSize: "10px", borderColor: LINE, color: INK }}>Mark no-show</button>
-                </div>
-              ) : waitingForDoc.length > 0 ? (
+                <p style={{ fontSize: "11px", color: RED, marginTop: "8px" }}>In consultation — {current.code}<\/p>
+              ) : (
                 <button onClick={() => callNext(doc)} className="mt-2 w-full rounded-lg py-2 text-xs font-medium text-white" style={{ backgroundColor: GREEN }}>
-                  Call next — {waitingForDoc[0].code} ({waitingForDoc[0].patientName || "no name"})
-                </button>
-              ) : <p className="mt-2" style={{ fontSize: "11px", color: MUTED }}>No one waiting for this doctor.</p>}
+                  Call next {waitingForDoc.length > 0 ? `— ${waitingForDoc[0].code}` : ""}
+                <\/button>
+              )}
             </div>
           );
         })}
@@ -482,7 +363,6 @@ function StaffFlow({ doctors, tickets, updateTickets }) {
   );
 }
 
-// --- Doctor -------------------------------------------------------------
 function DoctorFlow({ doctors, tickets, updateTickets }) {
   const [docId, setDocId] = useState(doctors[0]?.id || null);
   const [diagnosis, setDiagnosis] = useState("");
@@ -491,95 +371,54 @@ function DoctorFlow({ doctors, tickets, updateTickets }) {
 
   const complete = () => {
     if (!diagnosis.trim()) return;
-    updateTickets((fresh) => fresh.map((t) => t.id === current.id ? { ...t, status: "served", diagnosis: diagnosis.trim(), completedAt: Date.now(), closedAt: Date.now() } : t));
+    updateTickets((fresh) => fresh.map((t) => t.id === current.id ? { ...t, status: "served", diagnosis: diagnosis.trim() } : t));
     setDiagnosis("");
   };
 
-  const isToday = (ts) => ts && new Date(ts).toDateString() === new Date().toDateString();
-  const waitingForDoc = doc ? tickets.filter((t) => t.assignedDoctorId === doc.id && t.status === "waiting").length : 0;
-  const completedToday = doc ? tickets.filter((t) => t.assignedDoctorId === doc.id && t.status === "served" && isToday(t.completedAt)).length : 0;
-  const noShowToday = doc ? tickets.filter((t) => t.assignedDoctorId === doc.id && t.status === "no_show" && isToday(t.closedAt)).length : 0;
-  const history = current && current.patientName
-    ? tickets.filter((t) => t.id !== current.id && t.status === "served" && (t.patientName || "").trim().toLowerCase() === current.patientName.trim().toLowerCase())
-        .sort((a, b) => (b.completedAt || 0) - (a.completedAt || 0))
-    : [];
-
-  if (!doc) return <Centered><p className="text-xs" style={{ color: MUTED }}>No doctors configured yet.</p></Centered>;
+  if (!doc) return <Centered><p className="text-xs" style={{ color: MUTED }}>No doctors configured.<\/p><\/Centered>;
 
   return (
     <div className="flex-1 flex flex-col">
       <div className="px-4 pt-4 pb-3" style={{ backgroundColor: BLUE }}>
-        <p className="text-white/60 f-mono" style={{ fontSize: "10px" }}>DOCTOR VIEW</p>
+        <p className="text-white/60 f-mono" style={{ fontSize: "10px" }}>DOCTOR VIEW<\/p>
         <select value={docId} onChange={(e) => setDocId(e.target.value)} className="text-white text-base font-medium bg-transparent mt-0.5 outline-none">
-          {doctors.map((d) => <option key={d.id} value={d.id} style={{ color: INK }}>{d.name} — {d.room}</option>)}
-        </select>
-      </div>
-      <div className="px-4 pt-3 grid grid-cols-3 gap-2">
-        <div className="rounded-xl border p-2.5 text-center" style={{ borderColor: LINE }}><p className="f-display text-lg" style={{ color: INK }}>{waitingForDoc}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>Waiting</p></div>
-        <div className="rounded-xl border p-2.5 text-center" style={{ borderColor: LINE }}><p className="f-display text-lg" style={{ color: GREEN }}>{completedToday}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>Completed today</p></div>
-        <div className="rounded-xl border p-2.5 text-center" style={{ borderColor: LINE }}><p className="f-display text-lg" style={{ color: RED }}>{noShowToday}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>No-shows</p></div>
+          {doctors.map((d) => <option key={d.id} value={d.id} style={{ color: INK }}>{d.name} — {d.room}<\/option>)}
+        <\/select>
       </div>
       {!current ? (
-        <Centered><p className="text-2xl">🩺</p><p className="text-sm mt-3" style={{ color: INK }}>No patient in {doc.room} right now</p><p className="mt-1" style={{ fontSize: "11px", color: MUTED }}>Staff will call the next patient here</p></Centered>
+        <Centered><p className="text-2xl">🩺<\/p><p className="text-sm mt-3" style={{ color: INK }}>No patient in {doc.room}<\/p><\/Centered>
       ) : (
-        <div className="flex-1 flex flex-col overflow-y-auto">
-          <div className="px-4 pt-4">
-            <p className="f-mono tracking-widest" style={{ fontSize: "11px", color: MUTED }}>CURRENT PATIENT</p>
-            <p className="f-display text-4xl mt-1" style={{ color: INK }}>{current.code}</p>
-            <div className="mt-3 flex gap-4">
-              {current.patientName && <div><p className="" style={{ fontSize: "10px", color: MUTED }}>Name</p><p className="text-sm font-medium" style={{ color: INK }}>{current.patientName}</p></div>}
-              {current.weight && <div><p className="" style={{ fontSize: "10px", color: MUTED }}>Weight</p><p className="text-sm font-medium" style={{ color: INK }}>{current.weight} kg</p></div>}
-            </div>
+        <div className="flex-1 flex flex-col overflow-y-auto p-4">
+          <p className="f-mono tracking-widest" style={{ fontSize: "11px", color: MUTED }}>CURRENT PATIENT<\/p>
+          <p className="f-display text-4xl mt-1" style={{ color: INK }}>{current.code}<\/p>
+          <div className="mt-3 flex gap-4">
+            {current.patientName && <div><p style={{ fontSize: "10px", color: MUTED }}>Name<\/p><p className="text-sm font-medium" style={{ color: INK }}>{current.patientName}<\/p><\/div>}
+            {current.weight && <div><p style={{ fontSize: "10px", color: MUTED }}>Weight<\/p><p className="text-sm font-medium" style={{ color: INK }}>{current.weight} kg<\/p><\/div>}
           </div>
-          {current.patientName && (
-            <div className="px-4 pt-3">
-              <p className="f-mono uppercase tracking-wide" style={{ fontSize: "11px", color: MUTED }}>Visit history</p>
-              {history.length === 0 ? <p className="mt-1" style={{ fontSize: "11px", color: MUTED }}>No previous visits on record for {current.patientName}.</p> : (
-                <div className="mt-1 rounded-xl border divide-y max-h-28 overflow-y-auto" style={{ borderColor: LINE }}>
-                  {history.map((h) => {
-                    const hDoc = doctors.find((d) => d.id === h.assignedDoctorId);
-                    return (
-                      <div key={h.id} className="px-3 py-2">
-                        <div className="flex items-center justify-between">
-                          <span className="font-medium" style={{ fontSize: "10px", color: INK }}>{h.completedAt ? new Date(h.completedAt).toLocaleDateString([], { month: "short", day: "numeric" }) : "—"}</span>
-                          <span className="" style={{ fontSize: "9px", color: MUTED }}>{hDoc ? hDoc.name : "Unknown doctor"}</span>
-                        </div>
-                        <p className="mt-0.5" style={{ fontSize: "11px", color: INK }}>{h.diagnosis || "—"}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
-          <div className="px-4 pt-3 flex-1">
-            <p className="f-mono uppercase tracking-wide" style={{ fontSize: "11px", color: MUTED }}>Diagnosis / notes <span style={{ color: RED }}>*required to close visit</span></p>
-            <textarea value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} rows={4} placeholder="Add diagnosis, prescription notes, follow-up plan…"
-              className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none resize-none" style={{ borderColor: LINE, color: INK }} />
+          <div className="mt-4">
+            <p className="f-mono uppercase tracking-wide" style={{ fontSize: "11px", color: MUTED }}>Diagnosis / notes<\/p>
+            <textarea value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} rows={4} placeholder="Add diagnosis..." className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none resize-none" style={{ borderColor: LINE, color: INK }} />
           </div>
-          <div className="px-4 pb-4">
-            <button onClick={complete} disabled={!diagnosis.trim()} className="w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: BLUE, opacity: !diagnosis.trim() ? 0.4 : 1 }}>Close visit</button>
-            {!diagnosis.trim() && <p className="text-center mt-1.5" style={{ fontSize: "10px", color: MUTED }}>Enter a diagnosis to close this token</p>}
-          </div>
+          <button onClick={complete} disabled={!diagnosis.trim()} className="mt-4 w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: BLUE, opacity: !diagnosis.trim() ? 0.4 : 1 }}>
+            Close visit
+          <\/button>
         </div>
       )}
     </div>
   );
 }
 
-// --- Owner --------------------------------------------------------------
 function OwnerFlow({ doctors, saveDoctors, tickets, resetTickets }) {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [collect, setCollect] = useState(false);
-  const [confirmingReset, setConfirmingReset] = useState(false);
 
   const addDoctor = () => {
     if (!name.trim() || !room.trim()) return;
     saveDoctors([...doctors, { id: uid("doc"), name: name.trim(), room: room.trim(), collectDetails: collect }]);
     setName(""); setRoom(""); setCollect(false);
   };
-  const toggleCollect = (id) => saveDoctors(doctors.map((d) => d.id === id ? { ...d, collectDetails: !d.collectDetails } : d));
+
   const removeDoctor = (id) => saveDoctors(doctors.filter((d) => d.id !== id));
   const servedToday = tickets.filter((t) => t.status === "served").length;
   const waitingNow = tickets.filter((t) => t.status === "waiting").length;
@@ -588,36 +427,19 @@ function OwnerFlow({ doctors, saveDoctors, tickets, resetTickets }) {
     <div className="flex-1 flex flex-col">
       <Header eyebrow="OWNER · SUNRISE CLINIC" title="Doctors & rooms" />
       <div className="px-4 pt-3 grid grid-cols-2 gap-2">
-        <div className="rounded-xl border p-2.5" style={{ borderColor: LINE }}><p className="f-display text-xl" style={{ color: INK }}>{waitingNow}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>Waiting now</p></div>
-        <div className="rounded-xl border p-2.5" style={{ borderColor: LINE }}><p className="f-display text-xl" style={{ color: INK }}>{servedToday}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>Served today</p></div>
-      </div>
-      <div className="px-4 pt-2">
-        {confirmingReset ? (
-          <div className="rounded-xl border px-3 py-2.5 flex items-center justify-between" style={{ borderColor: RED, backgroundColor: "#FBEEEC" }}>
-            <span className="" style={{ fontSize: "11px", color: RED }}>Clear all tokens? Can't be undone.</span>
-            <div className="flex gap-1.5">
-              <button onClick={() => setConfirmingReset(false)} className="rounded-lg px-2 py-1 font-medium border" style={{ fontSize: "11px", borderColor: LINE, color: INK }}>Cancel</button>
-              <button onClick={() => { resetTickets(); setConfirmingReset(false); }} className="rounded-lg px-2 py-1 font-medium text-white" style={{ fontSize: "11px", backgroundColor: RED }}>Clear all</button>
-            </div>
-          </div>
-        ) : <button onClick={() => setConfirmingReset(true)} className="font-medium underline" style={{ fontSize: "11px", color: MUTED }}>Reset all tokens (clear demo/test data)</button>}
+        <div className="rounded-xl border p-2.5" style={{ borderColor: LINE }}><p className="f-display text-xl" style={{ color: INK }}>{waitingNow}<\/p><p style={{ fontSize: "10px", color: MUTED }}>Waiting<\/p><\/div>
+        <div className="rounded-xl border p-2.5" style={{ borderColor: LINE }}><p className="f-display text-xl" style={{ color: INK }}>{servedToday}<\/p><p style={{ fontSize: "10px", color: MUTED }}>Served<\/p><\/div>
       </div>
       <div className="px-4 pt-3 space-y-2 flex-1 overflow-y-auto">
         {doctors.map((d) => (
           <div key={d.id} className="rounded-xl border px-3 py-3" style={{ borderColor: LINE }}>
             <div className="flex items-center justify-between">
-              <div><p className="text-sm font-medium" style={{ color: INK }}>{d.name}</p><p className="" style={{ fontSize: "11px", color: MUTED }}>{d.room}</p></div>
-              <button onClick={() => removeDoctor(d.id)} style={{ color: MUTED }}>🗑</button>
+              <div><p className="text-sm font-medium" style={{ color: INK }}>{d.name}<\/p><p style={{ fontSize: "11px", color: MUTED }}>{d.room}<\/p><\/div>
+              <button onClick={() => removeDoctor(d.id)} style={{ color: MUTED }}>🗑<\/button>
             </div>
-            <button onClick={() => toggleCollect(d.id)} className="mt-2 flex items-center gap-2">
-              <div className="w-8 h-5 rounded-full relative" style={{ backgroundColor: d.collectDetails ? BLUE : LINE }}>
-                <div className="w-4 h-4 rounded-full bg-white absolute top-0.5" style={{ left: d.collectDetails ? 16 : 2 }} />
-              </div>
-              <span className="" style={{ fontSize: "11px", color: INK }}>Also collect weight at check-in (name is always collected)</span>
-            </button>
           </div>
         ))}
-        {doctors.length === 0 && <p className="text-xs text-center mt-4" style={{ color: MUTED }}>No doctors yet — add one below.</p>}
+        {doctors.length === 0 && <p className="text-xs text-center mt-4" style={{ color: MUTED }}>No doctors yet.<\/p>}
       </div>
       <div className="px-4 pb-4 border-t pt-3" style={{ borderColor: LINE }}>
         <div className="flex gap-2">
@@ -626,15 +448,16 @@ function OwnerFlow({ doctors, saveDoctors, tickets, resetTickets }) {
         </div>
         <label className="flex items-center gap-2 mt-2">
           <input type="checkbox" checked={collect} onChange={(e) => setCollect(e.target.checked)} />
-          <span className="" style={{ fontSize: "11px", color: INK }}>This doctor also wants weight collected</span>
-        </label>
-        <button onClick={addDoctor} className="mt-2 w-full rounded-xl py-2.5 text-sm font-medium text-white" style={{ backgroundColor: INK }}>+ Add doctor</button>
+          <span style={{ fontSize: "11px", color: INK }}>Collect weight<\/span>
+        <\/label>
+        <button onClick={addDoctor} className="mt-2 w-full rounded-xl py-2.5 text-sm font-medium text-white" style={{ backgroundColor: INK }}>+ Add doctor<\/button>
+        <button onClick={() => resetTickets()} className="mt-2 w-full rounded-xl py-2.5 text-sm font-medium border" style={{ borderColor: RED, color: RED }}>Clear all tokens<\/button>
       </div>
     </div>
   );
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-</script>
+<\/script>
 </body>
 </html>
