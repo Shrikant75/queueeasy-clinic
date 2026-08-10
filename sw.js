@@ -4,7 +4,7 @@
 // inside Claude's sandboxed artifact preview. Host these files anywhere
 // (Vercel, Netlify, GitHub Pages, even `npx serve .`) and it works.
 
-const CACHE_NAME = "queueeasy-clinic-v1";
+const CACHE_NAME = "Queueeasy";
 const APP_SHELL = ["./", "./index.html", "./manifest.json", "./icon.svg"];
 
 self.addEventListener("install", (event) => {
