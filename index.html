@@ -2,359 +2,229 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>QueueEasy Clinic</title>
-<meta name="description" content="Token queue, doctor rooms, and diagnosis tracking for walk-in clinics." />
+<meta name="description" content="Clinic queue management system" />
 <meta name="theme-color" content="#211E1B" />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" href="./icon.svg" type="image/svg+xml" />
-<link rel="apple-touch-icon" href="./icon.svg" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"><\/script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"><\/script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>
 <style>
-  body { font-family: 'IBM Plex Sans', sans-serif; }
-  .f-display { font-family: 'Space Grotesk', sans-serif; }
-  .f-mono { font-family: 'IBM Plex Mono', monospace; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #EDE8DC; color: #211E1B; }
+#root { width: 100vw; height: 100vh; }
+.container { max-width: 600px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; }
+.header { background: #211E1B; color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+.header h1 { font-size: 20px; margin-bottom: 10px; }
+.header p { font-size: 12px; opacity: 0.7; }
+.tabs { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+.tab-btn { padding: 10px; border: none; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+.tab-btn.active { background: #C98A2B; color: white; }
+.tab-btn.inactive { background: white; color: #211E1B; border: 1px solid #E2DCCB; }
+.content { flex: 1; background: white; border-radius: 12px; padding: 20px; border: 1px solid #E2DCCB; overflow-y: auto; }
+.section { margin-bottom: 20px; }
+.section-title { font-size: 11px; color: #8A8375; font-weight: 700; letter-spacing: 0.8px; margin-bottom: 10px; text-transform: uppercase; }
+input, textarea, select { width: 100%; padding: 10px; border: 1px solid #E2DCCB; border-radius: 8px; font-size: 14px; margin-bottom: 10px; font-family: inherit; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: #C98A2B; }
+.btn { padding: 12px 16px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+.btn-primary { background: #C98A2B; color: white; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-secondary { background: white; color: #211E1B; border: 1px solid #E2DCCB; }
+.btn-danger { background: #B23A2E; color: white; }
+.btn-success { background: #2F4B3C; color: white; }
+.btn-info { background: #3A5A78; color: white; }
+.list-item { padding: 12px; border: 1px solid #E2DCCB; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+.list-item-info { flex: 1; }
+.list-item-code { font-size: 18px; font-weight: 700; color: #C98A2B; margin-bottom: 4px; }
+.list-item-name { font-size: 14px; color: #211E1B; }
+.list-item-meta { font-size: 11px; color: #8A8375; }
+.status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+.status-waiting { background: #FBF2E3; color: #C98A2B; }
+.status-called { background: #FBEEEC; color: #B23A2E; }
+.status-served { background: #EAF9F0; color: #2F4B3C; }
+.alert { padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 12px; }
+.alert-warning { background: #FBF2E3; color: #C98A2B; border: 1px solid #E2DCCB; }
+.center { text-align: center; }
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mb-1 { margin-bottom: 8px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 </style>
 </head>
-<body style="background-color:#EDE8DC; margin:0;">
-<div id="root"><\/div>
-<script>
-  window.__swStatus = { state: "pending" };
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js")
-        .then(() => { window.__swStatus = { state: "ok" }; })
-        .catch((err) => {
-          const isAppBoundRestriction = /app-bound domain/i.test(String(err));
-          window.__swStatus = {
-            state: "failed",
-            appBound: isAppBoundRestriction,
-            message: String(err),
-          };
-          console.warn("Service worker registration failed:", err);
-        });
-    });
-  } else {
-    window.__swStatus = { state: "unsupported" };
-  }
-<\/script>
-<script type="text/babel" data-presets="react">
+<body>
+<div id="root"></div>
+<script type="text/babel">
 const { useState, useEffect } = React;
-const INK = "#211E1B", PAPER = "#F6F3EC", LINE = "#E2DCCB", MUTED = "#8A8375";
-const AMBER = "#C98A2B", GREEN = "#2F4B3C", BLUE = "#3A5A78", RED = "#B23A2E";
-const DOCTORS_KEY = "queueeasy_doctors";
-const TICKETS_KEY = "queueeasy_tickets";
-const MY_TICKET_KEY = "queueeasy_my_ticket";
-
-function defaultDoctors() {
-  return [
-    { id: "doc-1", name: "Dr. Mehta", room: "Room 1", collectDetails: true },
-    { id: "doc-2", name: "Dr. Rao", room: "Room 2", collectDetails: false },
-  ];
-}
-function uid(p) { return `${p}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`; }
-
-function loadDoctors() {
-  try {
-    const raw = localStorage.getItem(DOCTORS_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch (e) {}
-  const def = defaultDoctors();
-  try { localStorage.setItem(DOCTORS_KEY, JSON.stringify(def)); } catch (e) {}
-  return def;
-}
-function persistDoctors(list) { try { localStorage.setItem(DOCTORS_KEY, JSON.stringify(list)); } catch (e) {} }
-
-function loadTickets() {
-  try {
-    const raw = localStorage.getItem(TICKETS_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch (e) {}
-  return [];
-}
-function persistTickets(list) { try { localStorage.setItem(TICKETS_KEY, JSON.stringify(list)); } catch (e) {} }
-
-function loadMyTicket() {
-  try { return JSON.parse(localStorage.getItem(MY_TICKET_KEY) || "null"); } catch (e) { return null; }
-}
-function persistMyTicket(id) { try { localStorage.setItem(MY_TICKET_KEY, JSON.stringify(id)); } catch (e) {} }
-
-function waLink(phone, message) {
-  if (!phone) return null;
-  const digits = phone.replace(/[^0-9]/g, "");
-  if (!digits) return null;
-  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
-}
 
 function App() {
   const [role, setRole] = useState("patient");
-  const [doctors, setDoctors] = useState(() => loadDoctors());
-  const [tickets, setTickets] = useState(() => loadTickets());
-  const [myTicketId, setMyTicketId] = useState(() => loadMyTicket());
-  const [swStatus, setSwStatus] = useState(null);
-  const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [doctors, setDoctors] = useState([
+    { id: "1", name: "Dr. Mehta", room: "Room 1" },
+    { id: "2", name: "Dr. Rao", room: "Room 2" }
+  ]);
+  const [tickets, setTickets] = useState([]);
+  const [myTicketId, setMyTicketId] = useState(null);
 
-  useEffect(() => {
-    const onStorage = (e) => {
-      if (e.key === TICKETS_KEY) setTickets(loadTickets());
-      if (e.key === DOCTORS_KEY) setDoctors(loadDoctors());
-      if (e.key === MY_TICKET_KEY) setMyTicketId(loadMyTicket());
-    };
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, []);
-
-  useEffect(() => {
-    const check = () => {
-      if (window.__swStatus && window.__swStatus.state !== "pending") {
-        setSwStatus(window.__swStatus);
-        return true;
-      }
-      return false;
-    };
-    if (check()) return;
-    const interval = setInterval(() => { if (check()) clearInterval(interval); }, 300);
-    return () => clearInterval(interval);
-  }, []);
-
-  const saveDoctors = (next) => { setDoctors(next); persistDoctors(next); };
-  const updateTickets = (updater) => {
-    const fresh = loadTickets();
-    const next = updater(fresh);
-    setTickets(next);
-    persistTickets(next);
-    return next;
-  };
-  const resetTickets = () => { setTickets([]); persistTickets([]); };
-  const saveMyTicket = (id) => { setMyTicketId(id); persistMyTicket(id); };
-  const accent = role === "patient" ? AMBER : role === "staff" ? GREEN : role === "doctor" ? BLUE : INK;
+  const updateTickets = (fn) => setTickets(fn(tickets));
+  const addTicket = (ticket) => setTickets([...tickets, ticket]);
 
   return (
-    <div className="min-h-screen w-full flex flex-col" style={{ backgroundColor: "#EDE8DC" }}>
-      <div className="max-w-md mx-auto w-full flex-1 flex flex-col">
-        {swStatus && swStatus.state === "failed" && swStatus.appBound && !bannerDismissed && (
-          <div className="mx-4 mt-3 rounded-xl border px-3 py-2.5" style={{ borderColor: "#C98A2B", backgroundColor: "#FBF2E3" }}>
-            <div className="flex items-start justify-between gap-2">
-              <p style={{ fontSize: "11px", color: "#211E1B" }}>
-                <strong>App preview limitation</strong> - Service workers disabled here. Visit the hosted URL directly to test PWA features.
-              </p>
-              <button onClick={() => setBannerDismissed(true)} style={{ color: MUTED, fontSize: "14px" }}>×<\/button>
-            </div>
-          </div>
-        )}
-        <div className="px-4 pt-4">
-          <p className="f-mono tracking-widest text-center" style={{ fontSize: "9px", color: MUTED }}>QUEUEEASY CLINIC · PWA DEMO<\/p>
-          <div className="flex gap-1.5 mt-2">
-            {["patient", "staff", "doctor", "owner"].map((r) => (
-              <button key={r} onClick={() => setRole(r)} className="flex-1 rounded-full py-2 font-medium capitalize" style={{ fontSize: "11px", ...(role === r ? { backgroundColor: r === "patient" ? AMBER : r === "staff" ? GREEN : r === "doctor" ? BLUE : INK, color: "#FFF" } : { backgroundColor: "#FFF", color: INK, border: `1px solid ${LINE}` }) }}>
-                {r}
-              <\/button>
-            ))}
-          </div>
-        </div>
-        <div className="flex-1 mx-4 mt-3 mb-6 rounded-3xl overflow-hidden border shadow-lg flex flex-col" style={{ borderColor: LINE, backgroundColor: "#FFF", minHeight: 600 }}>
-          {role === "patient" && <PatientFlow doctors={doctors} tickets={tickets} updateTickets={updateTickets} myTicketId={myTicketId} saveMyTicket={saveMyTicket} />}
-          {role === "staff" && <StaffFlow doctors={doctors} tickets={tickets} updateTickets={updateTickets} />}
-          {role === "doctor" && <DoctorFlow doctors={doctors} tickets={tickets} updateTickets={updateTickets} />}
-          {role === "owner" && <OwnerFlow doctors={doctors} saveDoctors={saveDoctors} tickets={tickets} resetTickets={resetTickets} />}
-          <div className="h-1.5" style={{ backgroundColor: accent }} />
-        </div>
+    <div className="container">
+      <div className="header">
+        <h1>QueueEasy Clinic</h1>
+        <p>Token queue and doctor management system</p>
+      </div>
+
+      <div className="tabs">
+        <button 
+          className={"tab-btn " + (role === "patient" ? "active" : "inactive")}
+          onClick={() => setRole("patient")}
+        >Patient</button>
+        <button 
+          className={"tab-btn " + (role === "staff" ? "active" : "inactive")}
+          onClick={() => setRole("staff")}
+        >Staff</button>
+        <button 
+          className={"tab-btn " + (role === "doctor" ? "active" : "inactive")}
+          onClick={() => setRole("doctor")}
+        >Doctor</button>
+        <button 
+          className={"tab-btn " + (role === "owner" ? "active" : "inactive")}
+          onClick={() => setRole("owner")}
+        >Owner</button>
+      </div>
+
+      <div className="content">
+        {role === "patient" && <PatientView doctors={doctors} tickets={tickets} myTicketId={myTicketId} setMyTicketId={setMyTicketId} addTicket={addTicket} updateTickets={updateTickets} />}
+        {role === "staff" && <StaffView doctors={doctors} tickets={tickets} updateTickets={updateTickets} />}
+        {role === "doctor" && <DoctorView doctors={doctors} tickets={tickets} updateTickets={updateTickets} />}
+        {role === "owner" && <OwnerView doctors={doctors} setDoctors={setDoctors} tickets={tickets} setTickets={setTickets} />}
       </div>
     </div>
   );
 }
 
-function Header({ eyebrow, title, bg }) {
-  return (
-    <div className="px-4 pt-4 pb-3" style={{ backgroundColor: bg || INK }}>
-      {eyebrow && <p className="text-white/50 f-mono tracking-wide" style={{ fontSize: "10px" }}>{eyebrow}<\/p>}
-      <p className="text-white text-base font-medium">{title}<\/p>
-    </div>
-  );
-}
-function Centered({ children }) { return <div className="flex-1 flex flex-col items-center justify-center">{children}<\/div>; }
-
-function PatientFlow({ doctors, tickets, updateTickets, myTicketId, saveMyTicket }) {
-  const myTicket = tickets.find((t) => t.id === myTicketId);
-  const [step, setStep] = useState("scan");
-  const [pickedDoctor, setPickedDoctor] = useState(null);
+function PatientView({ doctors, tickets, myTicketId, setMyTicketId, addTicket, updateTickets }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [weight, setWeight] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  const [docId, setDocId] = useState(doctors[0]?.id || "");
+
+  const myTicket = tickets.find(t => t.id === myTicketId);
 
   if (myTicket && myTicket.status !== "cancelled") {
-    return <PatientTicket ticket={myTicket} tickets={tickets} doctors={doctors} updateTickets={updateTickets} saveMyTicket={saveMyTicket} />;
-  }
-
-  if (step === "scan") {
     return (
-      <div className="flex-1 flex flex-col">
-        <Header eyebrow="SCAN CLINIC QR" title="Sunrise Clinic" />
-        <div className="flex-1 flex flex-col items-center justify-center px-6">
-          <div className="w-36 h-36 rounded-2xl flex items-center justify-center border-2 border-dashed text-5xl" style={{ borderColor: LINE }}>▦<\/div>
-          <p className="text-sm mt-5 text-center" style={{ color: INK }}>Tap below to simulate scanning the clinic QR code<\/p>
-          <p className="mt-1 text-center" style={{ fontSize: "11px", color: MUTED }}>Pick your doctor and enter your name<\/p>
-          <button onClick={() => setStep("pick")} className="mt-6 w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: AMBER }}>Continue<\/button>
-        </div>
-      </div>
-    );
-  }
-
-  if (step === "pick") {
-    return (
-      <div className="flex-1 flex flex-col">
-        <Header eyebrow="SUNRISE CLINIC" title="Select your doctor" />
-        <div className="px-4 pt-4 space-y-2 flex-1 overflow-y-auto">
-          {doctors.map((d) => {
-            const waitingForDoc = tickets.filter((t) => t.assignedDoctorId === d.id && t.status === "waiting").length;
-            return (
-              <button key={d.id} onClick={() => { setPickedDoctor(d); setStep("details"); }} className="w-full flex items-center justify-between rounded-xl px-3 py-3 border text-left" style={{ borderColor: LINE }}>
-                <div>
-                  <p className="text-sm font-medium" style={{ color: INK }}>{d.name}<\/p>
-                  <p style={{ fontSize: "11px", color: MUTED }}>{d.room} · {waitingForDoc === 0 ? "No wait" : `${waitingForDoc} waiting`}<\/p>
-                </div>
-                <span style={{ color: MUTED }}>›<\/span>
-              </button>
-            );
-          })}
-          {doctors.length === 0 && <p className="text-xs text-center mt-4" style={{ color: MUTED }}>No doctors available.<\/p>}
-        </div>
-      </div>
-    );
-  }
-
-  const doc = pickedDoctor;
-  return (
-    <div className="flex-1 flex flex-col">
-      <div className="px-4 pt-4 pb-3 flex items-center gap-2" style={{ backgroundColor: INK }}>
-        <button onClick={() => setStep("pick")} className="text-white">←<\/button>
-        <p className="text-white text-sm font-medium">{doc.name} — {doc.room}<\/p>
-      </div>
-      <div className="px-4 pt-4 flex-1">
-        <p className="f-mono uppercase tracking-wide" style={{ fontSize: "11px", color: MUTED }}>Your name<\/p>
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ramesh Kumar" className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
-        <p className="f-mono uppercase tracking-wide mt-4" style={{ fontSize: "11px", color: MUTED }}>WhatsApp number (optional)<\/p>
-        <input value={phone} onChange={(e) => setPhone(e.target.value.replace(/[^0-9+]/g, ""))} placeholder="e.g. 9876543210" inputMode="tel" className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
-        {doc.collectDetails && (
-          <>
-            <p className="f-mono uppercase tracking-wide mt-4" style={{ fontSize: "11px", color: MUTED }}>Weight (kg)<\/p>
-            <input value={weight} onChange={(e) => setWeight(e.target.value.replace(/[^0-9.]/g, ""))} placeholder="e.g. 68" inputMode="decimal" className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
-            <p className="mt-2" style={{ fontSize: "11px", color: MUTED }}>{doc.name} asks for weight at check-in.<\/p>
-          </>
-        )}
-      </div>
-      <div className="px-4 pb-4">
-        <button disabled={!name.trim() || submitting} onClick={() => { if (submitting) return; setSubmitting(true); const newTicket = { id: uid("tix"), num: 0, code: "", status: "waiting", createdAt: Date.now(), assignedDoctorId: doc.id, patientName: name.trim(), phone: phone.trim(), weight: weight.trim(), diagnosis: "" }; updateTickets((fresh) => { const freshMax = fresh.filter((t) => t.status !== "cancelled").reduce((m, t) => Math.max(m, t.num || 0), 0); newTicket.num = freshMax + 1; newTicket.code = `T${freshMax + 1}`; return [...fresh, newTicket]; }); saveMyTicket(newTicket.id); setSubmitting(false); }} className="w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: AMBER, opacity: (!name.trim() || submitting) ? 0.4 : 1 }}>
-          {submitting ? "Getting your token…" : "Get my token"}
-        <\/button>
-        {!name.trim() && <p className="text-center mt-1.5" style={{ fontSize: "10px", color: MUTED }}>Enter your name to continue<\/p>}
-      </div>
-    </div>
-  );
-}
-
-function PatientTicket({ ticket, tickets, doctors, updateTickets, saveMyTicket }) {
-  const ahead = tickets.filter((t) => t.assignedDoctorId === ticket.assignedDoctorId && t.status === "waiting" && t.createdAt < ticket.createdAt).length;
-  const doctor = doctors.find((d) => d.id === ticket.assignedDoctorId);
-  const cancel = () => { updateTickets((fresh) => fresh.map((t) => t.id === ticket.id ? { ...t, status: "cancelled" } : t)); saveMyTicket(null); };
-  const startOver = () => saveMyTicket(null);
-
-  if (ticket.status === "called") {
-    return (
-      <div className="flex-1 flex flex-col" style={{ backgroundColor: RED }}>
-        <div className="px-4 pt-4 pb-3"><p className="text-white/70 f-mono" style={{ fontSize: "11px" }}>SUNRISE CLINIC<\/p><\/div>
-        <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-          <p className="text-white/80 text-xs">IT'S YOUR TURN<\/p>
-          <p className="f-display text-6xl text-white mt-2">{ticket.code}<\/p>
-          <p className="text-white mt-4 text-sm">{doctor ? `Please proceed to ${doctor.room}` : "Please proceed to the counter"}<\/p>
-        </div>
-      </div>
-    );
-  }
-  if (ticket.status === "served") {
-    return (<Centered><p className="text-sm font-medium" style={{ color: INK }}>Visit complete — token {ticket.code}<\/p><button onClick={startOver} className="mt-5 rounded-xl px-4 py-2.5 text-sm font-medium text-white" style={{ backgroundColor: AMBER }}>Get a new token<\/button><\/Centered>);
-  }
-  if (ticket.status === "no_show") {
-    return (<Centered><p className="text-sm font-medium" style={{ color: INK }}>Token {ticket.code} marked missed<\/p><button onClick={startOver} className="mt-5 rounded-xl px-4 py-2.5 text-sm font-medium text-white" style={{ backgroundColor: AMBER }}>Get a new token<\/button><\/Centered>);
-  }
-  return (
-    <div className="flex-1 flex flex-col">
-      <Header eyebrow="SUNRISE CLINIC" title="Your token" />
-      <div className="flex-1 flex flex-col items-center justify-center px-6">
-        <p className="f-mono tracking-widest" style={{ fontSize: "11px", color: MUTED }}>YOUR TOKEN<\/p>
-        <p className="f-display text-7xl mt-1" style={{ color: INK }}>{ticket.code}<\/p>
-        <div className="mt-6 w-full rounded-xl px-4 py-3 flex items-center justify-between" style={{ backgroundColor: PAPER }}>
-          <span className="text-xs" style={{ color: MUTED }}>Ahead of you<\/span>
-          <span className="text-sm font-medium" style={{ color: INK }}>{ahead === 0 ? "You're next" : `${ahead} patients`}<\/span>
-        </div>
-        <p className="mt-4 text-center" style={{ fontSize: "11px", color: MUTED }}>In queue since {new Date(ticket.createdAt).toLocaleTimeString()}<\/p>
-      </div>
-      <div className="px-4 pb-4">
-        <button onClick={cancel} className="w-full rounded-xl py-3 text-sm font-medium border" style={{ borderColor: RED, color: RED }}>Cancel token<\/button>
-      </div>
-    </div>
-  );
-}
-
-function StaffFlow({ doctors, tickets, updateTickets }) {
-  const [listFilter, setListFilter] = useState("active");
-  const waiting = tickets.filter((t) => t.status === "waiting").sort((a, b) => a.createdAt - b.createdAt);
-  const callNext = (doc) => updateTickets((fresh) => { const nextForDoc = fresh.filter((t) => t.assignedDoctorId === doc.id && t.status === "waiting").sort((a, b) => a.createdAt - b.createdAt)[0]; if (!nextForDoc) return fresh; return fresh.map((t) => t.id === nextForDoc.id ? { ...t, status: "called" } : t); });
-  const markNoShow = (id) => updateTickets((fresh) => fresh.map((t) => t.id === id ? { ...t, status: "no_show" } : t));
-  
-  const listedTickets = tickets.filter((t) => listFilter === "all" ? true : ["waiting", "called"].includes(t.status));
-  
-  return (
-    <div className="flex-1 flex flex-col">
-      <Header eyebrow="STAFF · SUNRISE CLINIC" title={`${waiting.length} waiting`} bg={GREEN} />
-      <div className="px-4 pt-3 space-y-1.5 flex-1 overflow-y-auto">
-        <div className="flex items-center justify-between">
-          <p className="f-mono uppercase tracking-wide" style={{ fontSize: "10px", color: MUTED }}>Token list<\/p>
-          <div className="flex gap-1">
-            {["active", "all"].map((f) => (
-              <button key={f} onClick={() => setListFilter(f)} className="rounded-full px-2 py-0.5 font-medium capitalize" style={{ fontSize: "10px", ...(listFilter === f ? { backgroundColor: GREEN, color: "#FFF" } : { border: `1px solid ${LINE}`, color: INK }) }}>
-                {f}
-              <\/button>
-            ))}
+      <div>
+        <div className="section">
+          <div className="list-item">
+            <div className="list-item-info">
+              <div className="list-item-code">{myTicket.code}</div>
+              <div className="list-item-name">{myTicket.patientName}</div>
+              <div className="list-item-meta">Doctor: {myTicket.doctorName}</div>
+            </div>
+            <span className={"status-badge status-" + myTicket.status}>{myTicket.status.toUpperCase()}</span>
           </div>
         </div>
-        <div className="rounded-xl border divide-y max-h-96 overflow-y-auto" style={{ borderColor: LINE }}>
-          {listedTickets.length === 0 && <p className="text-xs text-center py-3" style={{ color: MUTED }}>No tickets.<\/p>}
-          {listedTickets.map((t) => (
-            <div key={t.id} className="px-3 py-2 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="f-mono text-sm" style={{ color: INK }}>{t.code}<\/span>
-                <div><p style={{ fontSize: "11px", color: INK }}>{t.patientName || "—"}<\/p></div>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <button onClick={() => markNoShow(t.id)} className="rounded-md px-1.5 py-0.5 font-medium border" style={{ fontSize: "9px", borderColor: LINE, color: RED }}>No-show<\/button>
-              </div>
+        <button className="btn btn-primary" onClick={() => setMyTicketId(null)} style={{width: "100%"}}>Get New Token</button>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="section">
+        <div className="section-title">Your Name</div>
+        <input type="text" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} />
+      </div>
+
+      <div className="section">
+        <div className="section-title">WhatsApp (Optional)</div>
+        <input type="tel" placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value.replace(/[^0-9+]/g, ""))} />
+      </div>
+
+      <div className="section">
+        <div className="section-title">Select Doctor</div>
+        <select value={docId} onChange={(e) => setDocId(e.target.value)}>
+          {doctors.map(d => <option key={d.id} value={d.id}>{d.name} ({d.room})</option>)}
+        </select>
+      </div>
+
+      <button 
+        className="btn btn-primary" 
+        style={{width: "100%"}}
+        disabled={!name.trim()}
+        onClick={() => {
+          const ticket = {
+            id: Math.random().toString(36).slice(2),
+            code: "T" + (tickets.filter(t => t.status !== "cancelled").length + 1),
+            patientName: name.trim(),
+            phone: phone.trim(),
+            doctorId: docId,
+            doctorName: doctors.find(d => d.id === docId)?.name || "Doctor",
+            status: "waiting",
+            createdAt: new Date().toLocaleTimeString()
+          };
+          addTicket(ticket);
+          setMyTicketId(ticket.id);
+          setName("");
+          setPhone("");
+        }}
+      >Get Token</button>
+    </div>
+  );
+}
+
+function StaffView({ doctors, tickets, updateTickets }) {
+  const waiting = tickets.filter(t => t.status === "waiting");
+
+  return (
+    <div>
+      <div className="alert alert-warning">
+        <strong>{waiting.length}</strong> patients waiting
+      </div>
+
+      <div className="section">
+        <div className="section-title">Active Tickets</div>
+        {tickets.filter(t => ["waiting", "called"].includes(t.status)).map(ticket => (
+          <div key={ticket.id} className="list-item">
+            <div className="list-item-info">
+              <div className="list-item-code">{ticket.code}</div>
+              <div className="list-item-name">{ticket.patientName}</div>
+              <div className="list-item-meta">{ticket.doctorName} · {ticket.status}</div>
             </div>
-          ))}
-        </div>
-        <p className="f-mono uppercase tracking-wide mt-4" style={{ fontSize: "10px", color: MUTED }}>Rooms<\/p>
-        {doctors.map((doc) => {
-          const current = tickets.find((t) => t.assignedDoctorId === doc.id && t.status === "called");
-          const waitingForDoc = tickets.filter((t) => t.assignedDoctorId === doc.id && t.status === "waiting");
-          return (
-            <div key={doc.id} className="rounded-xl border px-3 py-3 mt-2" style={{ borderColor: current ? RED : LINE }}>
-              <p className="text-sm font-medium" style={{ color: INK }}>{doc.room} — {doc.name}<\/p>
-              <p style={{ fontSize: "10px", color: MUTED }}>{waitingForDoc.length} waiting<\/p>
-              {current ? (
-                <p style={{ fontSize: "11px", color: RED, marginTop: "8px" }}>In consultation — {current.code}<\/p>
-              ) : (
-                <button onClick={() => callNext(doc)} className="mt-2 w-full rounded-lg py-2 text-xs font-medium text-white" style={{ backgroundColor: GREEN }}>
-                  Call next {waitingForDoc.length > 0 ? `— ${waitingForDoc[0].code}` : ""}
-                <\/button>
+            <div style={{display: "flex", gap: "6px"}}>
+              {ticket.status === "waiting" && (
+                <button 
+                  className="btn btn-success" 
+                  style={{fontSize: "11px", padding: "6px 12px"}}
+                  onClick={() => updateTickets(tickets => tickets.map(t => t.id === ticket.id ? {...t, status: "called"} : t))}
+                >Call</button>
               )}
+              <button 
+                className="btn btn-danger" 
+                style={{fontSize: "11px", padding: "6px 12px"}}
+                onClick={() => updateTickets(tickets => tickets.map(t => t.id === ticket.id ? {...t, status: "no_show"} : t))}
+              >No-Show</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="section">
+        <div className="section-title">Doctors Status</div>
+        {doctors.map(doc => {
+          const waiting = tickets.filter(t => t.doctorId === doc.id && t.status === "waiting").length;
+          const current = tickets.find(t => t.doctorId === doc.id && t.status === "called");
+          return (
+            <div key={doc.id} className="list-item">
+              <div className="list-item-info">
+                <div className="list-item-name">{doc.name}</div>
+                <div className="list-item-meta">{doc.room} · {waiting} waiting</div>
+              </div>
+              <span style={{fontSize: "12px", fontWeight: "600", color: current ? "#B23A2E" : "#2F4B3C"}}>
+                {current ? "IN CONSULT" : "READY"}
+              </span>
             </div>
           );
         })}
@@ -363,101 +233,121 @@ function StaffFlow({ doctors, tickets, updateTickets }) {
   );
 }
 
-function DoctorFlow({ doctors, tickets, updateTickets }) {
-  const [docId, setDocId] = useState(doctors[0]?.id || null);
+function DoctorView({ doctors, tickets, updateTickets }) {
+  const [docId, setDocId] = useState(doctors[0]?.id || "");
   const [diagnosis, setDiagnosis] = useState("");
-  const doc = doctors.find((d) => d.id === docId) || doctors[0];
-  const current = tickets.find((t) => t.assignedDoctorId === doc?.id && t.status === "called");
 
-  const complete = () => {
-    if (!diagnosis.trim()) return;
-    updateTickets((fresh) => fresh.map((t) => t.id === current.id ? { ...t, status: "served", diagnosis: diagnosis.trim() } : t));
-    setDiagnosis("");
-  };
+  const current = tickets.find(t => t.doctorId === docId && t.status === "called");
 
-  if (!doc) return <Centered><p className="text-xs" style={{ color: MUTED }}>No doctors configured.<\/p><\/Centered>;
+  if (!current) {
+    return (
+      <div className="center">
+        <p style={{fontSize: "32px", marginBottom: "12px"}}>🩺</p>
+        <p>No patient currently in consultation</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex-1 flex flex-col">
-      <div className="px-4 pt-4 pb-3" style={{ backgroundColor: BLUE }}>
-        <p className="text-white/60 f-mono" style={{ fontSize: "10px" }}>DOCTOR VIEW<\/p>
-        <select value={docId} onChange={(e) => setDocId(e.target.value)} className="text-white text-base font-medium bg-transparent mt-0.5 outline-none">
-          {doctors.map((d) => <option key={d.id} value={d.id} style={{ color: INK }}>{d.name} — {d.room}<\/option>)}
-        <\/select>
+    <div>
+      <div className="section">
+        <div className="section-title">Select Doctor</div>
+        <select value={docId} onChange={(e) => setDocId(e.target.value)}>
+          {doctors.map(d => <option key={d.id} value={d.id}>{d.name} ({d.room})</option>)}
+        </select>
       </div>
-      {!current ? (
-        <Centered><p className="text-2xl">🩺<\/p><p className="text-sm mt-3" style={{ color: INK }}>No patient in {doc.room}<\/p><\/Centered>
-      ) : (
-        <div className="flex-1 flex flex-col overflow-y-auto p-4">
-          <p className="f-mono tracking-widest" style={{ fontSize: "11px", color: MUTED }}>CURRENT PATIENT<\/p>
-          <p className="f-display text-4xl mt-1" style={{ color: INK }}>{current.code}<\/p>
-          <div className="mt-3 flex gap-4">
-            {current.patientName && <div><p style={{ fontSize: "10px", color: MUTED }}>Name<\/p><p className="text-sm font-medium" style={{ color: INK }}>{current.patientName}<\/p><\/div>}
-            {current.weight && <div><p style={{ fontSize: "10px", color: MUTED }}>Weight<\/p><p className="text-sm font-medium" style={{ color: INK }}>{current.weight} kg<\/p><\/div>}
+
+      {current && (
+        <div className="section">
+          <div style={{background: "#F6F3EC", padding: "16px", borderRadius: "8px", marginBottom: "12px"}}>
+            <div style={{fontSize: "24px", fontWeight: "700", color: "#C98A2B", marginBottom: "8px"}}>{current.code}</div>
+            <div className="list-item-name">{current.patientName}</div>
           </div>
-          <div className="mt-4">
-            <p className="f-mono uppercase tracking-wide" style={{ fontSize: "11px", color: MUTED }}>Diagnosis / notes<\/p>
-            <textarea value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} rows={4} placeholder="Add diagnosis..." className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none resize-none" style={{ borderColor: LINE, color: INK }} />
-          </div>
-          <button onClick={complete} disabled={!diagnosis.trim()} className="mt-4 w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: BLUE, opacity: !diagnosis.trim() ? 0.4 : 1 }}>
-            Close visit
-          <\/button>
+
+          <div className="section-title">Diagnosis / Notes</div>
+          <textarea 
+            rows="5" 
+            placeholder="Enter diagnosis and notes..." 
+            value={diagnosis} 
+            onChange={(e) => setDiagnosis(e.target.value)}
+          />
+
+          <button 
+            className="btn btn-success" 
+            style={{width: "100%"}}
+            disabled={!diagnosis.trim()}
+            onClick={() => {
+              updateTickets(tickets => tickets.map(t => t.id === current.id ? {...t, status: "served", diagnosis: diagnosis.trim()} : t));
+              setDiagnosis("");
+            }}
+          >Complete Visit</button>
         </div>
       )}
     </div>
   );
 }
 
-function OwnerFlow({ doctors, saveDoctors, tickets, resetTickets }) {
+function OwnerView({ doctors, setDoctors, tickets, setTickets }) {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
-  const [collect, setCollect] = useState(false);
-
-  const addDoctor = () => {
-    if (!name.trim() || !room.trim()) return;
-    saveDoctors([...doctors, { id: uid("doc"), name: name.trim(), room: room.trim(), collectDetails: collect }]);
-    setName(""); setRoom(""); setCollect(false);
-  };
-
-  const removeDoctor = (id) => saveDoctors(doctors.filter((d) => d.id !== id));
-  const servedToday = tickets.filter((t) => t.status === "served").length;
-  const waitingNow = tickets.filter((t) => t.status === "waiting").length;
 
   return (
-    <div className="flex-1 flex flex-col">
-      <Header eyebrow="OWNER · SUNRISE CLINIC" title="Doctors & rooms" />
-      <div className="px-4 pt-3 grid grid-cols-2 gap-2">
-        <div className="rounded-xl border p-2.5" style={{ borderColor: LINE }}><p className="f-display text-xl" style={{ color: INK }}>{waitingNow}<\/p><p style={{ fontSize: "10px", color: MUTED }}>Waiting<\/p><\/div>
-        <div className="rounded-xl border p-2.5" style={{ borderColor: LINE }}><p className="f-display text-xl" style={{ color: INK }}>{servedToday}<\/p><p style={{ fontSize: "10px", color: MUTED }}>Served<\/p><\/div>
+    <div>
+      <div className="grid-2">
+        <div style={{background: "#F6F3EC", padding: "12px", borderRadius: "8px", textAlign: "center"}}>
+          <div style={{fontSize: "24px", fontWeight: "700", color: "#211E1B"}}>{tickets.filter(t => t.status === "waiting").length}</div>
+          <div style={{fontSize: "11px", color: "#8A8375"}}>Waiting</div>
+        </div>
+        <div style={{background: "#F6F3EC", padding: "12px", borderRadius: "8px", textAlign: "center"}}>
+          <div style={{fontSize: "24px", fontWeight: "700", color: "#211E1B"}}>{tickets.filter(t => t.status === "served").length}</div>
+          <div style={{fontSize: "11px", color: "#8A8375"}}>Completed</div>
+        </div>
       </div>
-      <div className="px-4 pt-3 space-y-2 flex-1 overflow-y-auto">
-        {doctors.map((d) => (
-          <div key={d.id} className="rounded-xl border px-3 py-3" style={{ borderColor: LINE }}>
-            <div className="flex items-center justify-between">
-              <div><p className="text-sm font-medium" style={{ color: INK }}>{d.name}<\/p><p style={{ fontSize: "11px", color: MUTED }}>{d.room}<\/p><\/div>
-              <button onClick={() => removeDoctor(d.id)} style={{ color: MUTED }}>🗑<\/button>
+
+      <div className="section mt-2">
+        <div className="section-title">Manage Doctors</div>
+        {doctors.map(doc => (
+          <div key={doc.id} className="list-item">
+            <div className="list-item-info">
+              <div className="list-item-name">{doc.name}</div>
+              <div className="list-item-meta">{doc.room}</div>
             </div>
+            <button 
+              className="btn btn-danger" 
+              style={{fontSize: "11px", padding: "4px 8px"}}
+              onClick={() => setDoctors(doctors.filter(d => d.id !== doc.id))}
+            >Remove</button>
           </div>
         ))}
-        {doctors.length === 0 && <p className="text-xs text-center mt-4" style={{ color: MUTED }}>No doctors yet.<\/p>}
       </div>
-      <div className="px-4 pb-4 border-t pt-3" style={{ borderColor: LINE }}>
-        <div className="flex gap-2">
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Doctor name" className="flex-1 rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
-          <input value={room} onChange={(e) => setRoom(e.target.value)} placeholder="Room" className="w-24 rounded-xl border px-3 py-2.5 text-sm outline-none" style={{ borderColor: LINE, color: INK }} />
-        </div>
-        <label className="flex items-center gap-2 mt-2">
-          <input type="checkbox" checked={collect} onChange={(e) => setCollect(e.target.checked)} />
-          <span style={{ fontSize: "11px", color: INK }}>Collect weight<\/span>
-        <\/label>
-        <button onClick={addDoctor} className="mt-2 w-full rounded-xl py-2.5 text-sm font-medium text-white" style={{ backgroundColor: INK }}>+ Add doctor<\/button>
-        <button onClick={() => resetTickets()} className="mt-2 w-full rounded-xl py-2.5 text-sm font-medium border" style={{ borderColor: RED, color: RED }}>Clear all tokens<\/button>
+
+      <div className="section">
+        <div className="section-title">Add Doctor</div>
+        <input type="text" placeholder="Doctor name" value={name} onChange={(e) => setName(e.target.value)} />
+        <input type="text" placeholder="Room number" value={room} onChange={(e) => setRoom(e.target.value)} />
+        <button 
+          className="btn btn-info" 
+          style={{width: "100%"}}
+          onClick={() => {
+            if (name.trim() && room.trim()) {
+              setDoctors([...doctors, {id: Math.random().toString(36).slice(2), name: name.trim(), room: room.trim()}]);
+              setName("");
+              setRoom("");
+            }
+          }}
+        >+ Add Doctor</button>
       </div>
+
+      <button 
+        className="btn btn-danger" 
+        style={{width: "100%", marginTop: "16px"}}
+        onClick={() => {if (confirm("Clear all tickets?")) setTickets([]);}}
+      >Clear All Tickets</button>
     </div>
   );
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-<\/script>
+</script>
 </body>
 </html>
