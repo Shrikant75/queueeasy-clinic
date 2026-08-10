@@ -1,14 +1,15 @@
-/* =========================================================
-   QUTE — PREMIUM QUEUE TOKEN PWA
-   Designed specifically for your existing HTML
-   ========================================================= */
+/*
+=========================================================
+QUTE — PREMIUM QUEUE TOKEN PWA
+Optimized for the existing Qute HTML
+No external fonts
+Fast loading
+=========================================================
+*/
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
-
-
-/* =========================================================
+/* =======================================================
    VARIABLES
-   ========================================================= */
+======================================================= */
 
 :root {
     --purple: #6c4bf4;
@@ -20,16 +21,20 @@
 
     --green: #20bd82;
 
-    --background: #f7f7fb;
+    --background: #f6f7fb;
     --white: #ffffff;
 
+    /*
+       Approximately half the viewport.
+       The limits prevent it becoming too large.
+    */
     --token-size: min(52vw, 52vh, 360px);
 }
 
 
-/* =========================================================
+/* =======================================================
    RESET
-   ========================================================= */
+======================================================= */
 
 * {
     box-sizing: border-box;
@@ -41,7 +46,6 @@
 html {
     width: 100%;
     min-height: 100%;
-
     background: var(--background);
 }
 
@@ -51,14 +55,23 @@ body {
     min-height: 100vh;
     min-height: 100dvh;
 
-    font-family: "DM Sans", sans-serif;
+    margin: 0;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
 
     color: var(--text);
 
     background:
         radial-gradient(
-            circle at 50% -5%,
-            rgba(108, 75, 244, 0.16),
+            circle at 50% -10%,
+            rgba(108, 75, 244, 0.14),
             transparent 38%
         ),
         linear-gradient(
@@ -70,68 +83,57 @@ body {
     overflow-x: hidden;
 
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 
-/* =========================================================
+/* =======================================================
    HEADER
-   ========================================================= */
+======================================================= */
 
 .header {
-    position: relative;
-
     width: 100%;
-
-    height: 75px;
+    height: 70px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: flex-end;
 
-    padding: 14px 18px;
+    padding: 12px 16px;
 }
 
 
-/* =========================================================
-   LOGO — TOP RIGHT
-   ========================================================= */
+/* =======================================================
+   LOGO
+======================================================= */
 
 .logo {
     display: flex;
-
     align-items: center;
-
     gap: 9px;
 
-    padding: 6px 9px 6px 6px;
+    padding: 5px 9px 5px 5px;
 
-    border-radius: 16px;
+    border-radius: 15px;
 
-    background:
-        rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.85);
 
-    border:
-        1px solid rgba(40, 40, 80, 0.06);
+    border: 1px solid rgba(40, 40, 80, 0.06);
 
     box-shadow:
-        0 8px 25px rgba(55, 50, 100, 0.08);
-
-    backdrop-filter: blur(12px);
+        0 7px 20px rgba(55, 50, 100, 0.08);
 }
 
 
-/* =========================================================
+/* =======================================================
    LOGO ICON
-   ========================================================= */
+======================================================= */
 
 .logo-icon {
     width: 39px;
     height: 39px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -146,88 +148,73 @@ body {
 
     color: #ffffff;
 
-    font-family: "Space Grotesk", sans-serif;
-
     font-size: 20px;
-
-    font-weight: 700;
+    font-weight: 800;
 
     box-shadow:
-        0 6px 15px rgba(108, 75, 244, 0.28);
+        0 6px 14px rgba(108, 75, 244, 0.25);
 }
 
 
 .logo span {
-    font-family: "Space Grotesk", sans-serif;
-
     font-size: 16px;
-
     font-weight: 700;
 
     letter-spacing: -0.03em;
 }
 
 
-/* =========================================================
-   MAIN
-   ========================================================= */
+/* =======================================================
+   MAIN CONTAINER
+======================================================= */
 
 .container {
     width: 100%;
 
     min-height:
-        calc(
-            100vh - 125px
-        );
+        calc(100vh - 120px);
 
     min-height:
-        calc(
-            100dvh - 125px
-        );
+        calc(100dvh - 120px);
 
     display: flex;
-
+    align-items: center;
     justify-content: center;
 
-    align-items: center;
-
     padding:
-        10px
+        5px
         18px
-        25px;
+        20px;
 }
 
 
-/* =========================================================
+/* =======================================================
    TOKEN SECTION
-   ========================================================= */
+======================================================= */
 
 .token-section {
     width: 100%;
 
     display: flex;
-
     flex-direction: column;
 
     align-items: center;
-
     justify-content: center;
 
     text-align: center;
 }
 
 
-/* =========================================================
+/* =======================================================
    TOKEN LABEL
-   ========================================================= */
+======================================================= */
 
 .token-label {
-    margin-bottom: 22px;
+    margin-bottom: 20px;
 
     color: #898da0;
 
-    font-size: 11px;
-
+    font-size: 10px;
     font-weight: 800;
 
     letter-spacing: 0.28em;
@@ -236,87 +223,75 @@ body {
 }
 
 
-/* =========================================================
-   BIG TOKEN CIRCLE
-   ========================================================= */
+/* =======================================================
+   MAIN TOKEN CIRCLE
+======================================================= */
 
 .token-circle {
-
     position: relative;
 
     width: var(--token-size);
-
     height: var(--token-size);
 
     min-width: 245px;
-
     min-height: 245px;
 
     max-width: 360px;
-
     max-height: 360px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     border-radius: 50%;
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    isolation: isolate;
-
+    /*
+       Main token surface
+    */
     background:
-
         radial-gradient(
             circle at 34% 25%,
-            #ffffff 0%,
-            #ffffff 17%,
+            rgba(255, 255, 255, 1) 0,
+            rgba(255, 255, 255, 0.9) 17%,
             transparent 18%
         ),
-
         radial-gradient(
             circle at 50% 45%,
             #ffffff 0%,
             #f5f2ff 58%,
-            #e7e1ff 100%
+            #e6e0ff 100%
         );
 
     border:
-        2px solid rgba(108, 75, 244, 0.16);
+        2px solid rgba(108, 75, 244, 0.15);
 
+    /*
+       Depth and raised-token effect
+    */
     box-shadow:
+        inset 0 4px 5px rgba(255, 255, 255, 0.95),
+        inset 0 -14px 24px rgba(84, 62, 180, 0.09),
 
-        /* raised top */
-        inset 0 4px 5px rgba(255,255,255,0.95),
+        0 0 0 6px #ffffff,
 
-        /* bottom depth */
-        inset 0 -15px 25px rgba(84,62,180,0.10),
+        0 0 0 10px
+            rgba(108, 75, 244, 0.10),
 
-        /* white separation */
-        0 0 0 7px #ffffff,
+        0 20px 40px
+            rgba(54, 47, 105, 0.15);
 
-        /* purple ring */
-        0 0 0 10px rgba(108,75,244,0.12),
-
-        /* shadow */
-        0 24px 45px rgba(54,47,105,0.16);
-
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    isolation: isolate;
 
     animation:
         tokenFloat 5s ease-in-out infinite;
 }
 
 
-/* =========================================================
+/* =======================================================
    OUTER FANCY RIBBON
-   ========================================================= */
+======================================================= */
 
 .token-circle::before {
-
     content: "";
 
     position: absolute;
@@ -330,11 +305,11 @@ body {
     background:
         linear-gradient(
             135deg,
-            #8d79ff 0%,
+            #927eff 0%,
             #6c4bf4 25%,
-            #aa9cff 50%,
-            #6243e8 75%,
-            #8d79ff 100%
+            #b0a3ff 50%,
+            #6042e7 75%,
+            #927eff 100%
         ) border-box;
 
     -webkit-mask:
@@ -347,80 +322,72 @@ body {
 
     filter:
         drop-shadow(
-            0 8px 14px
-            rgba(108,75,244,0.20)
+            0 7px 12px
+            rgba(108, 75, 244, 0.18)
         );
+
+    pointer-events: none;
 
     z-index: -1;
 }
 
 
-/* =========================================================
-   INNER FANCY RIBBON
-   ========================================================= */
+/* =======================================================
+   INNER DECORATIVE RIBBON
+======================================================= */
 
 .token-circle::after {
-
     content: "";
 
     position: absolute;
 
-    inset: 15px;
+    inset: 14px;
 
     border-radius: 50%;
 
     border:
         2px dashed
-        rgba(108,75,244,0.25);
+        rgba(108, 75, 244, 0.22);
 
     box-shadow:
+        inset 0 0 0 5px
+            rgba(255, 255, 255, 0.45),
 
-        inset 0 0 0 6px
-        rgba(255,255,255,0.50),
-
-        inset 0 0 25px
-        rgba(108,75,244,0.07);
+        inset 0 0 24px
+            rgba(108, 75, 244, 0.06);
 
     pointer-events: none;
 }
 
 
-/* =========================================================
+/* =======================================================
    TOKEN NUMBER
-   ========================================================= */
+======================================================= */
 
 #tokenNumber {
-
     position: relative;
 
     z-index: 5;
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
     width: 72%;
-
     height: 72%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     border-radius: 50%;
 
     color: #25263a;
 
-    font-family:
-        "Space Grotesk",
-        sans-serif;
-
     font-size:
         clamp(
-            60px,
+            58px,
             12vw,
             92px
         );
 
-    font-weight: 700;
+    font-weight: 800;
 
     letter-spacing: -0.07em;
 
@@ -428,16 +395,16 @@ body {
 
     text-shadow:
         0 2px 0 #ffffff,
-        0 5px 12px rgba(45,42,90,0.12);
+        0 5px 12px
+            rgba(45, 42, 90, 0.10);
 }
 
 
-/* =========================================================
-   TOKEN NUMBER INNER GLOW
-   ========================================================= */
+/* =======================================================
+   TOKEN NUMBER HIGHLIGHT
+======================================================= */
 
 #tokenNumber::before {
-
     content: "";
 
     position: absolute;
@@ -448,28 +415,25 @@ body {
 
     background:
         radial-gradient(
-            circle,
-            rgba(255,255,255,0.35),
-            transparent 68%
+            circle at 35% 25%,
+            rgba(255, 255, 255, 0.65),
+            transparent 55%
         );
+
+    pointer-events: none;
 
     z-index: -1;
 }
 
 
-/* =========================================================
-   QUEUE MESSAGE
-   ========================================================= */
+/* =======================================================
+   QUEUE HEADING
+======================================================= */
 
 .token-section h1 {
-
-    margin-top: 34px;
+    margin-top: 32px;
 
     color: #202236;
-
-    font-family:
-        "Space Grotesk",
-        sans-serif;
 
     font-size:
         clamp(
@@ -478,18 +442,19 @@ body {
             28px
         );
 
-    font-weight: 700;
+    font-weight: 750;
 
     letter-spacing: -0.04em;
+
+    line-height: 1.2;
 }
 
 
-/* =========================================================
+/* =======================================================
    SUBTITLE
-   ========================================================= */
+======================================================= */
 
 .token-subtitle {
-
     max-width: 320px;
 
     margin-top: 8px;
@@ -502,12 +467,11 @@ body {
 }
 
 
-/* =========================================================
+/* =======================================================
    QUEUE STATUS
-   ========================================================= */
+======================================================= */
 
 .queue-status {
-
     display: inline-flex;
 
     align-items: center;
@@ -517,21 +481,20 @@ body {
     margin-top: 16px;
 
     padding:
-        8px
-        14px;
+        8px 14px;
 
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,0.75);
+        rgba(255, 255, 255, 0.82);
 
     border:
         1px solid
-        rgba(30,40,70,0.07);
+        rgba(30, 40, 70, 0.06);
 
     box-shadow:
-        0 5px 15px
-        rgba(40,45,80,0.05);
+        0 5px 14px
+        rgba(40, 45, 80, 0.05);
 
     color: #555c70;
 
@@ -541,15 +504,15 @@ body {
 }
 
 
-/* =========================================================
-   LIVE DOT
-   ========================================================= */
+/* =======================================================
+   LIVE STATUS DOT
+======================================================= */
 
 .live-dot {
-
     width: 8px;
-
     height: 8px;
+
+    flex: 0 0 8px;
 
     border-radius: 50%;
 
@@ -557,56 +520,30 @@ body {
 
     box-shadow:
         0 0 0 4px
-        rgba(32,189,130,0.12),
-
-        0 0 12px
-        rgba(32,189,130,0.45);
-
-    animation:
-        livePulse 2s infinite;
+            rgba(32, 189, 130, 0.12);
 }
 
 
-@keyframes livePulse {
-
-    0%,
-    100% {
-        box-shadow:
-            0 0 0 4px
-            rgba(32,189,130,0.12);
-    }
-
-    50% {
-        box-shadow:
-            0 0 0 7px
-            rgba(32,189,130,0.04);
-    }
-}
-
-
-/* =========================================================
+/* =======================================================
    NOTIFICATION BUTTON
-   ========================================================= */
+======================================================= */
 
 .notification-button {
-
-    width: 220px;
+    width: 215px;
 
     min-height: 50px;
 
     margin-top: 20px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     gap: 8px;
 
     border: none;
 
-    border-radius: 15px;
+    border-radius: 14px;
 
     background:
         linear-gradient(
@@ -617,7 +554,7 @@ body {
 
     color: #ffffff;
 
-    font-family: "DM Sans", sans-serif;
+    font-family: inherit;
 
     font-size: 14px;
 
@@ -626,64 +563,65 @@ body {
     cursor: pointer;
 
     box-shadow:
-        0 12px 24px
-        rgba(108,75,244,0.25),
+        0 10px 22px
+            rgba(108, 75, 244, 0.24),
 
         inset 0 1px 0
-        rgba(255,255,255,0.30);
+            rgba(255, 255, 255, 0.25);
 
     transition:
-        transform .2s ease,
-        box-shadow .2s ease;
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
 }
 
 
-/* =========================================================
+/* =======================================================
    BUTTON ICON
-   ========================================================= */
+======================================================= */
 
 .button-icon {
-
     font-size: 16px;
 
     line-height: 1;
 }
 
 
-/* =========================================================
+/* =======================================================
    BUTTON HOVER
-   ========================================================= */
+======================================================= */
 
 .notification-button:hover {
-
-    transform:
-        translateY(-2px);
+    transform: translateY(-2px);
 
     box-shadow:
-        0 16px 30px
-        rgba(108,75,244,0.30);
+        0 14px 27px
+            rgba(108, 75, 244, 0.28),
+
+        inset 0 1px 0
+            rgba(255, 255, 255, 0.25);
 }
 
+
+/* =======================================================
+   BUTTON PRESS
+======================================================= */
 
 .notification-button:active {
-
     transform:
         translateY(1px)
-        scale(.98);
+        scale(0.98);
 }
 
 
-/* =========================================================
-   LEAVE BUTTON
-   ========================================================= */
+/* =======================================================
+   LEAVE QUEUE
+======================================================= */
 
 .leave-button {
-
-    margin-top: 14px;
+    margin-top: 12px;
 
     padding:
-        8px
-        14px;
+        8px 14px;
 
     border: none;
 
@@ -691,7 +629,7 @@ body {
 
     color: #999eae;
 
-    font-family: "DM Sans", sans-serif;
+    font-family: inherit;
 
     font-size: 12px;
 
@@ -700,72 +638,64 @@ body {
     cursor: pointer;
 
     transition:
-        color .2s ease;
+        color 0.18s ease;
 }
 
 
 .leave-button:hover {
-
     color: #e25568;
 }
 
 
-/* =========================================================
+/* =======================================================
    FOOTER
-   ========================================================= */
+======================================================= */
 
 footer {
-
     width: 100%;
 
     padding:
-        8px
-        15px
-        max(15px, env(safe-area-inset-bottom));
+        7px 15px
+        max(12px, env(safe-area-inset-bottom));
 
     text-align: center;
 
     color: #a0a5b4;
 
     font-size: 10px;
-
-    letter-spacing: .02em;
 }
 
 
 footer strong {
-
     color: #7063d9;
 
     font-weight: 700;
 }
 
 
-/* =========================================================
-   TOKEN FLOAT
-   ========================================================= */
+/* =======================================================
+   TOKEN FLOAT ANIMATION
+======================================================= */
 
 @keyframes tokenFloat {
-
     0%,
     100% {
         transform: translateY(0);
     }
 
     50% {
-        transform: translateY(-5px);
+        transform: translateY(-4px);
     }
 }
 
 
-/* =========================================================
+/* =======================================================
    MOBILE
-   ========================================================= */
+======================================================= */
 
 @media (max-width: 600px) {
 
     :root {
-
         --token-size:
             min(
                 52vw,
@@ -776,27 +706,22 @@ footer strong {
 
 
     .header {
-
-        height: 65px;
+        height: 64px;
 
         padding:
-            10px
-            14px;
+            9px 14px;
     }
 
 
     .logo {
-
         padding:
-            5px
-            8px
-            5px
-            5px;
+            4px 8px 4px 4px;
+
+        border-radius: 14px;
     }
 
 
     .logo-icon {
-
         width: 36px;
         height: 36px;
 
@@ -807,35 +732,27 @@ footer strong {
 
 
     .logo span {
-
         font-size: 15px;
     }
 
 
     .container {
-
         min-height:
-            calc(
-                100dvh - 110px
-            );
+            calc(100dvh - 108px);
 
         padding:
-            5px
-            15px
-            20px;
+            4px 15px 18px;
     }
 
 
     .token-label {
+        margin-bottom: 18px;
 
-        margin-bottom: 19px;
-
-        font-size: 10px;
+        font-size: 9px;
     }
 
 
     .token-circle::before {
-
         inset: -14px;
 
         border-width: 6px;
@@ -843,16 +760,14 @@ footer strong {
 
 
     .token-circle::after {
-
         inset: 12px;
     }
 
 
     #tokenNumber {
-
         font-size:
             clamp(
-                58px,
+                56px,
                 15vw,
                 82px
             );
@@ -860,36 +775,41 @@ footer strong {
 
 
     .token-section h1 {
+        margin-top: 28px;
 
-        margin-top: 29px;
-
-        font-size: 22px;
+        font-size: 21px;
     }
 
 
     .token-subtitle {
+        max-width: 300px;
 
         font-size: 12px;
     }
 
 
-    .notification-button {
+    .queue-status {
+        margin-top: 13px;
+    }
 
+
+    .notification-button {
         width: 210px;
 
         min-height: 49px;
+
+        margin-top: 17px;
     }
 }
 
 
-/* =========================================================
+/* =======================================================
    SMALL PHONES
-   ========================================================= */
+======================================================= */
 
 @media (max-width: 380px) {
 
     :root {
-
         --token-size:
             min(
                 52vw,
@@ -900,27 +820,28 @@ footer strong {
 
 
     .token-label {
-
         margin-bottom: 15px;
     }
 
 
     .token-circle::before {
-
         inset: -11px;
 
         border-width: 5px;
     }
 
 
-    #tokenNumber {
+    .token-circle::after {
+        inset: 10px;
+    }
 
+
+    #tokenNumber {
         font-size: 60px;
     }
 
 
     .token-section h1 {
-
         margin-top: 25px;
 
         font-size: 20px;
@@ -928,7 +849,6 @@ footer strong {
 
 
     .token-subtitle {
-
         max-width: 280px;
 
         font-size: 11px;
@@ -936,34 +856,72 @@ footer strong {
 
 
     .queue-status {
+        margin-top: 11px;
 
-        margin-top: 12px;
+        padding:
+            7px 12px;
     }
 
 
     .notification-button {
-
         width: 200px;
 
         min-height: 47px;
 
-        margin-top: 16px;
+        margin-top: 15px;
     }
 }
 
 
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
+/* =======================================================
+   VERY SHORT SCREENS
+   Prevents the content from being pushed off-screen
+======================================================= */
+
+@media (max-height: 650px) {
+
+    .token-label {
+        margin-bottom: 12px;
+    }
+
+
+    .token-section h1 {
+        margin-top: 22px;
+    }
+
+
+    .token-subtitle {
+        margin-top: 5px;
+    }
+
+
+    .queue-status {
+        margin-top: 9px;
+    }
+
+
+    .notification-button {
+        margin-top: 12px;
+    }
+
+
+    .leave-button {
+        margin-top: 7px;
+    }
+}
+
+
+/* =======================================================
+   ACCESSIBILITY
+======================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
-    *,
-    *::before,
-    *::after {
-
-        animation: none !important;
-
-        transition: none !important;
+    .token-circle,
+    .live-dot,
+    .notification-button,
+    .leave-button {
+        animation: none;
+        transition: none;
     }
 }
