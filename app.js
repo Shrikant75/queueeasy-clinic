@@ -9,7 +9,7 @@ function generateToken() {
 
     const position = queueNumber;
 
-    const estimatedWait = position * 4;
+    const estimatedWait = position * 2;
 
     // Save token locally
     localStorage.setItem("quteToken", token);
