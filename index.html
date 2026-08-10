@@ -1,179 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<main class="container">
 
-    <meta name="theme-color" content="#6C4BF4">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <section id="tokenSection" class="token-section">
 
-    <title>Qute — Join Queue</title>
+        <p class="token-label">YOUR TOKEN</p>
 
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<div class="app">
-
-    <!-- Background -->
-    <div class="blob blob-one"></div>
-    <div class="blob blob-two"></div>
-
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">
-            <div class="logo-icon">Q</div>
-            <span>Qute</span>
+        <div class="token-circle">
+            <span id="tokenNumber">Q-03</span>
         </div>
 
-        <div class="shop-status">
-            <span class="status-dot"></span>
-            Open
-        </div>
-    </header>
+        <h2>You're in the queue</h2>
 
-    <!-- Main Card -->
-    <main class="container">
+        <p class="token-subtitle">
+            We'll notify you when your turn is approaching.
+        </p>
 
-        <div class="shop-card">
+        <button
+            id="notificationButton"
+            class="notification-button"
+            onclick="enableNotifications()">
 
-            <div class="shop-image">
-                <div class="shop-icon">✂️</div>
-            </div>
+            <span>🔔</span>
+            <span>Enable Notification</span>
 
-            <div class="shop-info">
-                <h1>Urban Style Salon</h1>
-                <p>Premium Hair & Grooming</p>
+        </button>
 
-                <div class="shop-meta">
-                    <span>⭐ 4.8</span>
-                    <span>•</span>
-                    <span>📍 0.8 km</span>
-                </div>
-            </div>
+        <button
+            class="leave-button"
+            onclick="leaveQueue()">
 
-        </div>
+            Leave Queue
 
-        <!-- Queue Info -->
-        <div class="queue-card">
+        </button>
 
-            <div class="queue-stat">
-                <span class="stat-label">People Waiting</span>
-                <strong id="waitingCount">7</strong>
-            </div>
+    </section>
 
-            <div class="divider"></div>
-
-            <div class="queue-stat">
-                <span class="stat-label">Est. Wait</span>
-                <strong id="waitTime">25 min</strong>
-            </div>
-
-        </div>
-
-        <!-- Token Area -->
-        <section id="joinSection">
-
-            <div class="welcome">
-                <h2>Skip the waiting room.</h2>
-                <p>
-                    Take your token and relax. We'll let you know
-                    when it's almost your turn.
-                </p>
-            </div>
-
-            <button class="token-button" onclick="generateToken()">
-
-                <span class="button-icon">🎟️</span>
-
-                <span>
-                    Get My Token
-                    <small>Join the queue</small>
-                </span>
-
-                <span class="arrow">→</span>
-
-            </button>
-
-            <p class="privacy">
-                🔒 No app download required
-            </p>
-
-        </section>
-
-
-        <!-- Token Generated -->
-        <section id="tokenSection" class="token-section hidden">
-
-            <div class="success-icon">
-                ✓
-            </div>
-
-            <p class="you-are">YOU ARE IN THE QUEUE</p>
-
-            <div class="token-number" id="tokenNumber">
-                Q-08
-            </div>
-
-            <div class="position-box">
-
-                <div>
-                    <span>Your Position</span>
-                    <strong id="position">8</strong>
-                </div>
-
-                <div>
-                    <span>Estimated Wait</span>
-                    <strong id="estimatedWait">30 min</strong>
-                </div>
-
-            </div>
-
-            <div class="progress-container">
-
-                <div class="progress-header">
-                    <span>Queue Progress</span>
-                    <span id="progressText">12%</span>
-                </div>
-
-                <div class="progress">
-                    <div id="progressBar"></div>
-                </div>
-
-            </div>
-
-            <div class="notification-card">
-
-                <span class="notification-icon">🔔</span>
-
-                <div>
-                    <strong>We'll notify you</strong>
-                    <p>
-                        Keep this page open. We'll alert you
-                        when your turn is approaching.
-                    </p>
-                </div>
-
-            </div>
-
-            <button class="leave-button" onclick="leaveQueue()">
-                Leave Queue
-            </button>
-
-        </section>
-
-    </main>
-
-    <footer>
-        Powered by <strong>Qute</strong>
-    </footer>
-
-</div>
-
-<script src="app.js"></script>
-
-</body>
-</html>
+</main>
