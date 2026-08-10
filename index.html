@@ -163,7 +163,7 @@ function App() {
           <div className="mx-4 mt-3 rounded-xl border px-3 py-2.5" style={{ borderColor: "#C98A2B", backgroundColor: "#FBF2E3" }}>
             <div className="flex items-start justify-between gap-2">
               <p style={{ fontSize: "11px", color: "#211E1B" }}>
-                <strong>You're viewing this in an embedded app preview</strong> (an iOS "app-bound domain" restriction), so install/offline features are disabled here. Open the hosted URL directly in Safari or Chrome to test those for real.
+                <strong>You're viewing this in an embedded app preview</strong> (an iOS "app-bound domain" restriction), so install/offline features are disabled here. Open the hosted URL directly in your browser to test PWA features.
               </p>
               <button onClick={() => setBannerDismissed(true)} style={{ color: MUTED, fontSize: "14px" }}>×</button>
             </div>
@@ -176,10 +176,9 @@ function App() {
           <div className="flex gap-1.5 mt-2">
             {["patient", "staff", "doctor", "owner"].map((r) => (
               <button key={r} onClick={() => setRole(r)}
-                className="flex-1 rounded-full py-2 font-medium capitalize" style={{ fontSize: "11px" }}
-                style={role === r
+                className="flex-1 rounded-full py-2 font-medium capitalize" style={{ fontSize: "11px", ...(role === r
                   ? { backgroundColor: r === "patient" ? AMBER : r === "staff" ? GREEN : r === "doctor" ? BLUE : INK, color: "#FFF" }
-                  : { backgroundColor: "#FFF", color: INK, border: `1px solid ${LINE}` }}>
+                  : { backgroundColor: "#FFF", color: INK, border: `1px solid ${LINE}` }) }}>
                 {r}
               </button>
             ))}
@@ -352,7 +351,7 @@ function PatientTicket({ ticket, tickets, doctors, updateTickets, saveMyTicket }
           <span className="text-xs" style={{ color: MUTED }}>Ahead of you</span>
           <span className="text-sm font-medium" style={{ color: INK }}>{ahead === 0 ? "You're next" : `${ahead} patients`}</span>
         </div>
-        <p className="mt-4 text-center" style={{ fontSize: "11px", color: MUTED }}>In queue since {new Date(ticket.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} — no time limit</p>
+        <p className="mt-4 text-center" style={{ fontSize: "11px", color: MUTED }}>In queue since {new Date(ticket.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</p>
       </div>
       <div className="px-4 pb-4">
         <button onClick={cancel} className="w-full rounded-xl py-3 text-sm font-medium border" style={{ borderColor: RED, color: RED }}>Cancel token</button>
@@ -424,8 +423,10 @@ function StaffFlow({ doctors, tickets, updateTickets }) {
           <p className="f-mono uppercase tracking-wide" style={{ fontSize: "10px", color: MUTED }}>Token list</p>
           <div className="flex gap-1">
             {["active", "all"].map((f) => (
-              <button key={f} onClick={() => setListFilter(f)} className="rounded-full px-2 py-0.5 font-medium capitalize" style={{ fontSize: "10px" }}
-                style={listFilter === f ? { backgroundColor: GREEN, color: "#FFF" } : { border: `1px solid ${LINE}`, color: INK }}>{f}</button>
+              <button key={f} onClick={() => setListFilter(f)} className="rounded-full px-2 py-0.5 font-medium capitalize" 
+                style={{ fontSize: "10px", ...(listFilter === f ? { backgroundColor: GREEN, color: "#FFF" } : { border: `1px solid ${LINE}`, color: INK }) }}>
+                {f}
+              </button>
             ))}
           </div>
         </div>
@@ -455,7 +456,7 @@ function StaffFlow({ doctors, tickets, updateTickets }) {
                   {link && <a href={link} target="_blank" rel="noopener noreferrer"
                     onClick={() => markNotified(t.id, t.status === "called" ? "called" : (aheadOfT === 0 ? "next" : t.notifiedStage))}
                     className="rounded-md px-1.5 py-0.5 font-medium border" style={{ fontSize: "9px", borderColor: "#25D366", color: "#128C7E" }}>💬</a>}
-                  {canMarkNoShow && <button onClick={() => markNoShow(t.id)} className="rounded-md px-1.5 py-0.5 font-medium border" style={{ fontSize: "9px", borderColor: LINE, color: RED }}>No show</button>}
+                  {canMarkNoShow && <button onClick={() => markNoShow(t.id)} className="rounded-md px-1.5 py-0.5 font-medium border" style={{ fontSize: "9px", borderColor: LINE, color: RED }}>No-show</button>}
                 </div>
               </div>
             );
@@ -520,12 +521,12 @@ function DoctorFlow({ doctors, tickets, updateTickets }) {
         </select>
       </div>
       <div className="px-4 pt-3 grid grid-cols-3 gap-2">
-        <div className="rounded-xl border p-2.5 text-center" style={{ borderColor: LINE }}><p className="f-display text-lg" style={{ color: INK }}>{waitingForDoc}</p><p className="" style={{ fontSize: "9px", color: MUTED }}>waiting</p></div>
-        <div className="rounded-xl border p-2.5 text-center" style={{ borderColor: LINE }}><p className="f-display text-lg" style={{ color: GREEN }}>{completedToday}</p><p className="" style={{ fontSize: "9px", color: MUTED }}>seen today</p></div>
-        <div className="rounded-xl border p-2.5 text-center" style={{ borderColor: LINE }}><p className="f-display text-lg" style={{ color: RED }}>{noShowToday}</p><p className="" style={{ fontSize: "9px", color: MUTED }}>no-shows today</p></div>
+        <div className="rounded-xl border p-2.5 text-center" style={{ borderColor: LINE }}><p className="f-display text-lg" style={{ color: INK }}>{waitingForDoc}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>Waiting</p></div>
+        <div className="rounded-xl border p-2.5 text-center" style={{ borderColor: LINE }}><p className="f-display text-lg" style={{ color: GREEN }}>{completedToday}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>Completed today</p></div>
+        <div className="rounded-xl border p-2.5 text-center" style={{ borderColor: LINE }}><p className="f-display text-lg" style={{ color: RED }}>{noShowToday}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>No-shows</p></div>
       </div>
       {!current ? (
-        <Centered><p className="text-2xl">🩺</p><p className="text-sm mt-3" style={{ color: INK }}>No patient in {doc.room} right now</p><p className="mt-1" style={{ fontSize: "11px", color: MUTED }}>Waiting for staff to call the next token</p></Centered>
+        <Centered><p className="text-2xl">🩺</p><p className="text-sm mt-3" style={{ color: INK }}>No patient in {doc.room} right now</p><p className="mt-1" style={{ fontSize: "11px", color: MUTED }}>Staff will call the next patient here</p></Centered>
       ) : (
         <div className="flex-1 flex flex-col overflow-y-auto">
           <div className="px-4 pt-4">
@@ -546,7 +547,7 @@ function DoctorFlow({ doctors, tickets, updateTickets }) {
                     return (
                       <div key={h.id} className="px-3 py-2">
                         <div className="flex items-center justify-between">
-                          <span className="font-medium" style={{ fontSize: "10px", color: INK }}>{h.completedAt ? new Date(h.completedAt).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" }) : "—"}</span>
+                          <span className="font-medium" style={{ fontSize: "10px", color: INK }}>{h.completedAt ? new Date(h.completedAt).toLocaleDateString([], { month: "short", day: "numeric" }) : "—"}</span>
                           <span className="" style={{ fontSize: "9px", color: MUTED }}>{hDoc ? hDoc.name : "Unknown doctor"}</span>
                         </div>
                         <p className="mt-0.5" style={{ fontSize: "11px", color: INK }}>{h.diagnosis || "—"}</p>
@@ -563,7 +564,7 @@ function DoctorFlow({ doctors, tickets, updateTickets }) {
               className="mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none resize-none" style={{ borderColor: LINE, color: INK }} />
           </div>
           <div className="px-4 pb-4">
-            <button onClick={complete} disabled={!diagnosis.trim()} className="w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: BLUE, opacity: !diagnosis.trim() ? 0.4 : 1 }}>Complete visit</button>
+            <button onClick={complete} disabled={!diagnosis.trim()} className="w-full rounded-xl py-3 text-sm font-medium text-white" style={{ backgroundColor: BLUE, opacity: !diagnosis.trim() ? 0.4 : 1 }}>Close visit</button>
             {!diagnosis.trim() && <p className="text-center mt-1.5" style={{ fontSize: "10px", color: MUTED }}>Enter a diagnosis to close this token</p>}
           </div>
         </div>
@@ -593,8 +594,8 @@ function OwnerFlow({ doctors, saveDoctors, tickets, resetTickets }) {
     <div className="flex-1 flex flex-col">
       <Header eyebrow="OWNER · SUNRISE CLINIC" title="Doctors & rooms" />
       <div className="px-4 pt-3 grid grid-cols-2 gap-2">
-        <div className="rounded-xl border p-2.5" style={{ borderColor: LINE }}><p className="f-display text-xl" style={{ color: INK }}>{waitingNow}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>waiting now</p></div>
-        <div className="rounded-xl border p-2.5" style={{ borderColor: LINE }}><p className="f-display text-xl" style={{ color: INK }}>{servedToday}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>completed (demo total)</p></div>
+        <div className="rounded-xl border p-2.5" style={{ borderColor: LINE }}><p className="f-display text-xl" style={{ color: INK }}>{waitingNow}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>Waiting now</p></div>
+        <div className="rounded-xl border p-2.5" style={{ borderColor: LINE }}><p className="f-display text-xl" style={{ color: INK }}>{servedToday}</p><p className="" style={{ fontSize: "10px", color: MUTED }}>Served today</p></div>
       </div>
       <div className="px-4 pt-2">
         {confirmingReset ? (
@@ -602,7 +603,7 @@ function OwnerFlow({ doctors, saveDoctors, tickets, resetTickets }) {
             <span className="" style={{ fontSize: "11px", color: RED }}>Clear all tokens? Can't be undone.</span>
             <div className="flex gap-1.5">
               <button onClick={() => setConfirmingReset(false)} className="rounded-lg px-2 py-1 font-medium border" style={{ fontSize: "11px", borderColor: LINE, color: INK }}>Cancel</button>
-              <button onClick={() => { resetTickets(); setConfirmingReset(false); }} className="rounded-lg px-2 py-1 font-medium text-white" style={{ fontSize: "11px", backgroundColor: RED }}>Clear</button>
+              <button onClick={() => { resetTickets(); setConfirmingReset(false); }} className="rounded-lg px-2 py-1 font-medium text-white" style={{ fontSize: "11px", backgroundColor: RED }}>Clear all</button>
             </div>
           </div>
         ) : <button onClick={() => setConfirmingReset(true)} className="font-medium underline" style={{ fontSize: "11px", color: MUTED }}>Reset all tokens (clear demo/test data)</button>}
