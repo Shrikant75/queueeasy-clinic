@@ -1,289 +1,407 @@
+/* =========================================
+   RESET
+========================================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
+/* =========================================
+   VARIABLES
+========================================= */
+
 :root {
+
     --purple: #6c4bf4;
-    --purple-dark: #4b2bc4;
-    --text: #181525;
-    --muted: #8b8799;
+
+    --purple-light: #8065ff;
+
+    --purple-dark: #4321ad;
+
+    --text: #19162a;
+
+    --muted: #858092;
+
+    --background: #f8f7fc;
+
 }
+
+
+/* =========================================
+   BODY
+========================================= */
 
 html,
 body {
+
     width: 100%;
+
     min-height: 100%;
+
 }
 
+
 body {
+
+    min-height: 100vh;
+
     font-family:
-        Inter,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
         sans-serif;
 
-    background:
-        radial-gradient(
-            circle at 20% 10%,
-            #e9e3ff 0%,
-            transparent 35%
-        ),
-        radial-gradient(
-            circle at 90% 90%,
-            #ddd5ff 0%,
-            transparent 35%
-        ),
-        #f8f7fc;
-
     color: var(--text);
+
+    background:
+
+        radial-gradient(
+            circle at 10% 0%,
+            #e7e0ff 0%,
+            transparent 32%
+        ),
+
+        radial-gradient(
+            circle at 100% 100%,
+            #ded6ff 0%,
+            transparent 35%
+        ),
+
+        var(--background);
+
 }
 
-button {
-    font-family: inherit;
-    -webkit-tap-highlight-color: transparent;
-}
+
+/* =========================================
+   APP
+========================================= */
 
 .app {
+
     min-height: 100vh;
+
     display: flex;
+
     flex-direction: column;
+
     position: relative;
+
     overflow: hidden;
+
 }
 
 
-/* =========================
-   DECORATIVE BACKGROUND
-========================= */
+/* =========================================
+   BACKGROUND DECORATION
+========================================= */
 
 .app::before {
+
     content: "";
 
     position: fixed;
 
     width: 280px;
+
     height: 280px;
 
     top: -150px;
-    right: -100px;
+
+    right: -110px;
 
     border-radius: 50%;
 
-    background: #c9bdff;
+    background: #c5b8ff;
 
-    filter: blur(70px);
+    filter: blur(75px);
 
     opacity: .45;
 
     pointer-events: none;
+
 }
 
+
 .app::after {
+
     content: "";
 
     position: fixed;
 
     width: 240px;
+
     height: 240px;
 
     bottom: -130px;
-    left: -100px;
+
+    left: -110px;
 
     border-radius: 50%;
 
-    background: #dcd4ff;
+    background: #dcd5ff;
 
-    filter: blur(70px);
+    filter: blur(75px);
 
     opacity: .5;
 
     pointer-events: none;
+
 }
 
 
-/* =========================
+/* =========================================
    HEADER
-========================= */
+========================================= */
 
 .header {
+
     width: 100%;
+
     max-width: 520px;
 
-    margin: auto;
+    margin: 0 auto;
 
-    padding:
-        24px
-        22px
-        10px;
+    padding: 24px 22px 10px;
 
     display: flex;
+
     justify-content: center;
+
+    position: relative;
+
+    z-index: 2;
+
 }
 
+
 .logo {
+
     display: flex;
+
     align-items: center;
 
     gap: 9px;
 
     font-size: 21px;
+
     font-weight: 850;
 
-    letter-spacing: -0.5px;
+    letter-spacing: -.5px;
+
 }
 
+
 .logo-icon {
-    width: 37px;
-    height: 37px;
+
+    width: 38px;
+
+    height: 38px;
 
     border-radius: 12px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     color: white;
 
+    font-size: 18px;
+
+    font-weight: 900;
+
     background:
+
         linear-gradient(
-            145deg,
-            #856cff,
-            #542fd1
+            135deg,
+            var(--purple-light),
+            var(--purple-dark)
         );
 
     box-shadow:
-        0 8px 20px rgba(108,75,244,.28);
+
+        0 8px 22px
+        rgba(108, 75, 244, .28);
+
 }
 
 
-/* =========================
-   MAIN
-========================= */
+/* =========================================
+   MAIN CONTAINER
+========================================= */
 
 .container {
+
     width: 100%;
+
     max-width: 520px;
 
-    margin: auto;
+    margin: 0 auto;
 
-    padding:
-        15px
-        22px
-        35px;
+    padding: 15px 22px 30px;
 
     flex: 1;
 
     display: flex;
+
     align-items: center;
+
+    position: relative;
+
+    z-index: 1;
+
 }
 
 
-/* =========================
-   TOKEN SCREEN
-========================= */
+/* =========================================
+   TOKEN SECTION
+========================================= */
 
 .token-section {
+
     width: 100%;
 
     text-align: center;
 
     animation:
-        pageEnter .7s
-        cubic-bezier(.22,1,.36,1);
+
+        pageEnter
+        .65s
+        cubic-bezier(.22, 1, .36, 1);
+
 }
+
 
 @keyframes pageEnter {
 
     from {
+
         opacity: 0;
+
         transform:
             translateY(20px)
             scale(.97);
+
     }
 
     to {
+
         opacity: 1;
+
         transform:
             translateY(0)
             scale(1);
+
     }
+
 }
 
 
-/* Label */
+/* =========================================
+   TOKEN LABEL
+========================================= */
 
 .token-label {
+
+    margin-bottom: 24px;
+
+    color: #9993a7;
+
     font-size: 10px;
 
-    font-weight: 800;
+    font-weight: 850;
 
     letter-spacing: 3px;
 
-    color: #9691a3;
-
-    margin-bottom: 25px;
 }
 
 
-/* =========================
+/* =========================================
    TOKEN CIRCLE
-========================= */
+========================================= */
 
 .token-circle {
+
     width: 220px;
+
     height: 220px;
 
     margin: 0 auto;
 
-    border-radius: 50%;
-
     position: relative;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
+    border-radius: 50%;
+
     background:
+
         linear-gradient(
             145deg,
             #ffffff,
-            #f4f1ff
+            #f2efff
         );
+
+    border:
+
+        8px solid
+        rgba(108, 75, 244, .08);
 
     box-shadow:
 
         0 0 0 1px
-        rgba(108,75,244,.08),
+        rgba(108, 75, 244, .10),
 
-        0 0 0 10px
-        rgba(108,75,244,.045),
+        0 0 0 12px
+        rgba(108, 75, 244, .035),
 
-        0 20px 55px
-        rgba(71,52,145,.16);
+        0 25px 60px
+        rgba(69, 50, 145, .17);
 
     animation:
-        tokenAppear .8s
-        cubic-bezier(.22,1,.36,1);
+
+        tokenPop
+        .75s
+        cubic-bezier(.22, 1, .36, 1);
+
 }
 
-@keyframes tokenAppear {
+
+@keyframes tokenPop {
 
     from {
+
         opacity: 0;
-        transform: scale(.7);
+
+        transform: scale(.65);
+
     }
 
     to {
+
         opacity: 1;
+
         transform: scale(1);
+
     }
+
 }
 
 
-/* Decorative ring */
+/* =========================================
+   TOKEN ROTATING RING
+========================================= */
 
 .token-circle::before {
 
@@ -291,27 +409,45 @@ button {
 
     position: absolute;
 
-    inset: 7px;
+    inset: 8px;
 
     border-radius: 50%;
 
     border:
+
         1px dashed
-        rgba(108,75,244,.22);
+        rgba(108, 75, 244, .25);
 
     animation:
-        rotateRing 18s linear infinite;
+
+        rotateRing
+        18s
+        linear
+        infinite;
+
 }
+
 
 @keyframes rotateRing {
 
-    to {
-        transform: rotate(360deg);
+    from {
+
+        transform: rotate(0deg);
+
     }
+
+    to {
+
+        transform: rotate(360deg);
+
+    }
+
 }
 
 
-/* Small decorative dots */
+/* =========================================
+   TOKEN DECORATIVE DOTS
+========================================= */
 
 .token-circle::after {
 
@@ -321,15 +457,18 @@ button {
 
     top: 27px;
 
-    font-size: 9px;
+    font-size: 8px;
 
-    letter-spacing: 6px;
+    letter-spacing: 5px;
 
-    color: #b8aff0;
+    color: #b6acf0;
+
 }
 
 
-/* Token number */
+/* =========================================
+   TOKEN NUMBER
+========================================= */
 
 .token-circle span {
 
@@ -339,58 +478,74 @@ button {
 
     font-size: 56px;
 
+    line-height: 1;
+
     font-weight: 900;
 
     letter-spacing: -3px;
 
     background:
+
         linear-gradient(
             135deg,
-            #7656ff,
-            #3f21a8
+            #8065ff,
+            #4321ad
         );
 
     -webkit-background-clip: text;
 
+    background-clip: text;
+
     -webkit-text-fill-color:
         transparent;
+
 }
 
 
-/* =========================
-   MESSAGE
-========================= */
+/* =========================================
+   TITLE
+========================================= */
 
-.token-section h2 {
+.token-section h1 {
 
     margin-top: 38px;
 
     font-size: 24px;
 
+    line-height: 1.2;
+
     font-weight: 850;
 
-    letter-spacing: -0.7px;
+    letter-spacing: -.7px;
+
 }
+
+
+/* =========================================
+   SUBTITLE
+========================================= */
 
 .token-subtitle {
 
     max-width: 290px;
 
     margin:
-        9px auto
-        30px;
+
+        10px auto
+        28px;
 
     color: var(--muted);
 
     font-size: 13px;
 
     line-height: 1.6;
+
 }
 
 
-/* =========================
+/* =========================================
    NOTIFICATION BUTTON
-========================= */
+========================================= */
 
 .notification-button {
 
@@ -417,17 +572,18 @@ button {
     font-weight: 750;
 
     background:
+
         linear-gradient(
             135deg,
-            #8064ff 0%,
-            #613ee5 45%,
-            #4b2bc4 100%
+            #8065ff,
+            #5d3bdd,
+            #4b2bc4
         );
 
     box-shadow:
 
-        0 12px 25px
-        rgba(91,59,218,.25),
+        0 12px 28px
+        rgba(87, 56, 210, .27),
 
         inset 0 1px 0
         rgba(255,255,255,.25);
@@ -435,46 +591,58 @@ button {
     cursor: pointer;
 
     transition:
-        transform .18s ease,
-        box-shadow .18s ease;
+
+        transform .15s ease,
+
+        box-shadow .15s ease;
+
 }
+
 
 .notification-button:active {
 
-    transform:
-        scale(.97);
+    transform: scale(.97);
 
     box-shadow:
+
         0 6px 15px
-        rgba(91,59,218,.2);
+        rgba(87, 56, 210, .2);
+
 }
 
-.notification-button span:first-child {
+
+.button-icon {
 
     font-size: 18px;
+
 }
 
 
-/* Enabled state */
+/* =========================================
+   NOTIFICATION ENABLED
+========================================= */
 
 .notification-enabled {
 
     background:
+
         linear-gradient(
             135deg,
-            #20b66b,
-            #159357
+            #25b96d,
+            #159356
         );
 
     box-shadow:
+
         0 12px 25px
-        rgba(21,147,87,.2);
+        rgba(21, 147, 86, .20);
+
 }
 
 
-/* =========================
+/* =========================================
    LEAVE BUTTON
-========================= */
+========================================= */
 
 .leave-button {
 
@@ -487,16 +655,15 @@ button {
     border-radius: 18px;
 
     border:
+
         1px solid
-        rgba(50,43,77,.1);
+        rgba(40, 35, 65, .10);
 
     background:
-        rgba(255,255,255,.65);
 
-    backdrop-filter:
-        blur(10px);
+        rgba(255,255,255,.70);
 
-    color: #777284;
+    color: #777182;
 
     font-size: 13px;
 
@@ -505,78 +672,115 @@ button {
     cursor: pointer;
 
     transition:
-        background .2s,
-        transform .2s;
+
+        transform .15s ease,
+
+        background .15s ease;
+
 }
+
 
 .leave-button:active {
 
     transform: scale(.98);
 
     background: white;
+
 }
 
 
-/* =========================
+/* =========================================
    FOOTER
-========================= */
+========================================= */
 
 footer {
 
     padding:
+
         10px
         20px
         25px;
 
     text-align: center;
 
+    color: #aaa5b5;
+
     font-size: 10px;
 
-    color: #aaa5b5;
+    position: relative;
+
+    z-index: 2;
+
 }
 
 
-/* =========================
-   MOBILE OPTIMIZATION
-========================= */
+/* =========================================
+   SMALL PHONES
+========================================= */
 
 @media (max-height: 700px) {
+
+    .header {
+
+        padding-top: 16px;
+
+    }
+
+    .container {
+
+        padding-top: 5px;
+
+    }
 
     .token-circle {
 
         width: 180px;
+
         height: 180px;
+
     }
 
     .token-circle span {
 
         font-size: 46px;
+
     }
 
-    .token-section h2 {
+    .token-section h1 {
 
         margin-top: 28px;
+
+        font-size: 21px;
+
     }
 
     .token-subtitle {
 
         margin-bottom: 20px;
+
     }
+
 }
 
 
-/* =========================
+/* =========================================
    DESKTOP
-========================= */
+========================================= */
 
 @media (min-width: 700px) {
 
     body {
+
         display: flex;
+
         justify-content: center;
+
     }
 
     .app {
+
         width: 520px;
+
     }
+
 }
