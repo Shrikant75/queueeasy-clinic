@@ -1,19 +1,24 @@
 /*
 =========================================================
 QUTE — PREMIUM QUEUE TOKEN PWA
-Complete stylesheet for the existing Qute HTML
+REALISTIC PHYSICAL TOKEN EDITION
 
-Features:
-- Rich royal purple theme
-- Large queue token
-- Fancy double ribbon
-- Message before token
-- Top-right Qute logo
-- Medium notification button
-- Responsive mobile layout
-- iPhone safe-area support
-- No external fonts
-- Lightweight / fast loading
+Compatible with the existing HTML.
+NO HTML CHANGES REQUIRED.
+
+Includes:
+• Rich royal purple theme
+• Large physical token
+• Premium multi-layer ribbon
+• Realistic depth and shadows
+• Glossy light reflection
+• Subtle physical movement
+• Top-right Qute logo
+• Medium notification button
+• Responsive iPhone layout
+• Safe-area support
+• Reduced-motion accessibility
+• No external fonts
 =========================================================
 */
 
@@ -25,9 +30,9 @@ Features:
 :root {
     --purple: #5b21b6;
     --purple-dark: #43158f;
-    --purple-deep: #35106f;
+    --purple-deep: #32105f;
     --purple-bright: #7c3aed;
-    --purple-light: #eee9ff;
+    --purple-soft: #a78bfa;
 
     --text: #211d32;
     --heading: #242038;
@@ -39,8 +44,7 @@ Features:
     --white: #ffffff;
 
     /*
-       Token size:
-       Slightly larger than previous version.
+       Main token size
     */
     --token-size: min(57vw, 55vh, 390px);
 }
@@ -52,21 +56,26 @@ Features:
 
 * {
     box-sizing: border-box;
+
     margin: 0;
+
     padding: 0;
 }
 
 
 html {
     width: 100%;
+
     min-height: 100%;
 
-    background: var(--background);
+    background:
+        var(--background);
 }
 
 
 body {
     width: 100%;
+
     min-height: 100vh;
     min-height: 100dvh;
 
@@ -81,14 +90,16 @@ body {
         Arial,
         sans-serif;
 
-    color: var(--text);
+    color:
+        var(--text);
 
     background:
         radial-gradient(
             circle at 50% -10%,
-            rgba(91, 33, 182, 0.14),
+            rgba(91, 33, 182, 0.15),
             transparent 38%
         ),
+
         linear-gradient(
             180deg,
             #fafaff 0%,
@@ -125,7 +136,7 @@ body {
 
 
 /* =======================================================
-   QUTE LOGO
+   LOGO
 ======================================================= */
 
 .logo {
@@ -144,15 +155,18 @@ body {
     border-radius: 15px;
 
     background:
-        rgba(255, 255, 255, 0.88);
+        rgba(255,255,255,0.90);
 
     border:
         1px solid
-        rgba(40, 30, 80, 0.06);
+        rgba(40,30,80,0.06);
 
     box-shadow:
         0 7px 20px
-        rgba(55, 35, 100, 0.08);
+        rgba(55,35,100,0.08);
+
+    backdrop-filter:
+        blur(12px);
 }
 
 
@@ -162,11 +176,13 @@ body {
 
 .logo-icon {
     width: 39px;
+
     height: 39px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     border-radius: 12px;
@@ -178,7 +194,8 @@ body {
             #4c1d95 100%
         );
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
     font-size: 20px;
 
@@ -186,18 +203,20 @@ body {
 
     box-shadow:
         0 6px 14px
-        rgba(76, 29, 149, 0.28);
+        rgba(76,29,149,0.30);
 }
 
 
 .logo span {
-    color: #2a2540;
+    color:
+        #2a2540;
 
     font-size: 16px;
 
     font-weight: 750;
 
-    letter-spacing: -0.03em;
+    letter-spacing:
+        -0.03em;
 }
 
 
@@ -247,7 +266,7 @@ body {
 
 
 /* =======================================================
-   YOUR TOKEN LABEL
+   YOUR TOKEN
 ======================================================= */
 
 .token-label {
@@ -255,13 +274,15 @@ body {
 
     margin-bottom: 14px;
 
-    color: #77718c;
+    color:
+        #77718c;
 
     font-size: 10px;
 
     font-weight: 800;
 
-    letter-spacing: 0.28em;
+    letter-spacing:
+        0.28em;
 
     line-height: 1;
 
@@ -270,7 +291,7 @@ body {
 
 
 /* =======================================================
-   YOU'RE IN THE QUEUE
+   QUEUE MESSAGE
 ======================================================= */
 
 .token-section h1 {
@@ -278,7 +299,8 @@ body {
 
     margin-top: 0;
 
-    color: var(--heading);
+    color:
+        var(--heading);
 
     font-size:
         clamp(
@@ -289,14 +311,16 @@ body {
 
     font-weight: 750;
 
-    letter-spacing: -0.045em;
+    letter-spacing:
+        -0.045em;
 
-    line-height: 1.2;
+    line-height:
+        1.2;
 }
 
 
 /* =======================================================
-   NOTIFICATION MESSAGE
+   SUBTITLE
 ======================================================= */
 
 .token-subtitle {
@@ -306,7 +330,8 @@ body {
 
     margin-top: 7px;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 13px;
 
@@ -317,7 +342,7 @@ body {
 
 
 /* =======================================================
-   BIG TOKEN CIRCLE
+   REALISTIC TOKEN
 ======================================================= */
 
 .token-circle {
@@ -325,9 +350,11 @@ body {
 
     position: relative;
 
-    width: var(--token-size);
+    width:
+        var(--token-size);
 
-    height: var(--token-size);
+    height:
+        var(--token-size);
 
     min-width: 260px;
 
@@ -348,27 +375,29 @@ body {
     border-radius: 50%;
 
     /*
-       Premium token surface
+       Realistic glossy surface
     */
 
     background:
+
         radial-gradient(
-            circle at 32% 22%,
-            #ffffff 0%,
-            #ffffff 16%,
-            transparent 17%
+            circle at 32% 20%,
+            rgba(255,255,255,0.95) 0%,
+            rgba(255,255,255,0.55) 9%,
+            transparent 20%
         ),
 
         radial-gradient(
-            circle at 50% 45%,
+            circle at 50% 42%,
             #ffffff 0%,
-            #f4f0ff 55%,
-            #ded4ff 100%
+            #f6f2ff 42%,
+            #ebe5ff 68%,
+            #d9cefa 100%
         );
 
     border:
         2px solid
-        rgba(91, 33, 182, 0.18);
+        rgba(91,33,182,0.18);
 
     /*
        Physical depth
@@ -376,30 +405,50 @@ body {
 
     box-shadow:
 
-        inset 0 5px 7px
-            rgba(255, 255, 255, 0.95),
+        inset 0 3px 5px
+            rgba(255,255,255,0.98),
 
-        inset 0 -18px 28px
-            rgba(67, 21, 143, 0.12),
+        inset 0 -20px 30px
+            rgba(55,25,120,0.13),
 
-        0 0 0 6px
+        inset 8px 0 18px
+            rgba(255,255,255,0.20),
+
+        0 0 0 5px
             #ffffff,
 
-        0 0 0 11px
-            rgba(91, 33, 182, 0.14),
+        0 0 0 10px
+            rgba(91,33,182,0.13),
 
-        0 25px 48px
-            rgba(67, 21, 143, 0.20);
+        0 12px 20px
+            rgba(45,25,90,0.10),
+
+        0 25px 45px
+            rgba(45,25,90,0.18);
+
+    /*
+       Required for layered effects
+    */
 
     isolation: isolate;
 
+    /*
+       Realistic physical movement
+    */
+
     animation:
-        tokenFloat 5s ease-in-out infinite;
+        physicalToken
+        5s
+        ease-in-out
+        infinite;
+
+    will-change:
+        transform;
 }
 
 
 /* =======================================================
-   OUTER FANCY RIBBON
+   OUTER PREMIUM RIBBON
 ======================================================= */
 
 .token-circle::before {
@@ -407,7 +456,8 @@ body {
 
     position: absolute;
 
-    inset: -18px;
+    inset:
+        -18px;
 
     border-radius: 50%;
 
@@ -415,20 +465,23 @@ body {
         7px solid transparent;
 
     background:
+
         linear-gradient(
             135deg,
 
-            #8b5cf6 0%,
+            #a78bfa 0%,
 
-            #4c1d95 24%,
+            #6d28d9 18%,
 
-            #7c3aed 42%,
+            #3b126f 35%,
 
-            #a78bfa 50%,
+            #7c3aed 48%,
 
-            #5b21b6 67%,
+            #b59cff 55%,
 
-            #35106f 84%,
+            #5b21b6 68%,
+
+            #32105f 84%,
 
             #7c3aed 100%
 
@@ -438,24 +491,34 @@ body {
         linear-gradient(#fff 0 0) padding-box,
         linear-gradient(#fff 0 0);
 
-    -webkit-mask-composite: xor;
+    -webkit-mask-composite:
+        xor;
 
-    mask-composite: exclude;
+    mask-composite:
+        exclude;
 
     filter:
         drop-shadow(
-            0 9px 15px
-            rgba(67, 21, 143, 0.24)
+            0 8px 14px
+            rgba(67,21,143,0.22)
         );
 
-    pointer-events: none;
+    pointer-events:
+        none;
 
-    z-index: -1;
+    z-index:
+        -1;
+
+    animation:
+        ribbonLight
+        6s
+        ease-in-out
+        infinite;
 }
 
 
 /* =======================================================
-   INNER DECORATIVE RIBBON
+   INNER RIBBON
 ======================================================= */
 
 .token-circle::after {
@@ -463,23 +526,25 @@ body {
 
     position: absolute;
 
-    inset: 15px;
+    inset:
+        15px;
 
     border-radius: 50%;
 
     border:
         2px dashed
-        rgba(91, 33, 182, 0.28);
+        rgba(91,33,182,0.25);
 
     box-shadow:
 
         inset 0 0 0 5px
-            rgba(255, 255, 255, 0.50),
+            rgba(255,255,255,0.50),
 
-        inset 0 0 28px
-            rgba(91, 33, 182, 0.08);
+        inset 0 0 25px
+            rgba(91,33,182,0.07);
 
-    pointer-events: none;
+    pointer-events:
+        none;
 }
 
 
@@ -504,7 +569,8 @@ body {
 
     border-radius: 50%;
 
-    color: #211936;
+    color:
+        #211936;
 
     font-size:
         clamp(
@@ -513,24 +579,27 @@ body {
             98px
         );
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    letter-spacing: -0.07em;
+    letter-spacing:
+        -0.07em;
 
-    line-height: 1;
+    line-height:
+        1;
 
     text-shadow:
 
         0 2px 0
             #ffffff,
 
-        0 6px 14px
-            rgba(45, 35, 80, 0.13);
+        0 5px 10px
+            rgba(45,35,80,0.13);
 }
 
 
 /* =======================================================
-   TOKEN NUMBER HIGHLIGHT
+   TOKEN HIGHLIGHT
 ======================================================= */
 
 #tokenNumber::before {
@@ -543,20 +612,70 @@ body {
     border-radius: 50%;
 
     background:
+
         radial-gradient(
-            circle at 35% 25%,
-            rgba(255, 255, 255, 0.65),
-            transparent 55%
+            circle at 34% 23%,
+            rgba(255,255,255,0.70),
+            transparent 45%
         );
 
-    pointer-events: none;
+    pointer-events:
+        none;
 
-    z-index: -1;
+    z-index:
+        -1;
 }
 
 
 /* =======================================================
-   LIVE QUEUE STATUS
+   MOVING LIGHT REFLECTION
+======================================================= */
+
+#tokenNumber::after {
+    content: "";
+
+    position: absolute;
+
+    width: 42%;
+
+    height: 145%;
+
+    top: -22%;
+
+    left: -80%;
+
+    border-radius: 50%;
+
+    transform:
+        rotate(22deg);
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255,255,255,0.03) 25%,
+            rgba(255,255,255,0.42) 50%,
+            rgba(255,255,255,0.03) 75%,
+            transparent 100%
+        );
+
+    filter:
+        blur(5px);
+
+    pointer-events:
+        none;
+
+    animation:
+        tokenReflection
+        6s
+        ease-in-out
+        infinite;
+}
+
+
+/* =======================================================
+   QUEUE STATUS
 ======================================================= */
 
 .queue-status {
@@ -574,24 +693,28 @@ body {
         8px
         14px;
 
-    border-radius: 999px;
+    border-radius:
+        999px;
 
     background:
-        rgba(255, 255, 255, 0.84);
+        rgba(255,255,255,0.86);
 
     border:
         1px solid
-        rgba(40, 30, 80, 0.07);
+        rgba(40,30,80,0.07);
 
     box-shadow:
         0 5px 14px
-        rgba(40, 30, 80, 0.05);
+        rgba(40,30,80,0.05);
 
-    color: #55516a;
+    color:
+        #55516a;
 
-    font-size: 12px;
+    font-size:
+        12px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 }
 
 
@@ -600,21 +723,30 @@ body {
 ======================================================= */
 
 .live-dot {
-    width: 8px;
+    width:
+        8px;
 
-    height: 8px;
+    height:
+        8px;
 
     flex:
         0 0 8px;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
     background:
         var(--green);
 
     box-shadow:
         0 0 0 4px
-        rgba(32, 189, 130, 0.12);
+        rgba(32,189,130,0.12);
+
+    animation:
+        livePulse
+        2.5s
+        ease-in-out
+        infinite;
 }
 
 
@@ -625,48 +757,63 @@ body {
 .notification-button {
     order: 6;
 
-    width: 215px;
+    width:
+        215px;
 
-    min-height: 50px;
+    min-height:
+        50px;
 
-    margin-top: 20px;
+    margin-top:
+        20px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 8px;
+    gap:
+        8px;
 
-    border: none;
+    border:
+        none;
 
-    border-radius: 14px;
+    border-radius:
+        14px;
 
     background:
+
         linear-gradient(
             135deg,
             #6d28d9 0%,
             #4c1d95 100%
         );
 
-    color: #ffffff;
+    color:
+        #ffffff;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
     box-shadow:
 
         0 11px 24px
-        rgba(76, 29, 149, 0.28),
+        rgba(76,29,149,0.28),
 
         inset 0 1px 0
-        rgba(255, 255, 255, 0.28);
+        rgba(255,255,255,0.28);
 
     transition:
         transform 0.18s ease,
@@ -679,9 +826,11 @@ body {
 ======================================================= */
 
 .button-icon {
-    font-size: 16px;
+    font-size:
+        16px;
 
-    line-height: 1;
+    line-height:
+        1;
 }
 
 
@@ -695,11 +844,11 @@ body {
 
     box-shadow:
 
-        0 14px 28px
-        rgba(76, 29, 149, 0.32),
+        0 15px 29px
+        rgba(76,29,149,0.32),
 
         inset 0 1px 0
-        rgba(255, 255, 255, 0.28);
+        rgba(255,255,255,0.28);
 }
 
 
@@ -715,31 +864,40 @@ body {
 
 
 /* =======================================================
-   LEAVE QUEUE
+   LEAVE BUTTON
 ======================================================= */
 
 .leave-button {
-    order: 7;
+    order:
+        7;
 
-    margin-top: 12px;
+    margin-top:
+        12px;
 
     padding:
         8px
         14px;
 
-    border: none;
+    border:
+        none;
 
-    background: transparent;
+    background:
+        transparent;
 
-    color: #9994a8;
+    color:
+        #9994a8;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 12px;
+    font-size:
+        12px;
 
-    font-weight: 600;
+    font-weight:
+        600;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
     transition:
         color 0.18s ease;
@@ -747,7 +905,8 @@ body {
 
 
 .leave-button:hover {
-    color: #df5268;
+    color:
+        #df5268;
 }
 
 
@@ -756,7 +915,8 @@ body {
 ======================================================= */
 
 footer {
-    width: 100%;
+    width:
+        100%;
 
     padding:
         7px
@@ -766,38 +926,133 @@ footer {
             env(safe-area-inset-bottom)
         );
 
-    text-align: center;
+    text-align:
+        center;
 
-    color: #a09caf;
+    color:
+        #a09caf;
 
-    font-size: 10px;
+    font-size:
+        10px;
 
-    letter-spacing: 0.02em;
+    letter-spacing:
+        0.02em;
 }
 
 
 footer strong {
-    color: #5b21b6;
+    color:
+        #5b21b6;
 
-    font-weight: 750;
+    font-weight:
+        750;
 }
 
 
 /* =======================================================
-   TOKEN FLOAT
+   PHYSICAL TOKEN MOVEMENT
 ======================================================= */
 
-@keyframes tokenFloat {
+@keyframes physicalToken {
 
     0%,
     100% {
         transform:
-            translateY(0);
+            translateY(0)
+            rotateX(0deg)
+            rotateY(0deg);
     }
 
     50% {
         transform:
-            translateY(-4px);
+            translateY(-3px)
+            rotateX(0.4deg)
+            rotateY(-0.4deg);
+    }
+}
+
+
+/* =======================================================
+   TOKEN LIGHT REFLECTION
+======================================================= */
+
+@keyframes tokenReflection {
+
+    0% {
+        left:
+            -80%;
+
+        opacity:
+            0;
+    }
+
+    15% {
+        opacity:
+            0;
+    }
+
+    30% {
+        opacity:
+            1;
+    }
+
+    52% {
+        opacity:
+            0;
+    }
+
+    100% {
+        left:
+            140%;
+
+        opacity:
+            0;
+    }
+}
+
+
+/* =======================================================
+   RIBBON LIGHT
+======================================================= */
+
+@keyframes ribbonLight {
+
+    0%,
+    100% {
+        filter:
+            drop-shadow(
+                0 8px 14px
+                rgba(67,21,143,0.20)
+            );
+    }
+
+    50% {
+        filter:
+            drop-shadow(
+                0 10px 19px
+                rgba(91,33,182,0.34)
+            );
+    }
+}
+
+
+/* =======================================================
+   LIVE STATUS PULSE
+======================================================= */
+
+@keyframes livePulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 0 4px
+            rgba(32,189,130,0.12);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 7px
+            rgba(32,189,130,0.04);
     }
 }
 
@@ -819,7 +1074,8 @@ footer strong {
 
 
     .header {
-        height: 64px;
+        height:
+            64px;
 
         padding:
             9px
@@ -834,23 +1090,29 @@ footer strong {
             4px
             4px;
 
-        border-radius: 14px;
+        border-radius:
+            14px;
     }
 
 
     .logo-icon {
-        width: 36px;
+        width:
+            36px;
 
-        height: 36px;
+        height:
+            36px;
 
-        border-radius: 11px;
+        border-radius:
+            11px;
 
-        font-size: 18px;
+        font-size:
+            18px;
     }
 
 
     .logo span {
-        font-size: 15px;
+        font-size:
+            15px;
     }
 
 
@@ -868,46 +1130,59 @@ footer strong {
 
 
     .token-label {
-        margin-bottom: 12px;
+        margin-bottom:
+            12px;
 
-        font-size: 9px;
+        font-size:
+            9px;
     }
 
 
     .token-section h1 {
-        font-size: 22px;
+        font-size:
+            22px;
     }
 
 
     .token-subtitle {
-        max-width: 300px;
+        max-width:
+            300px;
 
-        font-size: 12px;
+        font-size:
+            12px;
     }
 
 
     .token-circle {
-        margin-top: 22px;
+        margin-top:
+            22px;
 
-        min-width: 260px;
+        min-width:
+            260px;
 
-        min-height: 260px;
+        min-height:
+            260px;
 
-        max-width: 350px;
+        max-width:
+            350px;
 
-        max-height: 350px;
+        max-height:
+            350px;
     }
 
 
     .token-circle::before {
-        inset: -15px;
+        inset:
+            -15px;
 
-        border-width: 6px;
+        border-width:
+            6px;
     }
 
 
     .token-circle::after {
-        inset: 12px;
+        inset:
+            12px;
     }
 
 
@@ -922,16 +1197,20 @@ footer strong {
 
 
     .queue-status {
-        margin-top: 16px;
+        margin-top:
+            16px;
     }
 
 
     .notification-button {
-        width: 210px;
+        width:
+            210px;
 
-        min-height: 49px;
+        min-height:
+            49px;
 
-        margin-top: 17px;
+        margin-top:
+            17px;
     }
 }
 
@@ -953,73 +1232,92 @@ footer strong {
 
 
     .header {
-        height: 60px;
+        height:
+            60px;
     }
 
 
     .logo-icon {
-        width: 34px;
+        width:
+            34px;
 
-        height: 34px;
+        height:
+            34px;
 
-        font-size: 17px;
+        font-size:
+            17px;
     }
 
 
     .logo span {
-        font-size: 14px;
+        font-size:
+            14px;
     }
 
 
     .token-label {
-        margin-bottom: 10px;
+        margin-bottom:
+            10px;
     }
 
 
     .token-section h1 {
-        font-size: 20px;
+        font-size:
+            20px;
     }
 
 
     .token-subtitle {
-        max-width: 280px;
+        max-width:
+            280px;
 
-        font-size: 11px;
+        font-size:
+            11px;
     }
 
 
     .token-circle {
-        margin-top: 18px;
+        margin-top:
+            18px;
 
-        min-width: 245px;
+        min-width:
+            245px;
 
-        min-height: 245px;
+        min-height:
+            245px;
 
-        max-width: 300px;
+        max-width:
+            300px;
 
-        max-height: 300px;
+        max-height:
+            300px;
     }
 
 
     .token-circle::before {
-        inset: -12px;
+        inset:
+            -12px;
 
-        border-width: 5px;
+        border-width:
+            5px;
     }
 
 
     .token-circle::after {
-        inset: 10px;
+        inset:
+            10px;
     }
 
 
     #tokenNumber {
-        font-size: 65px;
+        font-size:
+            65px;
     }
 
 
     .queue-status {
-        margin-top: 12px;
+        margin-top:
+            12px;
 
         padding:
             7px
@@ -1028,70 +1326,78 @@ footer strong {
 
 
     .notification-button {
-        width: 200px;
+        width:
+            200px;
 
-        min-height: 47px;
+        min-height:
+            47px;
 
-        margin-top: 14px;
+        margin-top:
+            14px;
     }
 
 
     .leave-button {
-        margin-top: 7px;
+        margin-top:
+            7px;
     }
 }
 
 
 /* =======================================================
-   SHORT SCREENS
+   SHORT MOBILE SCREENS
 ======================================================= */
 
 @media (max-height: 650px) {
 
     .header {
-        height: 58px;
+        height:
+            58px;
     }
 
 
     .container {
-        padding-top: 0;
+        padding-top:
+            0;
 
-        padding-bottom: 10px;
+        padding-bottom:
+            10px;
     }
 
 
     .token-label {
-        margin-bottom: 9px;
+        margin-bottom:
+            8px;
     }
 
 
     .token-circle {
-        margin-top: 15px;
-    }
-
-
-    .token-section h1 {
-        margin-top: 0;
+        margin-top:
+            14px;
     }
 
 
     .token-subtitle {
-        margin-top: 4px;
+        margin-top:
+            4px;
     }
 
 
     .queue-status {
-        margin-top: 8px;
+        margin-top:
+            8px;
     }
 
 
     .notification-button {
-        margin-top: 10px;
+        margin-top:
+            10px;
     }
 
 
     .leave-button {
-        margin-top: 5px;
+        margin-top:
+            5px;
     }
 }
 
@@ -1103,19 +1409,32 @@ footer strong {
 button:focus-visible {
     outline:
         3px solid
-        rgba(91, 33, 182, 0.35);
+        rgba(91,33,182,0.35);
 
-    outline-offset: 3px;
+    outline-offset:
+        3px;
 }
 
+
+/* =======================================================
+   REDUCED MOTION
+======================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
     .token-circle,
+    .token-circle::before,
+    #tokenNumber::after,
+    .live-dot {
+
+        animation:
+            none !important;
+    }
+
     .notification-button,
     .leave-button {
-        animation: none;
 
-        transition: none;
+        transition:
+            none !important;
     }
 }
